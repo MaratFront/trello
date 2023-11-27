@@ -1,0 +1,88 @@
+*{
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: "Pangolin";
+    font-size: 19px;
+    letter-spacing: 1px;
+    word-spacing: 2px;
+    text-decoration: none;
+}
+a{
+    color:white;
+}
+.container{
+    margin: 30px 110px 0 110px;
+}
+button,input{
+    cursor: pointer;
+    border:1px solid black;
+    height: 40px;
+    width: 200px;
+    background-color: transparent;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    text-align: center;
+    align-items: center;
+    font-size: 17px;
+    padding-left:8px;
+    border-radius:3px;
+}
+.Board__header{
+    display: flex;
+    flex-direction: row;
+    &-title{
+        text-align: center;
+        display:flex;
+        justify-content: center;
+        margin:0 auto;
+    }
+    &-block{
+        width: 95px;
+        height: 35px;
+    }
+    &-btn{
+        width: 95px;
+        height: 35px;
+    }
+
+}
+.Board__section{
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+    margin-top:30px;
+    height: 450px;
+    &-btn{
+        background: black;
+    }
+}
+.Board__list{
+    border:1px solid black;
+    border-radius:3px;
+    width: 230px;
+    &-title{
+        padding-top:16px;
+        padding-left: 16px;
+    }
+}
+.Board__list:last-child{
+    border: none;
+}
+.Board__card-title{
+    border:1px solid black;
+    width: 200px;
+    background-color: black;
+    padding-left: 8px;
+    display: flex;
+    align-items: center;
+    margin:20px auto;
+    height:40px;
+}
+.Board__list-button{
+    margin: 0 auto;
+    left:0;
+    right: 0;
+    //position: fixed;
+}

@@ -1,0 +1,48 @@
+.Home__header {
+  text-align: center;
+  margin: 20px auto;
+}
+.Home__items {
+  display: flex;
+  flex-direction: row;
+  margin: 10px 150px 0 150px;
+  flex-wrap: wrap;
+}
+.Home__title {
+  text-align: left;
+  border: 2px;
+  border-radius: 15px;
+  padding: 5px;
+}
+.Home__item {
+  height: 100px;
+  width: 200px;
+  border-radius: 10px;
+  margin: 20px;
+  border: 1px solid black;
+  cursor: pointer;
+}
+.Home__button {
+  background-color: #808080;
+}
+.Home__modal-window {
+  position: absolute;
+  margin: auto;
+  left: 0;
+  top: 0;
+  right: 0;
+  background: #fff;
+  width: 300px;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 10px 10px 10px 10px rgba(0, 0, 0, 0.2);
+}
+.Home__modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+.Home__modal-close {
+  background: green;
+}
