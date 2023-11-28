@@ -38,11 +38,13 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 exports.__esModule = true;
 /* eslint-disable react-hooks/exhaustive-deps */
 var react_1 = require("react");
+var Home_1 = require("./Home");
 require("../../stylesHome/home.css");
 var request_1 = require("../../api/request");
+var react_router_dom_1 = require("react-router-dom");
 function BoardHome() {
     var _this = this;
-    var _a = react_1.useState({ boards: [] }), homeItems = _a[0], setHomeItems = _a[1];
+    var _a = react_1.useState({}), homeItems = _a[0], setHomeItems = _a[1];
     var _b = react_1.useState(''), inputValue = _b[0], setInputValue = _b[1];
     var _c = react_1.useState(false), isModalOpen = _c[0], setIsModalOpen = _c[1];
     var openModal = function () {
@@ -51,6 +53,7 @@ function BoardHome() {
     var closeModal = function () {
         setIsModalOpen(false);
         setInputValue('');
+        getResponse();
     };
     var handleInputChange = function (event) {
         setInputValue(event.target.value);
@@ -80,24 +83,21 @@ function BoardHome() {
             }
         });
     }); };
-    react_1.useEffect(function () {
-        function getResponse() {
-            return __awaiter(this, void 0, void 0, function () {
-                var data;
-                return __generator(this, function (_a) {
-                    switch (_a.label) {
-                        case 0: return [4 /*yield*/, request_1["default"]("https://trello-back.shpp.me/maliev/api/v1/board")];
-                        case 1:
-                            data = (_a.sent()).data;
-                            setHomeItems(data);
-                            console.log(data);
-                            return [2 /*return*/];
-                    }
-                });
+    function getResponse() {
+        return __awaiter(this, void 0, void 0, function () {
+            var data;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, request_1["default"]("https://trello-back.shpp.me/maliev/api/v1/board")];
+                    case 1:
+                        data = _a.sent();
+                        setHomeItems(data);
+                        console.log(data);
+                        return [2 /*return*/];
+                }
             });
-        }
-        getResponse();
-    }, []);
+        });
+    }
     return (react_1["default"].createElement("div", { className: "Home" },
         react_1["default"].createElement("div", { className: "Home__container" },
             react_1["default"].createElement("p", { className: "Home__header" }, "\u041C\u043E\u0457 \u0434\u043E\u0448\u043A\u0438"),
@@ -108,6 +108,10 @@ function BoardHome() {
                             react_1["default"].createElement("input", { className: 'Home__modal-input', placeholder: "\u0412\u0432\u0435\u0434i\u0442\u044C \u043D\u0430\u0437\u0432\u0443 \u0434\u043E\u0448\u043A\u0438", type: "text", value: inputValue, onChange: handleInputChange, autoFocus: true }),
                             react_1["default"].createElement("button", { className: 'Home__modal-button', onClick: handleAddBoard }, "\u0414\u043E\u0434\u0430\u0442\u0438 \u0434\u043E\u0448\u043A\u0443")),
                         react_1["default"].createElement("input", { type: "button", className: "Home__modal-close", value: "\u0412\u0438\u0439\u0442\u0438", onClick: closeModal })))),
+                Object.values(homeItems).map(function (item) {
+                    return Object.values(item).map(function (itemResult) { return (react_1["default"].createElement(react_router_dom_1.Link, { to: "/board/id", key: itemResult.id },
+                        react_1["default"].createElement(Home_1["default"], { id: itemResult.id, title: itemResult.title, custom: { background: itemResult.custom } }))); });
+                }),
                 react_1["default"].createElement("button", { className: 'Home__button Home__item', onClick: openModal }, "+ \u0421\u0442\u0432\u043E\u0440\u0438\u0442\u0438 \u0434\u043E\u0448\u043A\u0443")))));
 }
 exports["default"] = BoardHome;

@@ -5,10 +5,8 @@ import '../../stylesHome/home.css';
 import api from '../../api/request';
 import { Link } from 'react-router-dom';
 
-
-
 function BoardHome() {
-  const [homeItems, setHomeItems] = useState({ boards: [] });
+  const [homeItems, setHomeItems] = useState({});
   const [inputValue, setInputValue] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -18,6 +16,7 @@ function BoardHome() {
   const closeModal = () => {
     setIsModalOpen(false);
     setInputValue('');
+    getResponse();
   };
 
   const handleInputChange = (event: any) => {
@@ -40,14 +39,12 @@ function BoardHome() {
 
     }
   };
-  useEffect(() => {
     async function getResponse(){
-      const {data} = await api("https://trello-back.shpp.me/maliev/api/v1/board");
+      const data = await api("https://trello-back.shpp.me/maliev/api/v1/board");
       setHomeItems(data);
       console.log(data);
     }
-    getResponse();
-  },[])
+      
 
   return (
     <div className="Home">
@@ -74,15 +71,13 @@ function BoardHome() {
               </div>
             </div>
           )}
-          {/* {homeItems&&Object.values(homeItems).map((item: object) => {
-            return Object.values(item).map((elem: object) => {
-              return Object.values(elem).map((itemResult: any) => (
+          {Object.values(homeItems).map((item: any) => {
+              return Object.values(item).map((itemResult: any) => (
                 <Link to="/board/id" key={itemResult.id}>
-                  <HomeComponent title={itemResult.title} custom={{ background: itemResult.custom.description }} />
+                  <HomeComponent id={itemResult.id} title={itemResult.title} custom={{ background: itemResult.custom }} />
                 </Link>
               ));
-            });
-          })} */}
+          })}
           <button className='Home__button Home__item' onClick={openModal}>+ Створити дошку</button>
         </div>
       </div>
