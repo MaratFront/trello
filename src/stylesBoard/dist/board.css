@@ -10,7 +10,7 @@
 }
 
 a {
-  color: white;
+  color: black;
 }
 
 .container {
@@ -22,14 +22,12 @@ button, input {
   border: 1px solid black;
   height: 40px;
   width: 200px;
-  background-color: transparent;
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
   text-align: center;
   align-items: center;
   font-size: 17px;
-  padding-left: 8px;
   border-radius: 3px;
 }
 
@@ -59,9 +57,6 @@ button, input {
   margin-top: 30px;
   height: 450px;
 }
-.Board__section-btn {
-  background: black;
-}
 
 .Board__list {
   border: 1px solid black;
@@ -69,8 +64,14 @@ button, input {
   width: 230px;
 }
 .Board__list-title {
-  padding-top: 16px;
-  padding-left: 16px;
+  border: none;
+  background: none;
+  height: 25px;
+  margin: 20px auto;
+  text-align: center;
+  width: 200px;
+  left: 0;
+  right: 0;
 }
 
 .Board__list:last-child {
@@ -80,7 +81,6 @@ button, input {
 .Board__card-title {
   border: 1px solid black;
   width: 200px;
-  background-color: black;
   padding-left: 8px;
   display: flex;
   align-items: center;

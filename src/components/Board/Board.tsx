@@ -3,8 +3,6 @@ import { useParams, } from 'react-router-dom';
 import '../../stylesBoard/board.css';
 import List from './List';
 import dragOnDrop from './dragOnDrop';
-
-
 function Board(){ 
   const [title, setTitle]=useState("Моя тестова дошка");
   const [lists, setLists]=useState(
@@ -36,6 +34,7 @@ function Board(){
   ]
 
 )
+
 useEffect(()=>{
   dragOnDrop();
 },[])

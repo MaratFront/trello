@@ -11,7 +11,7 @@ function List({ title, cards }: IProps) {
   return (
      <>
      <div className="Board__list">
-      <p className='Board__list-title'>{title}</p>
+      <input className='Board__list-title' value={title}/>
       
       <div className="Board__list-card">
         {cards.map((card)=>(

@@ -4,6 +4,7 @@ import HomeComponent from './Home';
 import '../../stylesHome/home.css';
 import api from '../../api/request';
 import { Link } from 'react-router-dom';
+import CreateBoard from './CreateBoard';
 
 function BoardHome() {
   const [homeItems, setHomeItems] = useState({});
@@ -13,38 +14,35 @@ function BoardHome() {
   const openModal = () => {
     setIsModalOpen(true);
   };
-  const closeModal = () => {
+  const closeModalOk = () => {
     setIsModalOpen(false);
     setInputValue('');
-    getResponse();
-  };
-
-  const handleInputChange = (event: any) => {
-    setInputValue(event.target.value);
   };
 
   const handleAddBoard = async () => {
     if (inputValue.trim() !== '') {
-      await api.post("https://trello-back.shpp.me/maliev/api/v1" + "/board", {
+      await api.post("https://trello-back.shpp.me/maliiev/api/v1" + "/board", {
         title: inputValue,
         custom: {
-          description: `#fff`
+          description: `#61dafb`
         }
       });
       try {
-        closeModal();
+        closeModalOk();
       } catch (error) {
         console.error('Произошла ошибка при выполнении POST-запроса:', error);
       };
 
     }
   };
+  useEffect(()=>{
     async function getResponse(){
-      const data = await api("https://trello-back.shpp.me/maliev/api/v1/board");
+      const data = await api("https://trello-back.shpp.me/maliiev/api/v1/board");
       setHomeItems(data);
-      console.log(data);
-    }
-      
+    }  
+    getResponse();
+  },[]);
+
 
   return (
     <div className="Home">
@@ -57,24 +55,17 @@ function BoardHome() {
             <div className="Home__modal-overlay">
               <div className="Home__modal-window">
                 <div className="Home__modal-header">
-                  <input
-                    className='Home__modal-input'
-                    placeholder="Введiть назву дошки"
-                    type="text"
-                    value={inputValue}
-                    onChange={handleInputChange}
-                    autoFocus
-                  />
+                  <CreateBoard OneCardCreated={setHomeItems(homeItems)}/>
                   <button className='Home__modal-button' onClick={handleAddBoard}>Додати дошку</button>
                 </div>
-                <input type="button" className="Home__modal-close" value="Вийти" onClick={closeModal} />
+                <input type="button" className="Home__modal-close" value="Вийти" onClick={closeModalOk} />
               </div>
             </div>
           )}
-          {Object.values(homeItems).map((item: any) => {
-              return Object.values(item).map((itemResult: any) => (
-                <Link to="/board/id" key={itemResult.id}>
-                  <HomeComponent id={itemResult.id} title={itemResult.title} custom={{ background: itemResult.custom }} />
+          {Object.values(homeItems).map((item:any) => {
+              return item.map((itemResult: any) => (
+                <Link key={itemResult.id} to={`${itemResult.id}`}>
+                  <HomeComponent id={itemResult.id} title={itemResult.title} custom={{ background: itemResult.custom.description }} />
                 </Link>
               ));
           })}

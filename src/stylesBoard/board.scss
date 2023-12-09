@@ -9,7 +9,7 @@
     text-decoration: none;
 }
 a{
-    color:white;
+    color:black;
 }
 .container{
     margin: 30px 110px 0 110px;
@@ -19,14 +19,13 @@ button,input{
     border:1px solid black;
     height: 40px;
     width: 200px;
-    background-color: transparent;
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
     text-align: center;
     align-items: center;
     font-size: 17px;
-    padding-left:8px;
+    //padding-left:8px;
     border-radius:3px;
 }
 .Board__header{
@@ -54,17 +53,21 @@ button,input{
     flex-direction: row;
     margin-top:30px;
     height: 450px;
-    &-btn{
-        background: black;
-    }
 }
 .Board__list{
     border:1px solid black;
     border-radius:3px;
     width: 230px;
     &-title{
-        padding-top:16px;
-        padding-left: 16px;
+        border:none;
+        background: none;
+        height: 25px;
+        margin:20px auto;
+        text-align: center;
+        width:200px;
+        left: 0;
+        right: 0;
+        
     }
 }
 .Board__list:last-child{
@@ -73,7 +76,6 @@ button,input{
 .Board__card-title{
     border:1px solid black;
     width: 200px;
-    background-color: black;
     padding-left: 8px;
     display: flex;
     align-items: center;

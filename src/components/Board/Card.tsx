@@ -5,7 +5,7 @@ interface CardProps {
   title: string;
 }
 
-const Card: React.FC<CardProps> = ({ title }) => {
+function Card({ title}: CardProps){
   return (
     <div className="Board__card" draggable="true">
       <p className='Board__card-title'>{title}</p>
