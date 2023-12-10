@@ -52,7 +52,7 @@ function CreateBoard(_a) {
         setInputValue('');
     };
     var handleInputChange = function (event) {
-        setInputValue(event.target);
+        setInputValue(event.target.value);
     };
     var handleAddBoard = function () { return __awaiter(_this, void 0, void 0, function () {
         return __generator(this, function (_a) {
@@ -79,12 +79,10 @@ function CreateBoard(_a) {
             }
         });
     }); };
-    return (react_1["default"].createElement("div", null,
-        isModalOpen && (react_1["default"].createElement("div", { className: "Home__modal-overlay" },
-            react_1["default"].createElement("div", { className: "Home__modal-window" },
-                react_1["default"].createElement("div", { className: "Home__modal-header" },
-                    react_1["default"].createElement("input", { className: 'Home__modal-input', placeholder: "\u0412\u0432\u0435\u0434i\u0442\u044C \u043D\u0430\u0437\u0432\u0443 \u0434\u043E\u0448\u043A\u0438", type: "text", value: inputValue, onChange: handleInputChange, autoFocus: true }),
-                    react_1["default"].createElement("button", { className: 'Home__modal-button', onClick: handleAddBoard }, "\u0414\u043E\u0434\u0430\u0442\u0438 \u0434\u043E\u0448\u043A\u0443")),
-                react_1["default"].createElement("input", { type: "button", className: "Home__modal-close", value: "\u0412\u0438\u0439\u0442\u0438", onClick: closeModalOk })))),
+    OneCardCreated(handleAddBoard);
+    return (react_1["default"].createElement(react_1["default"].Fragment, null,
+        react_1["default"].createElement("input", { className: 'Home__modal-input', placeholder: "\u0412\u0432\u0435\u0434i\u0442\u044C \u043D\u0430\u0437\u0432\u0443 \u0434\u043E\u0448\u043A\u0438", type: "text", value: inputValue, onChange: handleInputChange, autoFocus: true }),
+        react_1["default"].createElement("button", { className: 'Home__modal-button', onClick: handleAddBoard }, "\u0414\u043E\u0434\u0430\u0442\u0438 \u0434\u043E\u0448\u043A\u0443"),
         react_1["default"].createElement("button", { className: 'Home__button Home__item', onClick: openModal }, "+ \u0421\u0442\u0432\u043E\u0440\u0438\u0442\u0438 \u0434\u043E\u0448\u043A\u0443")));
 }
+exports["default"] = CreateBoard;

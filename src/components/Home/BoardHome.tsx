@@ -18,23 +18,9 @@ function BoardHome() {
     setIsModalOpen(false);
     setInputValue('');
   };
-
-  const handleAddBoard = async () => {
-    if (inputValue.trim() !== '') {
-      await api.post("https://trello-back.shpp.me/maliiev/api/v1" + "/board", {
-        title: inputValue,
-        custom: {
-          description: `#61dafb`
-        }
-      });
-      try {
-        closeModalOk();
-      } catch (error) {
-        console.error('Произошла ошибка при выполнении POST-запроса:', error);
-      };
-
-    }
-  };
+  function OneCardCreated(newBoard:object){
+    setHomeItems(newBoard);
+  }
   useEffect(()=>{
     async function getResponse(){
       const data = await api("https://trello-back.shpp.me/maliiev/api/v1/board");
@@ -55,8 +41,7 @@ function BoardHome() {
             <div className="Home__modal-overlay">
               <div className="Home__modal-window">
                 <div className="Home__modal-header">
-                  <CreateBoard OneCardCreated={setHomeItems(homeItems)}/>
-                  <button className='Home__modal-button' onClick={handleAddBoard}>Додати дошку</button>
+                  <CreateBoard OneCardCreated={OneCardCreated}/>
                 </div>
                 <input type="button" className="Home__modal-close" value="Вийти" onClick={closeModalOk} />
               </div>

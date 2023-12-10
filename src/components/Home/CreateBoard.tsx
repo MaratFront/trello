@@ -9,13 +9,16 @@ export default function CreateBoard({OneCardCreated}:IProps) {
   const [inputValue, setInputValue] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
 
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
   const closeModalOk = () => {
     setIsModalOpen(false);
     setInputValue('');
   };
 
   const handleInputChange = (event: any) => {
-    setInputValue(event.target);
+    setInputValue(event.target.value);
   };
   const handleAddBoard = async () => {
     if (inputValue.trim() !== '') {
@@ -33,6 +36,7 @@ export default function CreateBoard({OneCardCreated}:IProps) {
 
     }
   };
+  OneCardCreated(handleAddBoard);
   return (
     <>
       <input
@@ -44,6 +48,7 @@ export default function CreateBoard({OneCardCreated}:IProps) {
       autoFocus
       />
     <button className='Home__modal-button' onClick={handleAddBoard}>Додати дошку</button>
+    <button className='Home__button Home__item' onClick={openModal}>+ Створити дошку</button>
     </>
              
 
