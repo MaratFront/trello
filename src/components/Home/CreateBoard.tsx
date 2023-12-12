@@ -1,54 +1,31 @@
 import React from 'react'
 import api from '../../api/request';
-import { useState } from 'react';
+import {Link} from "react-router-dom"
+import HomeComponent from './Home';
+import { useState, useEffect } from 'react';
 interface IProps{
     OneCardCreated:any;
 }
 
 export default function CreateBoard({OneCardCreated}:IProps) {
-  const [inputValue, setInputValue] = useState('');
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
-  const openModal = () => {
-    setIsModalOpen(true);
-  };
-  const closeModalOk = () => {
-    setIsModalOpen(false);
-    setInputValue('');
-  };
-
-  const handleInputChange = (event: any) => {
-    setInputValue(event.target.value);
-  };
-  const handleAddBoard = async () => {
-    if (inputValue.trim() !== '') {
-      await api.post("https://trello-back.shpp.me/maliiev/api/v1" + "/board", {
-        title: inputValue,
-        custom: {
-          description: `#61dafb`
-        }
-      });
-      try {
-        closeModalOk();
-      } catch (error) {
-        console.error('Произошла ошибка при выполнении POST-запроса:', error);
-      };
-
-    }
-  };
-  OneCardCreated(handleAddBoard);
+  const [homeItems, setHomeItems] = useState({});
+  useEffect(()=>{
+    OneCardCreated(getResponse);
+    async function getResponse(){
+      const data = await api("https://trello-back.shpp.me/maliiev/api/v1/board");
+      return setHomeItems(data);
+    }  
+    getResponse();
+  },[]);
   return (
     <>
-      <input
-      className='Home__modal-input'
-      placeholder="Введiть назву дошки"
-      type="text"
-      value={inputValue}
-      onChange={handleInputChange}
-      autoFocus
-      />
-    <button className='Home__modal-button' onClick={handleAddBoard}>Додати дошку</button>
-    <button className='Home__button Home__item' onClick={openModal}>+ Створити дошку</button>
+      {Object.values(homeItems).map((item:any) => {
+        return item.map((itemResult: any) => (
+          <Link key={itemResult.id} to={`${itemResult.id}`}>
+            <HomeComponent id={itemResult.id} title={itemResult.title} custom={{ background: itemResult.custom.description }} />
+          </Link>
+             ));
+          })}
     </>
              
 

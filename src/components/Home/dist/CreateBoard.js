@@ -38,51 +38,32 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 exports.__esModule = true;
 var react_1 = require("react");
 var request_1 = require("../../api/request");
+var react_router_dom_1 = require("react-router-dom");
+var Home_1 = require("./Home");
 var react_2 = require("react");
 function CreateBoard(_a) {
-    var _this = this;
     var OneCardCreated = _a.OneCardCreated;
-    var _b = react_2.useState(''), inputValue = _b[0], setInputValue = _b[1];
-    var _c = react_2.useState(false), isModalOpen = _c[0], setIsModalOpen = _c[1];
-    var openModal = function () {
-        setIsModalOpen(true);
-    };
-    var closeModalOk = function () {
-        setIsModalOpen(false);
-        setInputValue('');
-    };
-    var handleInputChange = function (event) {
-        setInputValue(event.target.value);
-    };
-    var handleAddBoard = function () { return __awaiter(_this, void 0, void 0, function () {
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0:
-                    if (!(inputValue.trim() !== '')) return [3 /*break*/, 2];
-                    return [4 /*yield*/, request_1["default"].post("https://trello-back.shpp.me/maliiev/api/v1" + "/board", {
-                            title: inputValue,
-                            custom: {
-                                description: "#61dafb"
-                            }
-                        })];
-                case 1:
-                    _a.sent();
-                    try {
-                        closeModalOk();
+    var _b = react_2.useState({}), homeItems = _b[0], setHomeItems = _b[1];
+    react_2.useEffect(function () {
+        OneCardCreated(getResponse);
+        function getResponse() {
+            return __awaiter(this, void 0, void 0, function () {
+                var data;
+                return __generator(this, function (_a) {
+                    switch (_a.label) {
+                        case 0: return [4 /*yield*/, request_1["default"]("https://trello-back.shpp.me/maliiev/api/v1/board")];
+                        case 1:
+                            data = _a.sent();
+                            return [2 /*return*/, setHomeItems(data)];
                     }
-                    catch (error) {
-                        console.error('Произошла ошибка при выполнении POST-запроса:', error);
-                    }
-                    ;
-                    _a.label = 2;
-                case 2: return [2 /*return*/];
-            }
-        });
-    }); };
-    OneCardCreated(handleAddBoard);
-    return (react_1["default"].createElement(react_1["default"].Fragment, null,
-        react_1["default"].createElement("input", { className: 'Home__modal-input', placeholder: "\u0412\u0432\u0435\u0434i\u0442\u044C \u043D\u0430\u0437\u0432\u0443 \u0434\u043E\u0448\u043A\u0438", type: "text", value: inputValue, onChange: handleInputChange, autoFocus: true }),
-        react_1["default"].createElement("button", { className: 'Home__modal-button', onClick: handleAddBoard }, "\u0414\u043E\u0434\u0430\u0442\u0438 \u0434\u043E\u0448\u043A\u0443"),
-        react_1["default"].createElement("button", { className: 'Home__button Home__item', onClick: openModal }, "+ \u0421\u0442\u0432\u043E\u0440\u0438\u0442\u0438 \u0434\u043E\u0448\u043A\u0443")));
+                });
+            });
+        }
+        getResponse();
+    }, []);
+    return (react_1["default"].createElement(react_1["default"].Fragment, null, Object.values(homeItems).map(function (item) {
+        return item.map(function (itemResult) { return (react_1["default"].createElement(react_router_dom_1.Link, { key: itemResult.id, to: "" + itemResult.id },
+            react_1["default"].createElement(Home_1["default"], { id: itemResult.id, title: itemResult.title, custom: { background: itemResult.custom.description } }))); });
+    })));
 }
 exports["default"] = CreateBoard;

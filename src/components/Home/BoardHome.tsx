@@ -21,6 +21,26 @@ function BoardHome() {
   function OneCardCreated(newBoard:object){
     setHomeItems(newBoard);
   }
+
+  const handleInputChange = (event: any) => {
+    setInputValue(event.target.value);
+  };
+  const handleAddBoard = async () => {
+    if (inputValue.trim() !== '') {
+      await api.post("https://trello-back.shpp.me/maliiev/api/v1" + "/board", {
+        title: inputValue,
+        custom: {
+          description: `#61dafb`
+        }
+      });
+      try {
+        closeModalOk();
+      } catch (error) {
+        console.error('Произошла ошибка при выполнении POST-запроса:', error);
+      };
+
+    }
+  };
   useEffect(()=>{
     async function getResponse(){
       const data = await api("https://trello-back.shpp.me/maliiev/api/v1/board");
@@ -41,19 +61,21 @@ function BoardHome() {
             <div className="Home__modal-overlay">
               <div className="Home__modal-window">
                 <div className="Home__modal-header">
-                  <CreateBoard OneCardCreated={OneCardCreated}/>
+                <input
+                  className='Home__modal-input'
+                  placeholder="Введiть назву дошки"
+                  type="text"
+                  value={inputValue}
+                  onChange={handleInputChange}
+                  autoFocus
+              />
+                  <button className='Home__modal-button' onClick={handleAddBoard}>Додати дошку</button>
                 </div>
                 <input type="button" className="Home__modal-close" value="Вийти" onClick={closeModalOk} />
               </div>
             </div>
           )}
-          {Object.values(homeItems).map((item:any) => {
-              return item.map((itemResult: any) => (
-                <Link key={itemResult.id} to={`${itemResult.id}`}>
-                  <HomeComponent id={itemResult.id} title={itemResult.title} custom={{ background: itemResult.custom.description }} />
-                </Link>
-              ));
-          })}
+          <CreateBoard OneCardCreated={OneCardCreated}/>
           <button className='Home__button Home__item' onClick={openModal}>+ Створити дошку</button>
         </div>
       </div>
