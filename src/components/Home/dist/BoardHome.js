@@ -64,7 +64,7 @@ function BoardHome() {
             switch (_a.label) {
                 case 0:
                     if (!(inputValue.trim() !== '')) return [3 /*break*/, 2];
-                    return [4 /*yield*/, request_1["default"].post("https://trello-back.shpp.me/maliiev/api/v1" + "/board", {
+                    return [4 /*yield*/, request_1["default"].post("https://trello-back.shpp.me/maliiev/api/v1/board", {
                             title: inputValue,
                             custom: {
                                 description: "#61dafb"
@@ -84,23 +84,6 @@ function BoardHome() {
             }
         });
     }); };
-    react_1.useEffect(function () {
-        function getResponse() {
-            return __awaiter(this, void 0, void 0, function () {
-                var data;
-                return __generator(this, function (_a) {
-                    switch (_a.label) {
-                        case 0: return [4 /*yield*/, request_1["default"]("https://trello-back.shpp.me/maliiev/api/v1/board")];
-                        case 1:
-                            data = _a.sent();
-                            setHomeItems(data);
-                            return [2 /*return*/];
-                    }
-                });
-            });
-        }
-        getResponse();
-    }, []);
     return (react_1["default"].createElement("div", { className: "Home" },
         react_1["default"].createElement("div", { className: "Home__container" },
             react_1["default"].createElement("p", { className: "Home__header" }, "\u041C\u043E\u0457 \u0434\u043E\u0448\u043A\u0438"),

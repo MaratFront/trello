@@ -27,7 +27,7 @@ function BoardHome() {
   };
   const handleAddBoard = async () => {
     if (inputValue.trim() !== '') {
-      await api.post("https://trello-back.shpp.me/maliiev/api/v1" + "/board", {
+      await api.post("https://trello-back.shpp.me/maliiev/api/v1/board", {
         title: inputValue,
         custom: {
           description: `#61dafb`
@@ -41,14 +41,6 @@ function BoardHome() {
 
     }
   };
-  useEffect(()=>{
-    async function getResponse(){
-      const data = await api("https://trello-back.shpp.me/maliiev/api/v1/board");
-      setHomeItems(data);
-    }  
-    getResponse();
-  },[]);
-
 
   return (
     <div className="Home">
