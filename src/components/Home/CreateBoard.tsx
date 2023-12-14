@@ -15,7 +15,6 @@ export default function CreateBoard({OneCardCreated}:IProps) {
       const data = await api("https://trello-back.shpp.me/maliiev/api/v1/board");
       return setHomeItems(data);
     }  
-    getResponse();
   },[]);
   return (
     <>

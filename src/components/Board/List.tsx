@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import api from '../../api/request';
 import '../../stylesBoard/board.css';
 import Card from './Card';
@@ -8,35 +8,15 @@ interface IProps {
 }
 function List({ title, cards }: IProps) {
   const [inputValue, setInputValue] = React.useState(title);
+  const [cardValue,setCardValue] = React.useState(false);
 
-  function handleInputChange(event:any){
-    setInputValue(event.target.value);
-  }
-  function handleButtonClick(event:React.KeyboardEvent){
-    if(event.key==="Enter"){
-      putRequest();
-    }
-  }
-  async function putRequest(){
 
-    await api.put(
-      `https://trello-back.shpp.me/maliiev/api/v1/board/${1}`,
-      {
-        title:inputValue,
-        custom: {
-          description: "desc1",
-          color: "green"
-        }
-      });
-  }
   return (
      <>
      <div className="Board__list">
       <input 
         className='Board__list-title' 
         value={inputValue}
-        onChange={handleInputChange}
-        onKeyDown={handleButtonClick}
       />
       
       <div className="Board__list-card">

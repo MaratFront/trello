@@ -59,7 +59,6 @@ function CreateBoard(_a) {
                 });
             });
         }
-        getResponse();
     }, []);
     return (react_1["default"].createElement(react_1["default"].Fragment, null, Object.values(homeItems).map(function (item) {
         return item.map(function (itemResult) { return (react_1["default"].createElement(react_router_dom_1.Link, { key: itemResult.id, to: "" + itemResult.id },
