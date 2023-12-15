@@ -10,6 +10,7 @@ function Board() {
   const [lists, setLists] = useState({});
   const [listCreate, setListCreate] = useState(false);
   const [inputValue, setInputValue] = useState("");
+  const [position, setPosition] = useState(1)
   const [createListCounter, setCreateListCounter] = useState(0);
 
   function handleCreateList() {
@@ -31,7 +32,7 @@ function Board() {
     try {
       await api.post(`https://trello-back.shpp.me/maliiev/api/v1/board/${id}/list`, {
         title: inputValue,
-        position: 2,
+        position:2
       });
       setListCreate(false);
       setInputValue("");
@@ -42,14 +43,8 @@ function Board() {
   }
   useEffect(()=>{
     async function getResponse() {
-      try {
-        const data=await api.get(`https://trello-back.shpp.me/maliiev/api/v1/board/${id}`);
-        setLists(data);   
-        console.log(data)
-    
-      }catch(error){
-        console.log(error);
-      }
+     const data=await api.get(`https://trello-back.shpp.me/maliiev/api/v1/board/${id}`);
+     return setLists(data);
     }
   getResponse();
 },[])
@@ -63,6 +58,9 @@ function Board() {
           <div className='Board__header-block'></div>
         </header>
         <section className='Board__section'>
+        {lists.lists.map((item: any) => (
+            <List key={item.id} title={item.title} cards={item.cards} />
+          ))}
           <div className='Board__list' draggable="true">
             <input className="Board__section-btn" type='submit' value="+ Додати список" onClick={handleCreateList} />
             {listCreate && <input type="text" value={inputValue} onChange={handleInputChange} />}
