@@ -7,12 +7,12 @@ import dragOnDrop from './dragOnDrop';
 
 function Board() {
   const [title, setTitle] = useState("Моя тестова дошка");
-  const [lists, setLists] = useState({});
+
+  const [lists, setLists] = useState([]);
   const [listCreate, setListCreate] = useState(false);
   const [inputValue, setInputValue] = useState("");
   const [position, setPosition] = useState(1)
   const [createListCounter, setCreateListCounter] = useState(0);
-
   function handleCreateList() {
     if (createListCounter === 1) {
       postResponse();
@@ -41,13 +41,15 @@ function Board() {
       console.error("Ошибка при добавлении списка:", error);
     }
   }
-  useEffect(()=>{
+  useEffect(() => {
     async function getResponse() {
-     const data=await api.get(`https://trello-back.shpp.me/maliiev/api/v1/board/${id}`);
-     return setLists(data);
-    }
-  getResponse();
-},[])
+      const data=await api.get(`https://trello-back.shpp.me/maliiev/api/v1/board/${id}`);
+      setLists(data);
+      //console.log(data);
+     }
+     getResponse();
+  },[])
+  console.log(lists)
 
   return (
     <div className="Board">
@@ -58,9 +60,9 @@ function Board() {
           <div className='Board__header-block'></div>
         </header>
         <section className='Board__section'>
-        {lists.lists.map((item: any) => (
-            <List key={item.id} title={item.title} cards={item.cards} />
-          ))}
+        {lists.lists.map((item:any)=>{
+          <List title={item.title} cards={item.cards} />
+        })}/
           <div className='Board__list' draggable="true">
             <input className="Board__section-btn" type='submit' value="+ Додати список" onClick={handleCreateList} />
             {listCreate && <input type="text" value={inputValue} onChange={handleInputChange} />}
