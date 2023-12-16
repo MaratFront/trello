@@ -3,12 +3,16 @@ import '../../stylesBoard/board.css';
 import List from './List';
 import api from '../../api/request';
 import CreateList from './CreateList';
-import dragOnDrop from './dragOnDrop';
+
 
 function Board() {
   const [title, setTitle] = useState("Моя тестова дошка");
-
-  const [lists, setLists] = useState([]);
+  interface List{
+    id: number
+    position: number 
+    title: string
+  }
+  const [lists, setLists] = useState<List>();
   const [listCreate, setListCreate] = useState(false);
   const [inputValue, setInputValue] = useState("");
   const [position, setPosition] = useState(1)

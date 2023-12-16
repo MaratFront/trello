@@ -42,7 +42,7 @@ var List_1 = require("./List");
 var request_1 = require("../../api/request");
 function Board() {
     var _a = react_1.useState("Моя тестова дошка"), title = _a[0], setTitle = _a[1];
-    var _b = react_1.useState([]), lists = _b[0], setLists = _b[1];
+    var _b = react_1.useState(), lists = _b[0], setLists = _b[1];
     var _c = react_1.useState(false), listCreate = _c[0], setListCreate = _c[1];
     var _d = react_1.useState(""), inputValue = _d[0], setInputValue = _d[1];
     var _e = react_1.useState(1), position = _e[0], setPosition = _e[1];
