@@ -42,7 +42,7 @@ var List_1 = require("./List");
 var request_1 = require("../../api/request");
 function Board() {
     var _a = react_1.useState("Моя тестова дошка"), title = _a[0], setTitle = _a[1];
-    var _b = react_1.useState(), lists = _b[0], setLists = _b[1];
+    var _b = react_1.useState({}), boards = _b[0], setBoards = _b[1];
     var _c = react_1.useState(false), listCreate = _c[0], setListCreate = _c[1];
     var _d = react_1.useState(""), inputValue = _d[0], setInputValue = _d[1];
     var _e = react_1.useState(1), position = _e[0], setPosition = _e[1];
@@ -66,7 +66,8 @@ function Board() {
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        _a.trys.push([0, 2, , 3]);
+                        _a.trys.push([0, 3, , 4]);
+                        if (!(inputValue.trim() != "")) return [3 /*break*/, 2];
                         return [4 /*yield*/, request_1["default"].post("https://trello-back.shpp.me/maliiev/api/v1/board/" + id + "/list", {
                                 title: inputValue,
                                 position: 2
@@ -76,12 +77,13 @@ function Board() {
                         setListCreate(false);
                         setInputValue("");
                         setCreateListCounter(0);
-                        return [3 /*break*/, 3];
-                    case 2:
+                        _a.label = 2;
+                    case 2: return [3 /*break*/, 4];
+                    case 3:
                         error_1 = _a.sent();
                         console.error("Ошибка при добавлении списка:", error_1);
-                        return [3 /*break*/, 3];
-                    case 3: return [2 /*return*/];
+                        return [3 /*break*/, 4];
+                    case 4: return [2 /*return*/];
                 }
             });
         });
@@ -95,7 +97,7 @@ function Board() {
                         case 0: return [4 /*yield*/, request_1["default"].get("https://trello-back.shpp.me/maliiev/api/v1/board/" + id)];
                         case 1:
                             data = _a.sent();
-                            setLists(data);
+                            setBoards(data);
                             return [2 /*return*/];
                     }
                 });
@@ -103,7 +105,6 @@ function Board() {
         }
         getResponse();
     }, []);
-    console.log(lists);
     return (react_1["default"].createElement("div", { className: "Board" },
         react_1["default"].createElement("div", { className: 'container' },
             react_1["default"].createElement("header", { className: 'Board__header' },
@@ -111,10 +112,9 @@ function Board() {
                 react_1["default"].createElement("p", { className: 'Board__header-title' }, title),
                 react_1["default"].createElement("div", { className: 'Board__header-block' })),
             react_1["default"].createElement("section", { className: 'Board__section' },
-                lists.lists.map(function (item) {
-                    react_1["default"].createElement(List_1["default"], { title: item.title, cards: item.cards });
+                Object.values(boards).map(function (item) {
+                    return item.map(function (itemResult) { return (react_1["default"].createElement(List_1["default"], { title: itemResult.title, cards: itemResult.cards })); });
                 }),
-                "/",
                 react_1["default"].createElement("div", { className: 'Board__list', draggable: "true" },
                     react_1["default"].createElement("input", { className: "Board__section-btn", type: 'submit', value: "+ \u0414\u043E\u0434\u0430\u0442\u0438 \u0441\u043F\u0438\u0441\u043E\u043A", onClick: handleCreateList }),
                     listCreate && react_1["default"].createElement("input", { type: "text", value: inputValue, onChange: handleInputChange }))))));

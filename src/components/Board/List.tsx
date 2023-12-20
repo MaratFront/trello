@@ -14,6 +14,7 @@ function List({ title, cards }: IProps) {
   return (
      <>
      <div className="Board__list">
+     
       <input 
         className='Board__list-title' 
         value={inputValue}

@@ -19,7 +19,7 @@ export default function CreateBoard({OneCardCreated}:IProps) {
   return (
     <>
       {Object.values(homeItems).map((item:any) => {
-        return item.map((itemResult: any) => (
+        return item.map((itemResult:any) => (
           <Link key={itemResult.id} to={`${itemResult.id}`}>
             <HomeComponent id={itemResult.id} title={itemResult.title} custom={{ background: itemResult.custom.description }} />
           </Link>

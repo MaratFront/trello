@@ -3,19 +3,15 @@ import '../../stylesBoard/board.css';
 import List from './List';
 import api from '../../api/request';
 import CreateList from './CreateList';
-
-
+import dragOnDrop from './dragOnDrop';
+import Link from 'react-router-dom'
 function Board() {
   const [title, setTitle] = useState("Моя тестова дошка");
-  interface List{
-    id: number
-    position: number 
-    title: string
-  }
-  const [lists, setLists] = useState<List>();
+
+  const [boards, setBoards] = useState({});
   const [listCreate, setListCreate] = useState(false);
   const [inputValue, setInputValue] = useState("");
-  const [position, setPosition] = useState(1)
+  const [position, setPosition] = useState(1);
   const [createListCounter, setCreateListCounter] = useState(0);
   function handleCreateList() {
     if (createListCounter === 1) {
@@ -34,13 +30,15 @@ function Board() {
 
   async function postResponse() {
     try {
-      await api.post(`https://trello-back.shpp.me/maliiev/api/v1/board/${id}/list`, {
-        title: inputValue,
-        position:2
-      });
-      setListCreate(false);
-      setInputValue("");
-      setCreateListCounter(0);
+      if(inputValue.trim()!=""){
+        await api.post(`https://trello-back.shpp.me/maliiev/api/v1/board/${id}/list`, {
+          title: inputValue,
+          position:2
+        });
+        setListCreate(false);
+        setInputValue("");
+        setCreateListCounter(0);
+    }
     } catch (error) {
       console.error("Ошибка при добавлении списка:", error);
     }
@@ -48,12 +46,10 @@ function Board() {
   useEffect(() => {
     async function getResponse() {
       const data=await api.get(`https://trello-back.shpp.me/maliiev/api/v1/board/${id}`);
-      setLists(data);
-      //console.log(data);
+      setBoards(data);
      }
      getResponse();
   },[])
-  console.log(lists)
 
   return (
     <div className="Board">
@@ -64,9 +60,11 @@ function Board() {
           <div className='Board__header-block'></div>
         </header>
         <section className='Board__section'>
-        {lists.lists.map((item:any)=>{
-          <List title={item.title} cards={item.cards} />
-        })}/
+        {Object.values(boards).map((item:any) => {
+        return item.map((itemResult:any) => (
+            <List title={itemResult.title} cards={itemResult.cards} />
+             ));
+          })}
           <div className='Board__list' draggable="true">
             <input className="Board__section-btn" type='submit' value="+ Додати список" onClick={handleCreateList} />
             {listCreate && <input type="text" value={inputValue} onChange={handleInputChange} />}
