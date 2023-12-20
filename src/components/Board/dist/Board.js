@@ -112,9 +112,9 @@ function Board() {
                 react_1["default"].createElement("p", { className: 'Board__header-title' }, title),
                 react_1["default"].createElement("div", { className: 'Board__header-block' })),
             react_1["default"].createElement("section", { className: 'Board__section' },
-                Object.values(boards).map(function (item) {
-                    return item.map(function (itemResult) { return (react_1["default"].createElement(List_1["default"], { title: itemResult.title, cards: itemResult.cards })); });
-                }),
+                "lists" in boards ? (boards.lists.map(function (item) {
+                    return react_1["default"].createElement(List_1["default"], { title: item.title, cards: item.cards });
+                })) : (react_1["default"].createElement("p", null, "Loading...")),
                 react_1["default"].createElement("div", { className: 'Board__list', draggable: "true" },
                     react_1["default"].createElement("input", { className: "Board__section-btn", type: 'submit', value: "+ \u0414\u043E\u0434\u0430\u0442\u0438 \u0441\u043F\u0438\u0441\u043E\u043A", onClick: handleCreateList }),
                     listCreate && react_1["default"].createElement("input", { type: "text", value: inputValue, onChange: handleInputChange }))))));

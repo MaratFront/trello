@@ -2,9 +2,8 @@ import React, { useState, useEffect } from 'react';
 import '../../stylesBoard/board.css';
 import List from './List';
 import api from '../../api/request';
-import CreateList from './CreateList';
 import dragOnDrop from './dragOnDrop';
-import Link from 'react-router-dom'
+
 function Board() {
   const [title, setTitle] = useState("Моя тестова дошка");
 
@@ -21,13 +20,10 @@ function Board() {
       setCreateListCounter(createListCounter + 1);
     }
   }
-
   function handleInputChange(event:any) {
     setInputValue(event.target.value);
   }
-
   const id = window.location.pathname.split("/").pop();
-
   async function postResponse() {
     try {
       if(inputValue.trim()!=""){
@@ -50,7 +46,6 @@ function Board() {
      }
      getResponse();
   },[])
-
   return (
     <div className="Board">
       <div className='container'>
@@ -60,11 +55,14 @@ function Board() {
           <div className='Board__header-block'></div>
         </header>
         <section className='Board__section'>
-        {Object.values(boards).map((item:any) => {
-        return item.map((itemResult:any) => (
-            <List title={itemResult.title} cards={itemResult.cards} />
-             ));
-          })}
+        {"lists" in boards?(
+            boards.lists.map((item:any)=>{
+              return <List title={item.title} cards={item.cards}/>
+            })
+          ):(
+            <p>Loading...</p>
+          )
+        }
           <div className='Board__list' draggable="true">
             <input className="Board__section-btn" type='submit' value="+ Додати список" onClick={handleCreateList} />
             {listCreate && <input type="text" value={inputValue} onChange={handleInputChange} />}
