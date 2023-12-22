@@ -38,7 +38,6 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 exports.__esModule = true;
 var react_1 = require("react");
 require("../../stylesBoard/board.css");
-var List_1 = require("./List");
 var request_1 = require("../../api/request");
 function Board() {
     var _a = react_1.useState("Моя тестова дошка"), title = _a[0], setTitle = _a[1];
@@ -67,7 +66,7 @@ function Board() {
                 switch (_a.label) {
                     case 0:
                         _a.trys.push([0, 3, , 4]);
-                        if (!(inputValue.trim() != "")) return [3 /*break*/, 2];
+                        if (!(inputValue.trim() !== "")) return [3 /*break*/, 2];
                         return [4 /*yield*/, request_1["default"].post("https://trello-back.shpp.me/maliiev/api/v1/board/" + id + "/list", {
                                 title: inputValue,
                                 position: 2
@@ -112,9 +111,6 @@ function Board() {
                 react_1["default"].createElement("p", { className: 'Board__header-title' }, title),
                 react_1["default"].createElement("div", { className: 'Board__header-block' })),
             react_1["default"].createElement("section", { className: 'Board__section' },
-                "lists" in boards ? (boards.lists.map(function (item) {
-                    return react_1["default"].createElement(List_1["default"], { title: item.title, cards: item.cards });
-                })) : (react_1["default"].createElement("p", null, "Loading...")),
                 react_1["default"].createElement("div", { className: 'Board__list', draggable: "true" },
                     react_1["default"].createElement("input", { className: "Board__section-btn", type: 'submit', value: "+ \u0414\u043E\u0434\u0430\u0442\u0438 \u0441\u043F\u0438\u0441\u043E\u043A", onClick: handleCreateList }),
                     listCreate && react_1["default"].createElement("input", { type: "text", value: inputValue, onChange: handleInputChange }))))));

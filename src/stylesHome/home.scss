@@ -3,11 +3,13 @@
         text-align: center;
         margin:20px auto;
     }
+    &__container{
+        margin: 0 150px 0 150px;
+    }
     &__items{
          display: flex;
          flex-direction: row;
-         margin: 10px 150px 0 150px;
-         flex-wrap: wrap;
+         flex-wrap:wrap;
     }
     &__title{
         text-align: left;

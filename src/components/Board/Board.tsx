@@ -26,7 +26,7 @@ function Board() {
   const id = window.location.pathname.split("/").pop();
   async function postResponse() {
     try {
-      if(inputValue.trim()!=""){
+      if(inputValue.trim()!==""){
         await api.post(`https://trello-back.shpp.me/maliiev/api/v1/board/${id}/list`, {
           title: inputValue,
           position:2
@@ -55,14 +55,14 @@ function Board() {
           <div className='Board__header-block'></div>
         </header>
         <section className='Board__section'>
-        {"lists" in boards?(
+        {/* {"lists" in boards?(
             boards.lists.map((item:any)=>{
               return <List title={item.title} cards={item.cards}/>
             })
           ):(
             <p>Loading...</p>
           )
-        }
+        } */}
           <div className='Board__list' draggable="true">
             <input className="Board__section-btn" type='submit' value="+ Додати список" onClick={handleCreateList} />
             {listCreate && <input type="text" value={inputValue} onChange={handleInputChange} />}
