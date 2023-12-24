@@ -23,8 +23,8 @@ export default function CreateBoard({OneCardCreated}:IProps) {
           <Link key={itemResult.id} to={`${itemResult.id}`}>
             <HomeComponent id={itemResult.id} title={itemResult.title} custom={{ background: itemResult.custom.description }} />
           </Link>
-             ));
-          })}
+          ));
+        })}
     </>
              
 
