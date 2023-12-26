@@ -10,6 +10,7 @@
 }
 a{
     color:black;
+    
 }
 .container{
     margin: 30px 110px 0 110px;
@@ -87,4 +88,17 @@ button,input{
     left:0;
     right: 0;
     //position: fixed;
+}
+.Board__list-input{
+    margin: 0 auto;
+}
+.Board__card{
+    display: flex;
+    .Board__add-card{
+        background: rgb(3, 3, 161);
+        text-align: center;
+    }
+    .Board__none-card{
+        text-align: center;
+    }
 }

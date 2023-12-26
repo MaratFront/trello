@@ -93,3 +93,18 @@ button, input {
   left: 0;
   right: 0;
 }
+
+.Board__list-input {
+  margin: 0 auto;
+}
+
+.Board__card {
+  display: flex;
+}
+.Board__card .Board__add-card {
+  background: #0303a1;
+  text-align: center;
+}
+.Board__card .Board__none-card {
+  text-align: center;
+}

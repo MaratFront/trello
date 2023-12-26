@@ -92,4 +92,20 @@ button, input {
   margin: 0 auto;
   left: 0;
   right: 0;
+}
+
+.Board__list-input {
+  margin: 0 auto;
+}
+
+.Board__card {
+  display: flex;
+  width: 101;
+}
+.Board__card .Board__add-card {
+  background: rgb(3, 3, 161);
+  text-align: center;
+}
+.Board__card .Board__none-card {
+  text-align: center;
 }/*# sourceMappingURL=board.css.map */

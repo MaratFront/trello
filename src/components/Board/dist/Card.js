@@ -1,6 +1,5 @@
 "use strict";
 exports.__esModule = true;
-// Card.tsx
 var react_1 = require("react");
 function Card(_a) {
     var title = _a.title;

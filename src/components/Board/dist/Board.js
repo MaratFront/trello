@@ -38,16 +38,15 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 exports.__esModule = true;
 var react_1 = require("react");
 require("../../stylesBoard/board.css");
+var List_1 = require("./List");
 var request_1 = require("../../api/request");
-var CreateList_1 = require("./CreateList");
 function Board() {
     ;
     var _a = react_1.useState("Моя тестова дошка"), title = _a[0], setTitle = _a[1];
     var _b = react_1.useState(false), listCreate = _b[0], setListCreate = _b[1];
     var _c = react_1.useState(""), inputValue = _c[0], setInputValue = _c[1];
     var _d = react_1.useState(), boards = _d[0], setBoards = _d[1];
-    var _e = react_1.useState(1), position = _e[0], setPosition = _e[1];
-    var _f = react_1.useState(0), createListCounter = _f[0], setCreateListCounter = _f[1];
+    var _e = react_1.useState(0), createListCounter = _e[0], setCreateListCounter = _e[1];
     function handleCreateList() {
         if (createListCounter === 1) {
             postResponse();
@@ -61,10 +60,6 @@ function Board() {
         setInputValue(event.target.value);
     }
     var id = window.location.pathname.split("/").pop();
-    function OneListCreated(newList) {
-        setBoards(newList);
-    }
-    ;
     function positionChanged(counter) {
         return function () {
             return counter++;
@@ -81,7 +76,7 @@ function Board() {
                         if (!(inputValue.trim() !== "")) return [3 /*break*/, 2];
                         return [4 /*yield*/, request_1["default"].post("https://trello-back.shpp.me/maliiev/api/v1/board/" + id + "/list", {
                                 title: inputValue,
-                                position: newPosition
+                                position: newPosition()
                             })];
                     case 1:
                         _a.sent();
@@ -99,6 +94,31 @@ function Board() {
             });
         });
     }
+    react_1.useEffect(function () {
+        function getResponse() {
+            return __awaiter(this, void 0, void 0, function () {
+                var response, error_2;
+                return __generator(this, function (_a) {
+                    switch (_a.label) {
+                        case 0:
+                            _a.trys.push([0, 2, , 3]);
+                            return [4 /*yield*/, request_1["default"].get("https://trello-back.shpp.me/maliiev/api/v1/board/" + id)];
+                        case 1:
+                            response = _a.sent();
+                            setBoards(response);
+                            console.log(response);
+                            return [3 /*break*/, 3];
+                        case 2:
+                            error_2 = _a.sent();
+                            console.error("Ошибка при получении данных о доске:", error_2);
+                            return [3 /*break*/, 3];
+                        case 3: return [2 /*return*/];
+                    }
+                });
+            });
+        }
+        getResponse();
+    }, []);
     return (react_1["default"].createElement("div", { className: "Board" },
         react_1["default"].createElement("div", { className: 'container' },
             react_1["default"].createElement("header", { className: 'Board__header' },
@@ -106,7 +126,9 @@ function Board() {
                 react_1["default"].createElement("p", { className: 'Board__header-title' }, title),
                 react_1["default"].createElement("div", { className: 'Board__header-block' })),
             react_1["default"].createElement("section", { className: 'Board__section' },
-                react_1["default"].createElement(CreateList_1["default"], { oneListCreated: OneListCreated }),
+                (boards === null || boards === void 0 ? void 0 : boards.lists) ? (boards.lists.map(function (item) {
+                    return (react_1["default"].createElement(List_1["default"], { id: item.id, title: item.title, cards: item.cards }));
+                })) : (react_1["default"].createElement("p", null, "Loading...")),
                 react_1["default"].createElement("div", { className: 'Board__list', draggable: "true" },
                     react_1["default"].createElement("input", { className: "Board__section-btn", type: 'submit', value: "+ \u0414\u043E\u0434\u0430\u0442\u0438 \u0441\u043F\u0438\u0441\u043E\u043A", onClick: handleCreateList }),
                     listCreate && react_1["default"].createElement("input", { type: "text", value: inputValue, onChange: handleInputChange }))))));

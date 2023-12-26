@@ -3,7 +3,6 @@ import '../../stylesBoard/board.css';
 import List from './List';
 import api from '../../api/request';
 import dragOnDrop from './dragOnDrop';
-import CreateList from './CreateList';
 function Board() {
   interface BoardType{
     title:string,
@@ -15,7 +14,6 @@ function Board() {
     ],
     lists:[{
       id:number,
-      title:string,
       cards:[{
         id:number,
         title:string,
@@ -32,8 +30,7 @@ function Board() {
   const [title, setTitle] = useState("Моя тестова дошка");
   const [listCreate, setListCreate] = useState(false);
   const [inputValue, setInputValue] = useState("");
-  const [boards, setBoards] = useState<BoardType>(); 
-  const [position, setPosition] = useState(1);
+  const [boards, setBoards] = useState<BoardType>();
   const [createListCounter, setCreateListCounter] = useState(0);
   function handleCreateList() {
     if (createListCounter === 1) {
@@ -47,9 +44,6 @@ function Board() {
     setInputValue(event.target.value);
   }
   const id = window.location.pathname.split("/").pop();
-  function OneListCreated(newList:any){
-      setBoards(newList);
-  };
   function positionChanged(counter:number){
     return ()=>{
       return counter++;
@@ -61,7 +55,7 @@ function Board() {
       if(inputValue.trim()!==""){
         await api.post(`https://trello-back.shpp.me/maliiev/api/v1/board/${id}/list`, {
           title: inputValue,
-          position:newPosition,
+          position:newPosition(),
         });
         setListCreate(false);
         setInputValue("");
@@ -71,6 +65,18 @@ function Board() {
       console.error("Ошибка при добавлении списка:", error);
     }
   }
+useEffect(() => {
+  async function getResponse() {
+    try {
+      const response:any = await api.get(`https://trello-back.shpp.me/maliiev/api/v1/board/${id}`);
+      setBoards(response)
+      console.log(response);
+    } catch (error) {
+      console.error("Ошибка при получении данных о доске:", error);
+    }
+  }
+  getResponse();
+}, []);
   return (
     <div className="Board">
       <div className='container'>
@@ -80,7 +86,16 @@ function Board() {
           <div className='Board__header-block'></div>
         </header>
         <section className='Board__section'>
-          <CreateList oneListCreated={OneListCreated}/>
+            {boards?.lists?(
+              boards.lists.map((item:any)=>{
+                return (
+                    <List id={item.id} title={item.title} cards={item.cards}/>
+                );  
+              })
+              ):(
+              <p>Loading...</p>
+              )
+            }
           <div className='Board__list' draggable="true">
             <input className="Board__section-btn" type='submit' value="+ Додати список" onClick={handleCreateList} />
             {listCreate && <input type="text" value={inputValue} onChange={handleInputChange} />}

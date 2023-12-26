@@ -40,7 +40,6 @@ var react_1 = require("react");
 var request_1 = require("../../api/request");
 var react_2 = require("react");
 var List_1 = require("./List");
-var react_router_dom_1 = require("react-router-dom");
 ;
 function CreateList(_a) {
     var oneListCreated = _a.oneListCreated;
@@ -72,8 +71,7 @@ function CreateList(_a) {
         }
     }, []);
     return (react_1["default"].createElement(react_1["default"].Fragment, null, (boards === null || boards === void 0 ? void 0 : boards.lists) ? (boards.lists.map(function (item) {
-        return react_1["default"].createElement(react_router_dom_1.Link, { key: item.id, to: "" + item.id },
-            react_1["default"].createElement(List_1["default"], { id: item.id, title: item.title, cards: item.cards }));
+        return react_1["default"].createElement(List_1["default"], { title: item.title, cards: item.cards });
     })) : (react_1["default"].createElement("p", null, "Loading..."))));
 }
 exports["default"] = CreateList;
