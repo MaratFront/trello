@@ -8,49 +8,48 @@ interface IProps {
   title: string;
   cards:{id:number,title:string}[];
 }
-interface CardType{
-  title: string,
-  list_id: number,
-  position: number,
-  description: string,
-  custom: {
-    deadline: string,
-  }
-}
 function List({id,title, cards }: IProps) {
   //const [inputValue, setInputValue] = useState(title);
   const [showInput,setShowInput] = useState(false);
   const [inputValue, setInputValue] = useState("");
   const [showButton,setShowButton] = useState(true);
-  const [card,setCard]=useState<CardType>();
   const handleInputChange=(event:any)=>setInputValue(event.target.value);
   
   const showInputChange=()=>{
     setShowButton(false);
     setShowInput(true)
   }
-  const id2 = window.location.pathname.split("/").pop();
+  const boardId = window.location.pathname.split("/").pop();
   async function postResponse(){
     try{
       if(inputValue.trim()!==""){
-        await api.post(`https://trello-back.shpp.me/maliiev/api/v1/board/${id2}/card`,{
+        await api.post(`https://trello-back.shpp.me/maliiev/api/v1/board/${boardId}/card`,{
           title: inputValue,
-          list_id: 2,
+          list_id: id,
           position: 5,
           description: "washing process",
           custom: {
             deadline: "2022-08-31 12:00"
           }
-        });
-
+        })
+        
+        setInputValue("");
+        setShowInput(false);
       }
 
     }catch(error){
       console.error('Error post request');
+      setInputValue("");
+      setShowInput(false);
+      setShowButton(true);
     }
 
   }
-
+  const handelCancel=()=>{
+    setInputValue(""); 
+    setShowInput(false)
+    setShowButton(true);
+  };
 
   return (
      <>
@@ -66,7 +65,7 @@ function List({id,title, cards }: IProps) {
             <input className='Board__list-input' value={inputValue} onChange={handleInputChange} autoFocus/>
             <div className='Board__add'>
               <button className='Board__add-card' onClick={postResponse}>Додати картку</button>
-              <button className='Board__none-card'>Скасувати</button>
+              <button className='Board__none-card' onClick={handelCancel}>Скасувати</button>
             </div>
           </>
         )

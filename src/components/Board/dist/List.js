@@ -46,13 +46,12 @@ function List(_a) {
     var _b = react_1.useState(false), showInput = _b[0], setShowInput = _b[1];
     var _c = react_1.useState(""), inputValue = _c[0], setInputValue = _c[1];
     var _d = react_1.useState(true), showButton = _d[0], setShowButton = _d[1];
-    var _e = react_1.useState(), card = _e[0], setCard = _e[1];
     var handleInputChange = function (event) { return setInputValue(event.target.value); };
     var showInputChange = function () {
         setShowButton(false);
         setShowInput(true);
     };
-    var id2 = window.location.pathname.split("/").pop();
+    var boardId = window.location.pathname.split("/").pop();
     function postResponse() {
         return __awaiter(this, void 0, void 0, function () {
             var error_1;
@@ -61,9 +60,9 @@ function List(_a) {
                     case 0:
                         _a.trys.push([0, 3, , 4]);
                         if (!(inputValue.trim() !== "")) return [3 /*break*/, 2];
-                        return [4 /*yield*/, request_1["default"].post("https://trello-back.shpp.me/maliiev/api/v1/board/" + id2 + "/card", {
+                        return [4 /*yield*/, request_1["default"].post("https://trello-back.shpp.me/maliiev/api/v1/board/" + boardId + "/card", {
                                 title: inputValue,
-                                list_id: 2,
+                                list_id: id,
                                 position: 5,
                                 description: "washing process",
                                 custom: {
@@ -72,17 +71,27 @@ function List(_a) {
                             })];
                     case 1:
                         _a.sent();
+                        setInputValue("");
+                        setShowInput(false);
                         _a.label = 2;
                     case 2: return [3 /*break*/, 4];
                     case 3:
                         error_1 = _a.sent();
                         console.error('Error post request');
+                        setInputValue("");
+                        setShowInput(false);
+                        setShowButton(true);
                         return [3 /*break*/, 4];
                     case 4: return [2 /*return*/];
                 }
             });
         });
     }
+    var handelCancel = function () {
+        setInputValue("");
+        setShowInput(false);
+        setShowButton(true);
+    };
     return (react_1["default"].createElement(react_1["default"].Fragment, null,
         react_1["default"].createElement("div", { className: "Board__list" },
             react_1["default"].createElement("p", { className: 'Board__list-title' }, title),
@@ -92,7 +101,7 @@ function List(_a) {
                     react_1["default"].createElement("input", { className: 'Board__list-input', value: inputValue, onChange: handleInputChange, autoFocus: true }),
                     react_1["default"].createElement("div", { className: 'Board__add' },
                         react_1["default"].createElement("button", { className: 'Board__add-card', onClick: postResponse }, "\u0414\u043E\u0434\u0430\u0442\u0438 \u043A\u0430\u0440\u0442\u043A\u0443"),
-                        react_1["default"].createElement("button", { className: 'Board__none-card' }, "\u0421\u043A\u0430\u0441\u0443\u0432\u0430\u0442\u0438")))),
+                        react_1["default"].createElement("button", { className: 'Board__none-card', onClick: handelCancel }, "\u0421\u043A\u0430\u0441\u0443\u0432\u0430\u0442\u0438")))),
                 showButton && react_1["default"].createElement("button", { className: "Board__list-button", type: "submit", onClick: showInputChange }, "+ \u0414\u043E\u0434\u0430\u0442\u0438 \u043A\u0430\u0440\u0442\u043A\u0443")))));
 }
 exports["default"] = List;

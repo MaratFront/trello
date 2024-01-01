@@ -46,19 +46,13 @@ function BoardHome() {
     var _a = react_1.useState({}), homeItems = _a[0], setHomeItems = _a[1];
     var _b = react_1.useState(''), inputValue = _b[0], setInputValue = _b[1];
     var _c = react_1.useState(false), isModalOpen = _c[0], setIsModalOpen = _c[1];
-    var openModal = function () {
-        setIsModalOpen(true);
-    };
+    var openModal = function () { return setIsModalOpen(true); };
     var closeModalOk = function () {
         setIsModalOpen(false);
         setInputValue('');
     };
-    function OneCardCreated(newBoard) {
-        setHomeItems(newBoard);
-    }
-    var handleInputChange = function (event) {
-        setInputValue(event.target.value);
-    };
+    var OneCardCreated = function (newBoard) { setHomeItems(newBoard); console.log(newBoard); };
+    var handleInputChange = function (event) { return setInputValue(event.target.value); };
     var handleAddBoard = function () { return __awaiter(_this, void 0, void 0, function () {
         return __generator(this, function (_a) {
             switch (_a.label) {
@@ -85,8 +79,8 @@ function BoardHome() {
         });
     }); };
     return (react_1["default"].createElement("div", { className: "Home" },
+        react_1["default"].createElement("p", { className: "Home__header" }, "\u041C\u043E\u0457 \u0434\u043E\u0448\u043A\u0438"),
         react_1["default"].createElement("div", { className: "Home__container" },
-            react_1["default"].createElement("p", { className: "Home__header" }, "\u041C\u043E\u0457 \u0434\u043E\u0448\u043A\u0438"),
             react_1["default"].createElement("div", { className: "Home__items" },
                 isModalOpen && (react_1["default"].createElement("div", { className: "Home__modal-overlay" },
                     react_1["default"].createElement("div", { className: "Home__modal-window" },

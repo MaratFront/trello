@@ -5,26 +5,18 @@ import '../../stylesHome/home.css';
 import api from '../../api/request';
 import { Link } from 'react-router-dom';
 import CreateBoard from './CreateBoard';
-
+import Board from '../Board/Board';
 function BoardHome() {
   const [homeItems, setHomeItems] = useState({});
   const [inputValue, setInputValue] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
-
-  const openModal = () => {
-    setIsModalOpen(true);
-  };
+  const openModal = () => setIsModalOpen(true);
   const closeModalOk = () => {
     setIsModalOpen(false);
     setInputValue('');
   };
-  function OneCardCreated(newBoard:object){
-    setHomeItems(newBoard);
-  }
-
-  const handleInputChange = (event: any) => {
-    setInputValue(event.target.value);
-  };
+  const OneCardCreated=(newBoard:object) => {setHomeItems(newBoard); console.log(newBoard);}
+  const handleInputChange = (event: any) => setInputValue(event.target.value);
   const handleAddBoard = async () => {
     if (inputValue.trim() !== '') {
       await api.post("https://trello-back.shpp.me/maliiev/api/v1/board", {
@@ -41,13 +33,12 @@ function BoardHome() {
 
     }
   };
-
   return (
     <div className="Home">
+      <p className="Home__header">
+        Мої дошки
+      </p>
       <div className="Home__container">
-        <p className="Home__header">
-          Мої дошки
-        </p>
         <div className="Home__items">
           {isModalOpen && (
             <div className="Home__modal-overlay">
