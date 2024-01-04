@@ -47,6 +47,7 @@ function List(_a) {
     var _c = react_1.useState(""), inputValue = _c[0], setInputValue = _c[1];
     var _d = react_1.useState(true), showButton = _d[0], setShowButton = _d[1];
     var handleInputChange = function (event) { return setInputValue(event.target.value); };
+    var closeButton = '/close.png';
     var showInputChange = function () {
         setShowButton(false);
         setShowInput(true);
@@ -92,16 +93,18 @@ function List(_a) {
         setShowInput(false);
         setShowButton(true);
     };
+    var handleEnter = function (event, callback) { return (event.key === "Enter") && callback(); };
     return (react_1["default"].createElement(react_1["default"].Fragment, null,
         react_1["default"].createElement("div", { className: "Board__list" },
             react_1["default"].createElement("p", { className: 'Board__list-title' }, title),
             react_1["default"].createElement("div", { className: "Board__list-card" },
                 cards.map(function (card) { return (react_1["default"].createElement(Card_1["default"], { id: card.id, title: card.title })); }),
                 showInput && (react_1["default"].createElement(react_1["default"].Fragment, null,
-                    react_1["default"].createElement("input", { className: 'Board__list-input', value: inputValue, onChange: handleInputChange, autoFocus: true }),
+                    react_1["default"].createElement("input", { className: 'Board__list-input', value: inputValue, onKeyDown: function (event) { handleEnter(event, postResponse); }, placeholder: "\u0412\u0432\u0435\u0434i\u0442\u044C \u043D\u0430\u0437\u0432\u0443 \u043A\u0430\u0440\u0442\u043A\u0438", onChange: handleInputChange, autoFocus: true }),
                     react_1["default"].createElement("div", { className: 'Board__add' },
                         react_1["default"].createElement("button", { className: 'Board__add-card', onClick: postResponse }, "\u0414\u043E\u0434\u0430\u0442\u0438 \u043A\u0430\u0440\u0442\u043A\u0443"),
-                        react_1["default"].createElement("button", { className: 'Board__none-card', onClick: handelCancel }, "\u0421\u043A\u0430\u0441\u0443\u0432\u0430\u0442\u0438")))),
+                        react_1["default"].createElement("button", { className: 'Board__none-card', onClick: handelCancel },
+                            react_1["default"].createElement("img", { src: closeButton, alt: "", width: "70px" }))))),
                 showButton && react_1["default"].createElement("button", { className: "Board__list-button", type: "submit", onClick: showInputChange }, "+ \u0414\u043E\u0434\u0430\u0442\u0438 \u043A\u0430\u0440\u0442\u043A\u0443")))));
 }
 exports["default"] = List;

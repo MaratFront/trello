@@ -28,6 +28,7 @@ button, input {
   text-align: center;
   align-items: center;
   font-size: 17px;
+  margin: auto;
   border-radius: 3px;
 }
 
@@ -187,7 +188,7 @@ button, input {
   right: 0;
 }
 
-.Board__list:last-child {
+.List:last-child {
   border: none;
 }
 
@@ -211,27 +212,34 @@ button, input {
   margin: 0 auto;
 }
 
-.Board__card {
+.Board__add {
   display: flex;
+  justify-items: center;
+  width: 200px;
+  margin: auto;
 }
-.Board__card .Board__add-card {
+.Board__add .Board__add-card {
   background: #0303a1;
   text-align: center;
+  border: none;
 }
-.Board__card .Board__none-card {
+.Board__add .Board__none-card {
   text-align: center;
+  border: none;
+  background: none;
 }
 
-.Board__items {
+.List__items {
   display: flex;
   flex-direction: row;
 }
-.Board__items-btn {
+.List__items-btn {
   width: 130px;
   height: 40px;
   background: #0a0aa7;
+  border: none;
 }
-.Board__items-close {
+.List__items-close {
   width: 60px;
   border: none;
   background: none;

@@ -38,20 +38,48 @@
   .Home__modal-window {
     position: absolute;
     margin: auto;
-    left: 0;
-    top: 0;
+    left: 200px;
     right: 0;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
     background: #fff;
     width: 300px;
     padding: 20px;
+    height: 350px;
     border-radius: 8px;
     box-shadow: 10px 10px 10px 10px rgba(0, 0, 0, 0.2);
   }
+  .Home__modal-input {
+    width: 200px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    outline: none;
+  }
   .Home__modal-header {
+    margin: auto;
+  }
+  .Home__modal-items {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
+    justify-content: center;
+  }
+  .Home__modal-color {
+    width: 20px;
+    height: 20px;
+    border: none;
+    background: none;
+  }
+  .Home::webkit-color-swatch {
+    border-radius: 100%;
+  }
+  .Home__modal-item {
     margin-bottom: 20px;
+  }
+  .Home__modal-background {
+    font-size: 21px;
+    letter-spacing: 4px;
+    text-align: left;
   }
   .Home__modal-close {
     background: green;

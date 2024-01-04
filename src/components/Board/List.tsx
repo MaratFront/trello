@@ -7,6 +7,7 @@ interface IProps {
   id:number,
   title: string;
   cards:{id:number,title:string}[];
+  
 }
 function List({id,title, cards }: IProps) {
   //const [inputValue, setInputValue] = useState(title);
@@ -14,7 +15,7 @@ function List({id,title, cards }: IProps) {
   const [inputValue, setInputValue] = useState("");
   const [showButton,setShowButton] = useState(true);
   const handleInputChange=(event:any)=>setInputValue(event.target.value);
-  
+  const closeButton = '/close.png';
   const showInputChange=()=>{
     setShowButton(false);
     setShowInput(true)
@@ -50,7 +51,7 @@ function List({id,title, cards }: IProps) {
     setShowInput(false)
     setShowButton(true);
   };
-
+  const handleEnter=(event:any,callback:any)=>(event.key==="Enter")&&callback();
   return (
      <>
      <div className="Board__list">
@@ -62,10 +63,16 @@ function List({id,title, cards }: IProps) {
         {
         showInput &&(
           <>
-            <input className='Board__list-input' value={inputValue} onChange={handleInputChange} autoFocus/>
+            <input 
+              className='Board__list-input' 
+              value={inputValue} 
+              onKeyDown={(event)=>{handleEnter(event,postResponse)}}
+              placeholder="Введiть назву картки" 
+              onChange={handleInputChange} 
+              autoFocus/>
             <div className='Board__add'>
               <button className='Board__add-card' onClick={postResponse}>Додати картку</button>
-              <button className='Board__none-card' onClick={handelCancel}>Скасувати</button>
+              <button className='Board__none-card' onClick={handelCancel}><img src={closeButton} alt="" width="70px"/></button>
             </div>
           </>
         )

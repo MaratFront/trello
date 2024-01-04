@@ -44,11 +44,12 @@ var react_router_dom_1 = require("react-router-dom");
 ;
 function Board() {
     var _a = react_1.useState("Моя тестова дошка"), title = _a[0], setTitle = _a[1];
-    var _b = react_1.useState(false), listCreate = _b[0], setListCreate = _b[1];
-    var _c = react_1.useState(true), buttonHidden = _c[0], setButtonHidden = _c[1];
-    var _d = react_1.useState(""), inputValue = _d[0], setInputValue = _d[1];
-    var _e = react_1.useState(), boards = _e[0], setBoards = _e[1];
-    var _f = react_1.useState(1), position = _f[0], setPosition = _f[1];
+    var _b = react_1.useState("#000000"), color = _b[0], setColor = _b[1];
+    var _c = react_1.useState(false), listCreate = _c[0], setListCreate = _c[1];
+    var _d = react_1.useState(true), buttonHidden = _d[0], setButtonHidden = _d[1];
+    var _e = react_1.useState(""), inputValue = _e[0], setInputValue = _e[1];
+    var _f = react_1.useState(), boards = _f[0], setBoards = _f[1];
+    var _g = react_1.useState(1), position = _g[0], setPosition = _g[1];
     var inputRef = react_1.useRef(null);
     function handleInputChange(event) {
         setInputValue(event.target.value);
@@ -104,7 +105,7 @@ function Board() {
                             title: title,
                             custom: {
                                 description: "desc1",
-                                color: "green"
+                                color: "#000000"
                             }
                         })];
                     case 1:
@@ -113,12 +114,6 @@ function Board() {
                 }
             });
         });
-    }
-    function handleEnter(event, callback) {
-        if (event.key === "Enter") {
-            inputRef.current.blur();
-            callback();
-        }
     }
     react_1.useEffect(function () {
         function getResponse() {
@@ -133,6 +128,8 @@ function Board() {
                             response = _a.sent();
                             setBoards(response);
                             setTitle(response.title);
+                            setColor(response.custom.description);
+                            console.log(response.custom.color);
                             return [3 /*break*/, 3];
                         case 2:
                             error_2 = _a.sent();
@@ -145,9 +142,15 @@ function Board() {
         }
         getResponse();
     }, []);
-    return (react_1["default"].createElement("div", { className: "Board", onClick: putResponse },
+    function handleEnter(event, callback) {
+        if (event.key === "Enter") {
+            inputRef.current.blur();
+            callback();
+        }
+    }
+    return (react_1["default"].createElement("div", { className: "Board", onClick: putResponse, style: { background: color } },
         react_1["default"].createElement("div", { className: 'container' },
-            react_1["default"].createElement("header", { className: 'Board__header', onClick: putResponse },
+            react_1["default"].createElement("header", { className: 'Board__header' },
                 react_1["default"].createElement(react_router_dom_1.Link, { to: "/board" },
                     react_1["default"].createElement("button", { className: "Board__header-btn btn", type: "submit" }, "\u2190 \u0434\u043E\u043C\u043E\u0439")),
                 react_1["default"].createElement("input", { ref: inputRef, className: "Board__header-title", type: "text", value: title, onChange: renameBoard, onKeyDown: function (event) { return handleEnter(event, putResponse); } }),
@@ -156,13 +159,13 @@ function Board() {
                 (boards === null || boards === void 0 ? void 0 : boards.lists) ? (boards.lists.map(function (item) {
                     return (react_1["default"].createElement(List_1["default"], { id: item.id, title: item.title, cards: item.cards }));
                 })) : (react_1["default"].createElement("p", null, "Loading...")),
-                react_1["default"].createElement("div", { className: 'Board__list', draggable: "true" },
+                react_1["default"].createElement("div", { className: 'List', draggable: "true" },
                     listCreate && (react_1["default"].createElement(react_1["default"].Fragment, null,
-                        react_1["default"].createElement("input", { className: "Board__items-input", type: "text", placeholder: '\u0412\u0432\u0435\u0434i\u0442\u044C \u043D\u0430\u0437\u0432\u0443 \u0434\u043E\u0448\u043A\u0438', onChange: handleInputChange, autoFocus: true }),
-                        react_1["default"].createElement("div", { className: 'Board__items' },
-                            react_1["default"].createElement("button", { className: 'Board__items-btn', onClick: postResponse, onKeyDown: function (event) { return handleEnter(event, postResponse); } }, "\u0414\u043E\u0434\u0430\u0442\u0438 \u0441\u043F\u0438\u0441\u043E\u043A"),
-                            react_1["default"].createElement("button", { className: 'Board__items-close', onClick: handleCloseButton },
+                        react_1["default"].createElement("input", { className: "List__input", type: "text", placeholder: '\u0412\u0432\u0435\u0434i\u0442\u044C \u043D\u0430\u0437\u0432\u0443 \u0434\u043E\u0448\u043A\u0438', onChange: handleInputChange, onKeyDown: function (event) { handleEnter(event, postResponse); }, autoFocus: true }),
+                        react_1["default"].createElement("div", { className: 'List__items' },
+                            react_1["default"].createElement("button", { className: 'List__items-btn', onClick: postResponse }, "\u0414\u043E\u0434\u0430\u0442\u0438 \u0441\u043F\u0438\u0441\u043E\u043A"),
+                            react_1["default"].createElement("button", { className: 'List__items-close', onClick: handleCloseButton },
                                 react_1["default"].createElement("img", { src: closeButton, alt: "", width: "70px" }))))),
-                    buttonHidden && react_1["default"].createElement("input", { className: "Board__section-btn", type: 'submit', value: "+ \u0414\u043E\u0434\u0430\u0442\u0438 \u0441\u043F\u0438\u0441\u043E\u043A", onClick: handleCreateButton }))))));
+                    buttonHidden && react_1["default"].createElement("input", { className: "List__btn", type: 'submit', value: "+ \u0414\u043E\u0434\u0430\u0442\u0438 \u0441\u043F\u0438\u0441\u043E\u043A", onClick: handleCreateButton }))))));
 }
 exports["default"] = Board;

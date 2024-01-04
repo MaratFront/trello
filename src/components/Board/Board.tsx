@@ -29,6 +29,7 @@ interface BoardType{
 };
 function Board() {
   const [title, setTitle] = useState("Моя тестова дошка");
+  const [color, setColor] = useState("#000000");
   const [listCreate, setListCreate] = useState(false);
   const [buttonHidden, setButtonHidden] = useState(true);
   const [inputValue, setInputValue] = useState("");
@@ -71,15 +72,9 @@ function Board() {
         title: title,
         custom: {
           description: "desc1",
-          color: "green"
+          color: "#000000",
         }
     })
-  }
-  function handleEnter(event:any, callback){
-    if(event.key==="Enter"){
-      inputRef.current.blur();
-      callback();
-    }
   }
 useEffect(() => {
   async function getResponse() {
@@ -87,25 +82,35 @@ useEffect(() => {
      const response:any = await api.get(`https://trello-back.shpp.me/maliiev/api/v1/board/${id}`);
       setBoards(response);
       setTitle(response.title);
+      setColor(response.custom.description);
+      console.log(response.custom.color);
     } catch (error) {
       console.error("Ошибка при получении данных о доске:", error);
     }
   }
   getResponse();
 }, []);
+  function handleEnter(event:any,callback:any) {
+    if(event.key==="Enter"){
+      inputRef.current.blur();
+      callback();
+    }
+  }
   return (
-    <div className="Board" onClick={putResponse}>
+    <div className="Board" onClick={putResponse} style={{background:color}}>
       <div className='container'>
-        <header className='Board__header' onClick={putResponse}>
+        <header className='Board__header'>
           <Link to="/board">
             <button className="Board__header-btn btn" type="submit">&#8592; домой</button>
           </Link>  
           <input 
             ref={inputRef}
-            className="Board__header-title" type="text" 
+            className="Board__header-title" 
+            type="text" 
             value={title} 
             onChange={renameBoard} 
-            onKeyDown={(event)=>handleEnter(event,putResponse)} 
+            onKeyDown={(event)=>handleEnter(event,putResponse)}
+
             />
           <div className='Board__header-block'></div>
         </header>
@@ -120,18 +125,24 @@ useEffect(() => {
               <p>Loading...</p>
               ) 
             }
-          <div className='Board__list' draggable="true">
+          <div className='List' draggable="true">
             {listCreate&&(
               <>
-              <input className="Board__items-input" type="text" placeholder='Введiть назву дошки' onChange={handleInputChange} autoFocus/>
-              <div className='Board__items'>
-                <button className='Board__items-btn' onClick={postResponse} onKeyDown={(event)=>handleEnter(event,postResponse)}>Додати список</button> 
-                <button className='Board__items-close' onClick={handleCloseButton}><img src={closeButton} alt="" width="70px"/></button> 
+              <input 
+                className="List__input" 
+                type="text" 
+                placeholder='Введiть назву дошки' 
+                onChange={handleInputChange}
+                onKeyDown={(event)=>{handleEnter(event,postResponse)}} 
+                autoFocus/>
+              <div className='List__items'>
+                <button className='List__items-btn' onClick={postResponse}>Додати список</button> 
+                <button className='List__items-close' onClick={handleCloseButton}><img src={closeButton} alt="" width="70px"/></button> 
               </div>
               </>
             )}
             
-            {buttonHidden&&<input className="Board__section-btn" type='submit' value="+ Додати список" onClick={handleCreateButton}/>}
+            {buttonHidden&&<input className="List__btn" type='submit' value="+ Додати список" onClick={handleCreateButton}/>}
           </div>
         </section>
       </div>

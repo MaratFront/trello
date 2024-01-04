@@ -9,20 +9,22 @@ import Board from '../Board/Board';
 function BoardHome() {
   const [homeItems, setHomeItems] = useState({});
   const [inputValue, setInputValue] = useState('');
+  const [color, setColor] = useState('#00ff00');
   const [isModalOpen, setIsModalOpen] = useState(false);
   const openModal = () => setIsModalOpen(true);
   const closeModalOk = () => {
     setIsModalOpen(false);
     setInputValue('');
   };
-  const OneCardCreated=(newBoard:object) => {setHomeItems(newBoard); console.log(newBoard);}
+  const OneCardCreated=(newBoard:object) => setHomeItems(newBoard);
   const handleInputChange = (event: any) => setInputValue(event.target.value);
+  const handleInputColor=(event:any)=>setColor(event.target.value);
   const handleAddBoard = async () => {
     if (inputValue.trim() !== '') {
       await api.post("https://trello-back.shpp.me/maliiev/api/v1/board", {
         title: inputValue,
         custom: {
-          description: `#61dafb`
+          description: color,
         }
       });
       try {
@@ -45,16 +47,25 @@ function BoardHome() {
               <div className="Home__modal-window">
                 <div className="Home__modal-header">
                 <input
-                  className='Home__modal-input'
+                  className='Home__modal-item Home__modal-input'
                   placeholder="Введiть назву дошки"
                   type="text"
                   value={inputValue}
                   onChange={handleInputChange}
                   autoFocus
-              />
-                  <button className='Home__modal-button' onClick={handleAddBoard}>Додати дошку</button>
+                />
+                <div className='Home__modal-items'>                
+                    <p>колiр фону:</p>
+                    <input 
+                    className="Home__modal-item Home__modal-color" 
+                    type="color" 
+                    value={color} 
+                    onChange={handleInputColor}
+                    />
                 </div>
-                <input type="button" className="Home__modal-close" value="Вийти" onClick={closeModalOk} />
+                <button className='Home__modal-item Home__modal-button' onClick={handleAddBoard}>Додати дошку</button>
+                <input className="Home__modal-close" type="button"  value="Вийти" onClick={closeModalOk} />
+                </div>
               </div>
             </div>
           )}
