@@ -38,25 +38,21 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 exports.__esModule = true;
 var react_1 = require("react");
 require("../../stylesBoard/board.css");
-var List_1 = require("./List");
 var request_1 = require("../../api/request");
 var react_router_dom_1 = require("react-router-dom");
+var RenameBoard_1 = require("./RenameBoard");
+var CreateBoard_1 = require("./CreateBoard");
 ;
 function Board() {
     var _a = react_1.useState("Моя тестова дошка"), title = _a[0], setTitle = _a[1];
-    var _b = react_1.useState("#000000"), color = _b[0], setColor = _b[1];
+    var _b = react_1.useState("0"), color = _b[0], setColor = _b[1];
     var _c = react_1.useState(false), listCreate = _c[0], setListCreate = _c[1];
     var _d = react_1.useState(true), buttonHidden = _d[0], setButtonHidden = _d[1];
     var _e = react_1.useState(""), inputValue = _e[0], setInputValue = _e[1];
     var _f = react_1.useState(), boards = _f[0], setBoards = _f[1];
     var _g = react_1.useState(1), position = _g[0], setPosition = _g[1];
     var inputRef = react_1.useRef(null);
-    function handleInputChange(event) {
-        setInputValue(event.target.value);
-    }
-    function renameBoard(event) {
-        setTitle(event.target.value);
-    }
+    var handleInputChange = function (event) { return setInputValue(event.target.value); };
     function handleCreateButton() {
         setListCreate(true);
         setButtonHidden(false);
@@ -86,79 +82,42 @@ function Board() {
                         _a.sent();
                         setListCreate(false);
                         setInputValue("");
+                        setButtonHidden(true);
                         _a.label = 3;
                     case 3: return [3 /*break*/, 5];
                     case 4:
                         error_1 = _a.sent();
-                        console.error("Ошибка при добавлении списка:", error_1);
                         return [3 /*break*/, 5];
                     case 5: return [2 /*return*/];
                 }
             });
         });
     }
-    function putResponse() {
-        return __awaiter(this, void 0, void 0, function () {
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, request_1["default"].put("https://trello-back.shpp.me/maliiev/api/v1/board/" + id, {
-                            title: title,
-                            custom: {
-                                description: "desc1",
-                                color: "#000000"
-                            }
-                        })];
-                    case 1:
-                        _a.sent();
-                        return [2 /*return*/];
-                }
-            });
-        });
-    }
-    react_1.useEffect(function () {
-        function getResponse() {
-            return __awaiter(this, void 0, void 0, function () {
-                var response, error_2;
-                return __generator(this, function (_a) {
-                    switch (_a.label) {
-                        case 0:
-                            _a.trys.push([0, 2, , 3]);
-                            return [4 /*yield*/, request_1["default"].get("https://trello-back.shpp.me/maliiev/api/v1/board/" + id)];
-                        case 1:
-                            response = _a.sent();
-                            setBoards(response);
-                            setTitle(response.title);
-                            setColor(response.custom.description);
-                            console.log(response.custom.color);
-                            return [3 /*break*/, 3];
-                        case 2:
-                            error_2 = _a.sent();
-                            console.error("Ошибка при получении данных о доске:", error_2);
-                            return [3 /*break*/, 3];
-                        case 3: return [2 /*return*/];
-                    }
-                });
-            });
-        }
-        getResponse();
-    }, []);
+    var OneCardCreated = function (newBoard) { return setBoards(newBoard); };
+    var OnePutRequest = function (newRequest) { return setTitle(newRequest); };
     function handleEnter(event, callback) {
         if (event.key === "Enter") {
-            inputRef.current.blur();
             callback();
         }
     }
-    return (react_1["default"].createElement("div", { className: "Board", onClick: putResponse, style: { background: color } },
+    function progresBar() {
+        request_1["default"].interceptors.request.use(function (response) {
+            // Do something before request is sent
+            return response;
+        }, function (error) {
+            // Do something with request error
+            return Promise.reject(error);
+        });
+    }
+    return (react_1["default"].createElement("div", { className: "Board", style: { background: color } },
         react_1["default"].createElement("div", { className: 'container' },
             react_1["default"].createElement("header", { className: 'Board__header' },
                 react_1["default"].createElement(react_router_dom_1.Link, { to: "/board" },
                     react_1["default"].createElement("button", { className: "Board__header-btn btn", type: "submit" }, "\u2190 \u0434\u043E\u043C\u043E\u0439")),
-                react_1["default"].createElement("input", { ref: inputRef, className: "Board__header-title", type: "text", value: title, onChange: renameBoard, onKeyDown: function (event) { return handleEnter(event, putResponse); } }),
+                react_1["default"].createElement(RenameBoard_1["default"], { OnePutRequest: OnePutRequest }),
                 react_1["default"].createElement("div", { className: 'Board__header-block' })),
             react_1["default"].createElement("section", { className: 'Board__section' },
-                (boards === null || boards === void 0 ? void 0 : boards.lists) ? (boards.lists.map(function (item) {
-                    return (react_1["default"].createElement(List_1["default"], { id: item.id, title: item.title, cards: item.cards }));
-                })) : (react_1["default"].createElement("p", null, "Loading...")),
+                react_1["default"].createElement(CreateBoard_1["default"], { OneCardCreated: OneCardCreated }),
                 react_1["default"].createElement("div", { className: 'List', draggable: "true" },
                     listCreate && (react_1["default"].createElement(react_1["default"].Fragment, null,
                         react_1["default"].createElement("input", { className: "List__input", type: "text", placeholder: '\u0412\u0432\u0435\u0434i\u0442\u044C \u043D\u0430\u0437\u0432\u0443 \u0434\u043E\u0448\u043A\u0438', onChange: handleInputChange, onKeyDown: function (event) { handleEnter(event, postResponse); }, autoFocus: true }),

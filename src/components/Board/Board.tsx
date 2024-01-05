@@ -1,9 +1,14 @@
-import React, { useState, useEffect,useRef } from 'react';
+import React, { useState, useEffect,useRef, ChangeEvent } from 'react';
 import '../../stylesBoard/board.css';
 import List from './List';
 import api from '../../api/request';
+import { ErrorBoundary } from 'react-error-boundary';
+import CreateBoard from './CreateBoard';
 import {Link} from "react-router-dom"
 import dragOnDrop from './dragOnDrop';
+import RenameBoard from './RenameBoard';
+import { AxiosResponse } from 'axios';
+import CreaeteBoard from './CreateBoard';
 interface BoardType{
   title:string,
   custom:{
@@ -29,19 +34,15 @@ interface BoardType{
 };
 function Board() {
   const [title, setTitle] = useState("Моя тестова дошка");
-  const [color, setColor] = useState("#000000");
+  const [color, setColor] = useState("0");
   const [listCreate, setListCreate] = useState(false);
   const [buttonHidden, setButtonHidden] = useState(true);
   const [inputValue, setInputValue] = useState("");
   const [boards, setBoards] = useState<BoardType>();
   const [position, setPosition] = useState(1);
   const inputRef=useRef(null);
-  function handleInputChange(event:any) {
-    setInputValue(event.target.value);
-  }
-  function renameBoard(event:any) {
-    setTitle(event.target.value);
-  }
+  const handleInputChange=(event:ChangeEvent<HTMLInputElement>)=>setInputValue(event.target.value);
+  
   function handleCreateButton(){
     setListCreate(true);
     setButtonHidden(false);
@@ -62,69 +63,42 @@ function Board() {
         });
         setListCreate(false);
         setInputValue("");
+        setButtonHidden(true);
     }
     } catch (error) {
-      console.error("Ошибка при добавлении списка:", error);
+
     }
   }
-  async function putResponse(){
-    await api.put(`https://trello-back.shpp.me/maliiev/api/v1/board/${id}`,{
-        title: title,
-        custom: {
-          description: "desc1",
-          color: "#000000",
-        }
-    })
-  }
-useEffect(() => {
-  async function getResponse() {
-    try {
-     const response:any = await api.get(`https://trello-back.shpp.me/maliiev/api/v1/board/${id}`);
-      setBoards(response);
-      setTitle(response.title);
-      setColor(response.custom.description);
-      console.log(response.custom.color);
-    } catch (error) {
-      console.error("Ошибка при получении данных о доске:", error);
-    }
-  }
-  getResponse();
-}, []);
-  function handleEnter(event:any,callback:any) {
+  
+  const OneCardCreated=(newBoard:BoardType)=>setBoards(newBoard);
+  const OnePutRequest=(newRequest:string)=>setTitle(newRequest);
+  function handleEnter(event:any,callback:()=>void) {
     if(event.key==="Enter"){
-      inputRef.current.blur();
       callback();
     }
   }
+  function progresBar(){
+    api.interceptors.request.use((response)=> {
+      // Do something before request is sent
+      return response;
+    }, function (error) {
+      // Do something with request error
+      return Promise.reject(error);
+    });
+  }
+  
   return (
-    <div className="Board" onClick={putResponse} style={{background:color}}>
+    <div className="Board" style={{background:color}}>
       <div className='container'>
         <header className='Board__header'>
           <Link to="/board">
             <button className="Board__header-btn btn" type="submit">&#8592; домой</button>
           </Link>  
-          <input 
-            ref={inputRef}
-            className="Board__header-title" 
-            type="text" 
-            value={title} 
-            onChange={renameBoard} 
-            onKeyDown={(event)=>handleEnter(event,putResponse)}
-
-            />
+          <RenameBoard OnePutRequest={OnePutRequest}/>
           <div className='Board__header-block'></div>
         </header>
         <section className='Board__section'>
-            {boards?.lists?(
-              boards.lists.map((item:any)=>{
-                return (
-                    <List id={item.id} title={item.title} cards={item.cards}/>
-                );  
-              })
-              ):(
-              <p>Loading...</p>
-              ) 
-            }
+          <CreaeteBoard OneCardCreated={OneCardCreated} />
           <div className='List' draggable="true">
             {listCreate&&(
               <>
@@ -150,4 +124,4 @@ useEffect(() => {
   );
 }
 
-export default Board;
+export default Board;       

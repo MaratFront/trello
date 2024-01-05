@@ -36,15 +36,43 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
-var request_1 = require("../../api/request");
 var react_1 = require("react");
 var react_2 = require("react");
+var request_1 = require("../../api/request");
 ;
-function CreateList(_a) {
-    var OneListCreated = _a.OneListCreated;
-    var id = window.location.pathname.split('/').pop();
-    var _b = react_2.useState(), boards = _b[0], setBoards = _b[1];
+function RenameBoard(_a) {
+    var OnePutRequest = _a.OnePutRequest;
+    var _b = react_2.useState("Моя тестова дошка"), title = _b[0], setTitle = _b[1];
+    var inputRef = react_2.useRef(null);
+    var id = window.location.pathname.split("/").pop();
+    var renameBoard = function (event) { return setTitle(event.target.value); };
+    function handleEnter(event, callback) {
+        if (event.key === "Enter") {
+            inputRef.current.blur();
+            callback();
+        }
+    }
+    function putResponse() {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, request_1["default"].put("https://trello-back.shpp.me/maliiev/api/v1/board/" + id, {
+                            title: title,
+                            custom: {
+                                description: "desc1",
+                                color: "#000000"
+                            }
+                        })];
+                    case 1:
+                        _a.sent();
+                        return [2 /*return*/];
+                }
+            });
+        });
+    }
     react_2.useEffect(function () {
+        OnePutRequest(getResponse);
+        console.log(OnePutRequest);
         function getResponse() {
             return __awaiter(this, void 0, void 0, function () {
                 var response, error_1;
@@ -55,7 +83,7 @@ function CreateList(_a) {
                             return [4 /*yield*/, request_1["default"].get("https://trello-back.shpp.me/maliiev/api/v1/board/" + id)];
                         case 1:
                             response = _a.sent();
-                            setBoards(response);
+                            setTitle(response.title);
                             return [3 /*break*/, 3];
                         case 2:
                             error_1 = _a.sent();
@@ -66,8 +94,7 @@ function CreateList(_a) {
                 });
             });
         }
-        getResponse();
     }, []);
-    return (react_1["default"].createElement("div", null));
+    return (react_1["default"].createElement("input", { ref: inputRef, className: "Board__header-title", type: "text", value: title, onChange: renameBoard, onKeyDown: function (event) { return handleEnter(event, putResponse); } }));
 }
-exports["default"] = CreateList;
+exports["default"] = RenameBoard;

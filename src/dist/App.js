@@ -1,8 +1,6 @@
 "use strict";
 exports.__esModule = true;
 var react_1 = require("react");
-require("./App.css");
-require("./App.css");
 var react_router_dom_1 = require("react-router-dom");
 var Board_1 = require("./components/Board/Board");
 var BoardHome_1 = require("./components/Home/BoardHome");

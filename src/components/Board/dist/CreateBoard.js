@@ -36,15 +36,19 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
-var request_1 = require("../../api/request");
 var react_1 = require("react");
 var react_2 = require("react");
+var request_1 = require("../../api/request");
+var List_1 = require("./List");
 ;
-function CreateList(_a) {
-    var OneListCreated = _a.OneListCreated;
-    var id = window.location.pathname.split('/').pop();
+function CreateBoard(_a) {
+    var OneCardCreated = _a.OneCardCreated;
     var _b = react_2.useState(), boards = _b[0], setBoards = _b[1];
+    var _c = react_2.useState("0"), color = _c[0], setColor = _c[1];
+    var _d = react_2.useState("Моя тестова дошка"), title = _d[0], setTitle = _d[1];
+    var id = window.location.pathname.split("/").pop();
     react_2.useEffect(function () {
+        OneCardCreated(getResponse);
         function getResponse() {
             return __awaiter(this, void 0, void 0, function () {
                 var response, error_1;
@@ -56,6 +60,9 @@ function CreateList(_a) {
                         case 1:
                             response = _a.sent();
                             setBoards(response);
+                            // setTitle(response.title);
+                            // setColor(response.custom.description);
+                            console.log(response);
                             return [3 /*break*/, 3];
                         case 2:
                             error_1 = _a.sent();
@@ -66,8 +73,9 @@ function CreateList(_a) {
                 });
             });
         }
-        getResponse();
     }, []);
-    return (react_1["default"].createElement("div", null));
+    return (react_1["default"].createElement(react_1["default"].Fragment, null, (boards === null || boards === void 0 ? void 0 : boards.lists) ? (boards.lists.map(function (item) {
+        return (react_1["default"].createElement(List_1["default"], { id: item.id, title: item.title, cards: item.cards }));
+    })) : (react_1["default"].createElement("p", null, "Loading..."))));
 }
-exports["default"] = CreateList;
+exports["default"] = CreateBoard;
