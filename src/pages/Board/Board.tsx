@@ -36,6 +36,9 @@ const Board = () => {
       },
     });
   }
+  const addNewList = (e: any) => {
+    e.preventDefault();
+  };
   React.useEffect(() => {
     async function getResponse() {
       try {

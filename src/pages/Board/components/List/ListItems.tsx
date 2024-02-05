@@ -3,7 +3,7 @@ interface IlistItems {
   handleInputChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   handleEnter: any;
   handleCloseButton: () => void;
-  postRequestList: () => Promise<void>;
+  postRequestList: () => Promise<void> | void;
   listInputColorBorder: boolean;
 }
 export default function ListItems({
