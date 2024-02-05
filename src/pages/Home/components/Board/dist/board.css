@@ -1,0 +1,263 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: "Pangolin";
+  letter-spacing: 1px;
+  word-spacing: 2px;
+  text-decoration: none;
+}
+
+a {
+  color: black;
+}
+
+.container {
+  margin: 30px 110px 0 110px;
+}
+
+button,
+input {
+  cursor: pointer;
+  border: 1px solid black;
+  height: 40px;
+  width: 200px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  text-align: center;
+  align-items: center;
+  font-size: 17px;
+  margin: auto;
+  border-radius: 3px;
+}
+
+.Board__header {
+  display: flex;
+  flex-direction: row;
+}
+.Board__header-title {
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  margin: 0 auto;
+}
+.Board__header-block {
+  width: 95px;
+  height: 35px;
+}
+.Board__header-btn {
+  width: 95px;
+  height: 35px;
+}
+
+.Board__section {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  margin-top: 30px;
+  height: 450px;
+}
+
+.Board__list {
+  border: 1px solid black;
+  border-radius: 3px;
+  width: 230px;
+}
+.Board__list-title {
+  border: none;
+  background: none;
+  height: 25px;
+  margin: 20px auto;
+  text-align: center;
+  width: 200px;
+  left: 0;
+  right: 0;
+}
+
+.Board__list:last-child {
+  border: none;
+}
+
+.Board__card-title {
+  border: 1px solid black;
+  width: 200px;
+  padding-left: 8px;
+  display: flex;
+  align-items: center;
+  margin: 10px auto;
+  height: 40px;
+}
+
+.Board__list-button {
+  margin: 10px auto;
+  left: 0;
+  right: 0;
+}
+
+.Board__list-input {
+  margin: 0 auto;
+}
+
+.Board__card {
+  display: flex;
+}
+.Board__card .Board__add-card {
+  background: #0303a1;
+  text-align: center;
+}
+.Board__card .Board__none-card {
+  text-align: center;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: "Pangolin";
+  font-size: 19px;
+  letter-spacing: 1px;
+  word-spacing: 2px;
+  text-decoration: none;
+}
+
+a {
+  color: black;
+}
+
+.container {
+  margin: 30px 110px 0 110px;
+}
+
+button,
+input {
+  cursor: pointer;
+  border: 1px solid black;
+  height: 40px;
+  width: 200px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  text-align: center;
+  align-items: center;
+  font-size: 17px;
+  border-radius: 3px;
+}
+
+.Board__header {
+  display: flex;
+  flex-direction: row;
+}
+.Board__header-title {
+  text-align: center;
+  display: flex;
+  border: none;
+  background: none;
+  justify-content: center;
+  margin: 0 auto;
+}
+.Board__header-block {
+  width: 95px;
+  height: 35px;
+}
+.Board__header-btn {
+  width: 95px;
+  height: 35px;
+}
+
+.Board__section {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  margin-top: 30px;
+  height: 450px;
+}
+
+.Board__list {
+  border: 1px solid black;
+  border-radius: 3px;
+  width: 230px;
+}
+.Board__list-title {
+  border: none;
+  background: none;
+  height: 25px;
+  margin: 20px auto;
+  text-align: center;
+  width: 200px;
+  left: 0;
+  right: 0;
+}
+
+.List:last-child {
+  border: none;
+}
+
+.Board__card-title {
+  border: 1px solid black;
+  width: 200px;
+  padding-left: 8px;
+  display: flex;
+  align-items: center;
+  margin: 10px auto;
+  height: 40px;
+}
+
+.Board__list-button {
+  margin: 10px auto;
+  left: 0;
+  right: 0;
+}
+
+.Board__list-input {
+  margin: 0 auto;
+}
+
+.Board__add {
+  display: flex;
+  justify-items: center;
+  width: 200px;
+  margin: auto;
+}
+.Board__add .Board__add-card {
+  background: #0303a1;
+  text-align: center;
+  border: none;
+}
+.Board__add .Board__none-card {
+  text-align: center;
+  border: none;
+  background: none;
+}
+
+.List__items {
+  display: flex;
+  flex-direction: row;
+}
+.List__items-btn {
+  width: 130px;
+  height: 40px;
+  background: #0a0aa7;
+  border: none;
+}
+.List__items-close {
+  width: 60px;
+  border: none;
+  background: none;
+}
+
+.Error {
+  margin: auto;
+  text-align: center;
+  height: 100svh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 5px;
+}
+.Error__title {
+  font-size: 60px;
+}
+.Error__text {
+  font-size: 50px;
+}
