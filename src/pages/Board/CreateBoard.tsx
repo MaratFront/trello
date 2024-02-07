@@ -5,11 +5,7 @@ import api from "../../api/request";
 import ListItems from "./components/List/ListItems";
 import useAxios from "./components/CustomHooks/useAxios";
 import List from "./components/List/List";
-import ICard from "../../common/interfaces/ICard";
-interface IProps {
-  OneListCreated: (newList: any) => void;
-}
-export default function CreateBoard({ OneListCreated }: IProps) {
+export default function CreateBoard() {
   const [boards, setBoards] = useState<any>();
   //состояние которое отвечает за показ элементов которые пояляются при нажатии на кнопку "додати список"
   const [showListItems, setShowListItems] = useState(false);
@@ -46,39 +42,59 @@ export default function CreateBoard({ OneListCreated }: IProps) {
   }
   const apiUrl = process.env.REACT_APP_API_URL;
   const id = useParams();
-  // async function postRequestList() {
-  //   setListPosition(listPosition + 1);
-  //   try {
-  //     if (inputValue.trim() !== "") {
-  //       await api.post(`${apiUrl}/board/${id.board_id}/list`, {
-  //         title: inputValue,
-  //         position: listPosition,
-  //       });
-  //       setShowListItems(false);
-  //       setShowButtonWhichCreateListItems(true);
-  //       const newData = [
-  //         {
-  //           title: inputValue,
-  //           position: listPosition,
-  //         },
-  //       ];
-  //       // OneListCreated((prevData: any) => [...prevData, newData]);
-  //     }
-  //     return setListInputColorBorder(true);
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // }
-  const postRequestList = () => {
-    const newList = {
-      title: inputValue,
-      position: listPosition,
-    };
-    setBoards(newList);
-    OneListCreated(boards);
-  };
+  async function postRequestList() {
+    setShowButtonWhichCreateListItems(true);
+    setListPosition(listPosition + 1);
+    try {
+      if (inputValue.trim() !== "") {
+        await api.post(`${apiUrl}/board/${id.board_id}/list`, {
+          title: inputValue,
+          position: listPosition,
+        });
+        setShowListItems(false);
+        const newList = [
+          {
+            id: id.board_id,
+            title: inputValue,
+            cards: [
+              {
+                id: id.board_id,
+                title: "to buy a cat",
+                color: "green",
+                description: "dfdf",
+                custom: {
+                  deadline: "2022-09-01",
+                },
+                users: [1],
+                created_at: 1662016083025,
+              },
+            ],
+          },
+        ];
+
+        setBoards(newList);
+        //setBoards((prevData: any) => [...prevData, newList]);-нерабочий код с ошибкой
+      }
+      return setListInputColorBorder(true);
+    } catch (error) {
+      console.log(error);
+    }
+  }
   return (
     <>
+      {boards &&
+        boards
+          .sort((a: number, b: number) => a - b)
+          .map((item: any) => {
+            return (
+              <List
+                key={item.id}
+                id={item.id}
+                title={item.title}
+                cards={item.cards}
+              />
+            );
+          })}
       <div className="List" draggable="true">
         {showButtonWhichCreateListItems && (
           <input

@@ -8,12 +8,12 @@ import ICard from "../../common/interfaces/ICard";
 import List from "./components/List/List";
 const Board = () => {
   const [color, setColor] = useState<any>(null);
-  const [boards, setBoards] = useState<any>();
+  const [boards, setBoards] = useState([]);
   const { bind, inputValue, setInputValue } = useInput("");
   const inputRef = useRef<HTMLInputElement | null>(null);
   const changeBackground = (event: React.ChangeEvent<HTMLInputElement>) =>
     setColor(event.target.value);
-  const OneListCreated = (newList: any) => setBoards(newList);
+  // const OneListCreated = (newList: any) => console.log(newList);
   const apiUrl = process.env.REACT_APP_API_URL;
   const id = useParams();
   function handleEnter(
@@ -36,16 +36,13 @@ const Board = () => {
       },
     });
   }
-  const addNewList = (e: any) => {
-    e.preventDefault();
-  };
   React.useEffect(() => {
     async function getResponse() {
       try {
         const response: any = await api.get(`${apiUrl}/board/${id.board_id}`);
         setInputValue(response.title);
         setColor(response.custom.color);
-        setBoards(response);
+        setBoards(response.lists);
       } catch (error: any) {
         throw new Error(error);
       }
@@ -83,9 +80,9 @@ const Board = () => {
           </div>
         </header>
         <section className="Board__section">
-          {boards?.lists &&
-            boards.lists
-              .sort((a: any, b: any) => a - b)
+          {boards &&
+            boards
+              .sort((a: number, b: number) => a - b)
               .map((item: any) => {
                 return (
                   <List
@@ -96,7 +93,7 @@ const Board = () => {
                   />
                 );
               })}
-          <CreaeteBoard OneListCreated={OneListCreated} />
+          <CreaeteBoard />
         </section>
       </div>
     </div>
