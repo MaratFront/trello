@@ -1,11 +1,10 @@
 import "./pages/Home/home.css";
 import React, { useState } from "react";
-import logo from "./logo.svg";
 import "./App.css";
 import Board from "./pages/Board/Board";
 import Home from "./pages/Home/Home";
 import instance from "./api/request";
-import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 function App() {
   const [error, setError] = useState("");
   const [errorFlag, setErrorFlag] = useState(true);

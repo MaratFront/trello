@@ -3,12 +3,15 @@ import { useState, useEffect, useRef } from "react";
 import { useParams } from "react-router-dom";
 import api from "../../api/request";
 import ListItems from "./components/List/ListItems";
-import useAxios from "./components/CustomHooks/useAxios";
 import List from "./components/List/List";
-export default function CreateBoard() {
-  const [boards, setBoards] = useState<any>();
+interface ICard {
+  OneBoardCreated: (newBoard: any) => void;
+}
+export default function CreateBoard({ OneBoardCreated }: ICard) {
+  const [boards, setBoards] = useState<any>([]);
   //состояние которое отвечает за показ элементов которые пояляются при нажатии на кнопку "додати список"
   const [showListItems, setShowListItems] = useState(false);
+  const [cardId, setCardId] = useState();
   // состояние отвечающее за создание списка которое используется в кастомном хуке CustomHooks/useAxios.ts
   /*состояние кнопки, при нажатии на которую появляються 
   элементы которые я описал выше,а сама кнопка пропадает.*/
@@ -52,49 +55,64 @@ export default function CreateBoard() {
           position: listPosition,
         });
         setShowListItems(false);
-        const newList = [
-          {
-            id: id.board_id,
-            title: inputValue,
-            cards: [
-              {
-                id: id.board_id,
-                title: "to buy a cat",
-                color: "green",
-                description: "dfdf",
-                custom: {
-                  deadline: "2022-09-01",
-                },
-                users: [1],
-                created_at: 1662016083025,
-              },
-            ],
-          },
-        ];
-
-        setBoards(newList);
-        //setBoards((prevData: any) => [...prevData, newList]);-нерабочий код с ошибкой
       }
       return setListInputColorBorder(true);
     } catch (error) {
       console.log(error);
     }
+    OneBoardCreated(boards);
   }
+  function createList() {
+    const newBoard = [
+      {
+        id: id.board_id,
+        title: inputValue,
+        cards: [
+          {
+            id: 1,
+            title: "to buy a cat",
+            color: "green",
+            description: "dfdf",
+            custom: {
+              deadline: "2022-09-01",
+            },
+            users: [1],
+            created_at: 1662016083025,
+          },
+        ],
+      },
+    ];
+    postRequestList();
+    setListPosition(listPosition + 1);
+    setBoards((board) => [...board, ...newBoard]);
+  }
+  React.useEffect(() => {
+    OneBoardCreated(getResponse);
+    async function getResponse() {
+      try {
+        const response: any = await api.get(`${apiUrl}/board/${id.board_id}`);
+        // setInputValue(response.title);
+        // setColor(response.custom.color);
+        setBoards(response.lists);
+      } catch (error: any) {
+        throw new Error(error);
+      }
+    }
+  }, []);
   return (
     <>
-      {boards &&
-        boards
-          .sort((a: number, b: number) => a - b)
-          .map((item: any) => {
-            return (
-              <List
-                key={item.id}
-                id={item.id}
-                title={item.title}
-                cards={item.cards}
-              />
-            );
-          })}
+      {boards
+        .sort((a: number, b: number) => a - b)
+        .map((item: any) => {
+          return (
+            <List
+              key={item.id}
+              id={item.id}
+              title={item.title}
+              cards={item.cards}
+            />
+          );
+        })}
       <div className="List" draggable="true">
         {showButtonWhichCreateListItems && (
           <input
@@ -109,7 +127,7 @@ export default function CreateBoard() {
             handleInputChange={handleInputChange}
             handleEnter={handleEnter}
             handleCloseButton={handleCloseButton}
-            postRequestList={postRequestList}
+            postRequestList={createList}
             listInputColorBorder={listInputColorBorder}
           />
         )}
