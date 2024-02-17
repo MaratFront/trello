@@ -6,9 +6,9 @@ interface IHome {
     background: string;
   };
 }
-function Board({ title, custom }: IHome) {
+function Board({ id, title, custom }: IHome) {
   return (
-    <div className="Home__item" style={{ background: custom.background }}>
+    <div className="Home__item">
       <p className="Home__title">{title}</p>
     </div>
   );

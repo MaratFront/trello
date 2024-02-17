@@ -6,15 +6,15 @@ import { useParams } from "react-router-dom";
 import useInput from "../CustomHooks/useInput";
 import Card from "../Card/Card";
 interface IProps {
-  id: number;
+  id: number | string;
   title: string;
   cards: { id: number; title: string }[];
 }
 function List({ id, title, cards }: IProps) {
   const [position, setPosition] = useState(0);
   const [showInput, setShowInput] = useState(false);
-  const [cardId, setCardId] = useState(id);
   const { bind, inputValue, setInputValue } = useInput("");
+  const [card, setCard] = useState<any>([]);
   const [showButton, setShowButton] = useState(true);
   const closeButton = "/close.png";
   const showInputChange = () => {
@@ -27,6 +27,22 @@ function List({ id, title, cards }: IProps) {
     callback: () => void
   ) => event.key === "Enter" && callback();
   const apiUrl = process.env.REACT_APP_API_URL;
+  function createList() {
+    const createCard: ICard[] = [
+      {
+        id: id,
+        title: inputValue,
+        color: "green",
+        description: "dfdf",
+        custom: {
+          deadline: "2022-09-01",
+        },
+        users: [1],
+        created_at: 1662016083025,
+      },
+    ];
+    setCard((prevCard: any) => [...prevCard, ...createCard]);
+  }
   async function postResponseCard() {
     setPosition(position + 1);
     try {
@@ -40,6 +56,7 @@ function List({ id, title, cards }: IProps) {
             deadline: "2022-08-31 12:00",
           },
         });
+        createList();
         setShowButton(true);
         setInputValue("");
         setShowInput(false);
@@ -62,6 +79,9 @@ function List({ id, title, cards }: IProps) {
   return (
     <div className="Board__list">
       <p className="Board__list-title">{title}</p>
+      {card.map((card: any) => (
+        <Card key={card.id} id={card.id} title={card.title} />
+      ))}
       {cards.map((card) => (
         <Card key={card.id} id={card.id} title={card.title} />
       ))}

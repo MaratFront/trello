@@ -34,6 +34,9 @@ function App() {
       return Promise.reject(error);
     }
   );
+  function reloadWindow() {
+    window.location.reload();
+  }
   return (
     <>
       {errorFlag ? (
@@ -44,7 +47,12 @@ function App() {
           </Routes>
         </BrowserRouter>
       ) : (
-        <p className="Error">{error}</p>
+        <div className="Error">
+          <p>{error}</p>
+          <button className="Error__button" onClick={reloadWindow}>
+            Reset
+          </button>
+        </div>
       )}
       {progress && (
         <div className="progress-container">

@@ -2,15 +2,14 @@ import React from "react";
 import api from "../../../../api/request";
 import { Link } from "react-router-dom";
 import Board from "./Board";
-import useAxios from "../../../Board/components/CustomHooks/useAxios";
 import useInput from "../../../Board/components/CustomHooks/useInput";
 import { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 interface IProps {
   OneCardCreated: (newBoard: object) => void;
 }
 export default function CreateBoard({ OneCardCreated }: IProps) {
-  const [homeItems, setHomeItems] = useState({});
-  const [createBoard, setCreateBoard] = useState(false);
+  const [homeItems, setHomeItems] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { inputValue, bind, setInputValue } = useInput("");
   const openModal = () => setIsModalOpen(true);
@@ -19,10 +18,26 @@ export default function CreateBoard({ OneCardCreated }: IProps) {
     setInputValue("");
   };
   const apiUrl = process.env.REACT_APP_API_URL;
+  interface Ilist {
+    id: number;
+    result: string;
+  }
+  const createBoard = (boardId: any) => {
+    const boards = [
+      {
+        id: boardId,
+        title: inputValue,
+        custom: {
+          description: "dfdf",
+        },
+      },
+    ];
+    setHomeItems((prevBoards) => [...prevBoards, ...boards]);
+    return OneCardCreated(homeItems);
+  };
   const handleAddBoard = async () => {
-    setCreateBoard(false);
     if (inputValue.trim() !== "") {
-      await api.post(`${apiUrl}/board`, {
+      const request: Ilist = await api.post(`${apiUrl}/board`, {
         title: inputValue,
         custom: {
           description: "desc",
@@ -30,18 +45,20 @@ export default function CreateBoard({ OneCardCreated }: IProps) {
       });
       try {
         closeModalOk();
-        setCreateBoard(true);
+        createBoard(request.id);
+        console.log(request);
       } catch (error) {
         console.error("Произошла ошибка при выполнении POST-запроса:", error);
       }
     }
   };
-  const [boards] = useAxios(
-    OneCardCreated,
-    `${apiUrl}/board`,
-    homeItems,
-    createBoard
-  );
+  useEffect(() => {
+    OneCardCreated(getResponse);
+    async function getResponse() {
+      const response: any = await api.get(`${apiUrl}/board`);
+      setHomeItems(response.boards);
+    }
+  }, []);
   return (
     <>
       {isModalOpen && (
@@ -72,16 +89,16 @@ export default function CreateBoard({ OneCardCreated }: IProps) {
           </div>
         </div>
       )}
-      {Object.values(boards).map((item: any) => {
-        return item.map((itemResult: any) => (
+      {homeItems.map((itemResult: any) => {
+        return (
           <Link key={itemResult.id} to={`/board/${itemResult.id}`}>
             <Board
               id={itemResult.id}
               title={itemResult.title}
-              custom={{ background: itemResult.custom.description }}
+              custom={itemResult.custom}
             />
           </Link>
-        ));
+        );
       })}
       <button className="Home__button Home__item" onClick={openModal}>
         + Створити дошку
