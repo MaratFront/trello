@@ -27,7 +27,7 @@ function List({ id, title, cards }: IProps) {
     callback: () => void
   ) => event.key === "Enter" && callback();
   const apiUrl = process.env.REACT_APP_API_URL;
-  function createList() {
+  function createCard() {
     const createCard: ICard[] = [
       {
         id: id,
@@ -43,7 +43,7 @@ function List({ id, title, cards }: IProps) {
     ];
     setCard((prevCard: any) => [...prevCard, ...createCard]);
   }
-  async function postResponseCard() {
+  async function postRequestCard() {
     setPosition(position + 1);
     try {
       if (inputValue.trim() !== "") {
@@ -56,7 +56,7 @@ function List({ id, title, cards }: IProps) {
             deadline: "2022-08-31 12:00",
           },
         });
-        createList();
+        createCard();
         setShowButton(true);
         setInputValue("");
         setShowInput(false);
@@ -90,14 +90,14 @@ function List({ id, title, cards }: IProps) {
           <input
             className="Board__list-input"
             onKeyDown={(event) => {
-              handleEnter(event, postResponseCard);
+              handleEnter(event, postRequestCard);
             }}
             placeholder="Введiть назву картки"
             {...bind}
             autoFocus
           />
           <div className="Board__add">
-            <button className="Board__add-card" onClick={postResponseCard}>
+            <button className="Board__add-card" onClick={postRequestCard}>
               Додати картку
             </button>
             <button className="Board__none-card" onClick={handelCancel}>

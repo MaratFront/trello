@@ -6,7 +6,7 @@ import { Link, useParams } from "react-router-dom";
 import CreaeteBoard from "./CreateBoard";
 import List from "./components/List/List";
 const Board = () => {
-  const [color, setColor] = useState("");
+  const [color, setColor] = useState("#ffffff");
   const [boards, setBoards] = useState([]);
 
   const { bind, inputValue, setInputValue } = useInput("");
@@ -47,7 +47,6 @@ const Board = () => {
     }
     getResponse();
   }, []);
-  console.log(boards);
   return (
     <div className="Board" style={{ backgroundColor: color }}>
       <div className="container">
