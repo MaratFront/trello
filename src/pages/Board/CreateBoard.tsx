@@ -1,11 +1,12 @@
 import React, { ChangeEvent } from "react";
-import { useState, useEffect, useRef } from "react";
+import { useState } from "react";
 import { useParams } from "react-router-dom";
 import api from "../../api/request";
 import ListItems from "./components/List/ListItems";
 import List from "./components/List/List";
+import IBoard from "../../common/interfaces/IBoard";
 interface ICard {
-  OneBoardCreated?: (newBoard: any) => void;
+  OneBoardCreated?: (newBoard: IBoard[]) => void;
 }
 export default function CreateBoard({ OneBoardCreated }: ICard) {
   const [boards, setBoards] = useState([]);
@@ -49,7 +50,7 @@ export default function CreateBoard({ OneBoardCreated }: ICard) {
     setListPosition(listPosition + 1);
     try {
       if (inputValue.trim() !== "") {
-        await api.post(`${apiUrl}/board/${id.board_id}/list`, {
+        await api.post(`${apiUrl}/board/${parseInt(id.board_id)}/list`, {
           title: inputValue,
           position: listPosition,
         });
@@ -62,7 +63,7 @@ export default function CreateBoard({ OneBoardCreated }: ICard) {
     OneBoardCreated(boards);
   }
   function createList() {
-    const newBoard = [
+    const newBoard: IBoard[] = [
       {
         id: id.board_id,
         title: inputValue,
@@ -78,7 +79,7 @@ export default function CreateBoard({ OneBoardCreated }: ICard) {
     <>
       {boards
         .sort((a: number, b: number) => a - b)
-        .map((item: any) => {
+        .map((item: IBoard) => {
           return (
             <List
               key={item.id}

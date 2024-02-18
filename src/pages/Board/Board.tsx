@@ -6,8 +6,8 @@ import { Link, useParams } from "react-router-dom";
 import CreaeteBoard from "./CreateBoard";
 import List from "./components/List/List";
 const Board = () => {
-  const [color, setColor] = useState<any>(null);
-  const [boards, setBoards] = useState<any>([]);
+  const [color, setColor] = useState("");
+  const [boards, setBoards] = useState([]);
 
   const { bind, inputValue, setInputValue } = useInput("");
   const inputRef = useRef<HTMLInputElement | null>(null);
@@ -16,19 +16,15 @@ const Board = () => {
   const apiUrl = process.env.REACT_APP_API_URL;
   const OneBoardCreated = (newBoard: any) => setBoards(newBoard);
   const id = useParams();
-  function handleEnter(
-    event: React.KeyboardEvent<HTMLInputElement>,
-    callback: () => void
-  ) {
+  function handleEnter(event: React.KeyboardEvent<HTMLInputElement>) {
     if (event.key === "Enter") {
       if (inputRef.current) {
         inputRef.current.blur();
-        callback();
       }
     }
   }
   async function putResponse() {
-    await api.put(`${apiUrl}/board/${id.board_id}`, {
+    await api.put(`${apiUrl}/board/${parseInt(id.board_id)}`, {
       title: inputValue,
       custom: {
         description: "desc",
@@ -39,7 +35,9 @@ const Board = () => {
   React.useEffect(() => {
     async function getResponse() {
       try {
-        const response: any = await api.get(`${apiUrl}/board/${id.board_id}`);
+        const response: any = await api.get(
+          `${apiUrl}/board/${parseInt(id.board_id)}`
+        );
         setBoards(response.lists);
         setInputValue(response.title);
         setColor(response.custom.color);
@@ -49,6 +47,7 @@ const Board = () => {
     }
     getResponse();
   }, []);
+  console.log(boards);
   return (
     <div className="Board" style={{ backgroundColor: color }}>
       <div className="container">
@@ -63,7 +62,7 @@ const Board = () => {
             className="Board__header-title"
             type="text"
             {...bind}
-            onKeyDown={(event) => handleEnter(event, putResponse)}
+            onKeyDown={(event) => handleEnter(event)}
             onBlur={putResponse}
           />
           <div className="Board__color-items">
@@ -75,11 +74,11 @@ const Board = () => {
               className="Board__header-background"
               value={color}
               onChange={changeBackground}
-              onKeyDown={(event) => handleEnter(event, putResponse)}
+              onKeyDown={(event) => handleEnter(event)}
             />
           </div>
         </header>
-        <section className="Board__section">
+        <section className="Board__section" style={{ overflowX: "auto" }}>
           {boards
             .sort((a: number, b: number) => a - b)
             .map((item: any) => {

@@ -72,7 +72,6 @@ export default function CreateBoard({ OneCardCreated }: IProps) {
                 {...bind}
                 autoFocus
               />
-              <div className="Home__modal-items"></div>
               <button
                 className="Home__modal-item Home__modal-button"
                 onClick={handleAddBoard}

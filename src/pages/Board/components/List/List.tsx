@@ -47,7 +47,7 @@ function List({ id, title, cards }: IProps) {
     setPosition(position + 1);
     try {
       if (inputValue.trim() !== "") {
-        await api.post(`${apiUrl}/board/${boardId.board_id}/card`, {
+        await api.post(`${apiUrl}/board/${parseInt(boardId.board_id)}/card`, {
           title: inputValue,
           list_id: id,
           position: position,
