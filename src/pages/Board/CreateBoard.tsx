@@ -10,30 +10,30 @@ interface ICard {
 export default function CreateBoard({ OneBoardCreated }: ICard) {
   const [boards, setBoards] = useState([]);
   //состояние которое отвечает за показ элементов которые пояляются при нажатии на кнопку "додати список"
-  const [showListItems, setShowListItems] = useState(false);
+  const [showBoardItems, setShowBoardItems] = useState(false);
   // состояние отвечающее за создание списка которое используется в кастомном хуке CustomHooks/useAxios.ts
   /*состояние кнопки, при нажатии на которую появляються 
   элементы которые я описал выше,а сама кнопка пропадает.*/
-  const [showButtonWhichCreateListItems, setShowButtonWhichCreateListItems] =
+  const [showButtonWhichCreateBoardItems, setShowButtonWhichCreateBoardItems] =
     useState(true);
   // Валидация инпута. если чел захочет нажать на кнопку "додати список" но в инпут ничего не введет то бордер станет красным
   const [listInputColorBorder, setListInputColorBorder] = useState(false);
   //состояние инпута в котором проходит валидация
   const [inputValue, setInputValue] = useState("");
   // позиция списка
-  const [listPosition, setListPosition] = useState(1);
+  const [boardPosition, setBoardPosition] = useState(1);
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(event.target.value);
     setListInputColorBorder(false);
   };
   function handleCreateButton() {
-    setShowListItems(true);
-    setShowButtonWhichCreateListItems(false);
+    setShowBoardItems(true);
+    setShowButtonWhichCreateBoardItems(false);
     setInputValue("");
   }
   const handleCloseButton = () => {
-    setShowListItems(false);
-    setShowButtonWhichCreateListItems(true);
+    setShowBoardItems(false);
+    setShowButtonWhichCreateBoardItems(true);
     setInputValue("");
   };
   function handleEnter(
@@ -44,16 +44,16 @@ export default function CreateBoard({ OneBoardCreated }: ICard) {
   }
   const apiUrl = process.env.REACT_APP_API_URL;
   const id = useParams();
-  async function postRequestList() {
-    setShowButtonWhichCreateListItems(true);
-    setListPosition(listPosition + 1);
+  async function postRequestBoard() {
+    setShowButtonWhichCreateBoardItems(true);
+    setBoardPosition(boardPosition + 1);
     try {
       if (inputValue.trim() !== "") {
         await api.post(`${apiUrl}/board/${parseInt(id.board_id)}/list`, {
           title: inputValue,
-          position: listPosition,
+          position: boardPosition,
         });
-        setShowListItems(false);
+        setShowBoardItems(false);
       }
       return setListInputColorBorder(true);
     } catch (error) {
@@ -61,7 +61,7 @@ export default function CreateBoard({ OneBoardCreated }: ICard) {
     }
     OneBoardCreated(boards);
   }
-  function createList() {
+  function createBoard() {
     const newBoard: IBoard[] = [
       {
         id: id.board_id,
@@ -69,9 +69,9 @@ export default function CreateBoard({ OneBoardCreated }: ICard) {
         cards: [],
       },
     ];
-    setListPosition(listPosition + 1);
+    setBoardPosition(boardPosition + 1);
     setBoards((board) => [...board, ...newBoard]);
-    postRequestList();
+    postRequestBoard();
   }
 
   return (
@@ -89,7 +89,7 @@ export default function CreateBoard({ OneBoardCreated }: ICard) {
           );
         })}
       <div className="List" draggable="true">
-        {showButtonWhichCreateListItems && (
+        {showButtonWhichCreateBoardItems && (
           <input
             className="List__btn"
             type="submit"
@@ -97,12 +97,12 @@ export default function CreateBoard({ OneBoardCreated }: ICard) {
             onClick={handleCreateButton}
           />
         )}
-        {showListItems && (
+        {showBoardItems && (
           <ListItems
             handleInputChange={handleInputChange}
             handleEnter={handleEnter}
             handleCloseButton={handleCloseButton}
-            postRequestList={createList}
+            createBoard={createBoard}
             listInputColorBorder={listInputColorBorder}
           />
         )}

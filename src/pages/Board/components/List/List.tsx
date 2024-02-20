@@ -22,6 +22,7 @@ function List({ id, title, cards }: IProps) {
     setShowInput(true);
   };
   const boardId = useParams();
+  const resultId = parseInt(boardId.board_id);
   const handleEnter = (
     event: React.KeyboardEvent<HTMLElement>,
     callback: () => void
@@ -47,7 +48,7 @@ function List({ id, title, cards }: IProps) {
     setPosition(position + 1);
     try {
       if (inputValue.trim() !== "") {
-        await api.post(`${apiUrl}/board/${parseInt(boardId.board_id)}/card`, {
+        await api.post(`${apiUrl}/board/${resultId}/card`, {
           title: inputValue,
           list_id: id,
           position: position,

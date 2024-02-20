@@ -1,6 +1,6 @@
 import React, { ChangeEvent } from "react";
 import { useState } from "react";
-export default function useInput(initialData: any) {
+export default function useInput(initialData: string) {
   const [inputValue, setInputValue] = useState(initialData);
   const bind = {
     value: inputValue,

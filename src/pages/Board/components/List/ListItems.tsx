@@ -3,14 +3,14 @@ interface IlistItems {
   handleInputChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   handleEnter: any;
   handleCloseButton: () => void;
-  postRequestList: () => Promise<void> | void;
+  createBoard: () => Promise<void> | void;
   listInputColorBorder: boolean;
 }
 export default function ListItems({
   handleInputChange,
   handleEnter,
   handleCloseButton,
-  postRequestList,
+  createBoard,
   listInputColorBorder,
 }: IlistItems) {
   return (
@@ -24,12 +24,12 @@ export default function ListItems({
         placeholder="Введiть назву дошки"
         onChange={handleInputChange}
         onKeyDown={(event) => {
-          handleEnter(event, postRequestList);
+          handleEnter(event, createBoard);
         }}
         autoFocus
       />
       <div className="List__items">
-        <button className="List__items-btn" onClick={postRequestList}>
+        <button className="List__items-btn" onClick={createBoard}>
           Додати список
         </button>
         <button className="List__items-close" onClick={handleCloseButton}>

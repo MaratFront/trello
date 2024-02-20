@@ -3,7 +3,6 @@ import api from "../../../../api/request";
 import { Link } from "react-router-dom";
 import Board from "./Board";
 import useInput from "../../../Board/components/CustomHooks/useInput";
-import useAxios from "../../../Board/components/CustomHooks/useAxios";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 interface IProps {
@@ -53,14 +52,13 @@ export default function CreateBoard({ OneCardCreated }: IProps) {
       }
     }
   };
-  // useEffect(() => {
-  //   OneCardCreated(getResponse);
-  //   async function getResponse() {
-  //     const response: any = await api.get(`${apiUrl}/board`);
-  //     setHomeItems(response.boards);
-  //   }
-  // }, []);
-  const [boards] = useAxios(OneCardCreated, `${apiUrl}/board`, homeItems);
+  useEffect(() => {
+    OneCardCreated(getResponse);
+    async function getResponse() {
+      const response: any = await api.get(`${apiUrl}/board`);
+      setHomeItems(response.boards);
+    }
+  }, []);
   return (
     <>
       {isModalOpen && (
@@ -91,13 +89,6 @@ export default function CreateBoard({ OneCardCreated }: IProps) {
         </div>
       )}
       {homeItems.map((item: any) => {
-        return (
-          <Link key={item.id} to={`/board/${item.id}`}>
-            <Board id={item.id} title={item.title} custom={item.custom} />
-          </Link>
-        );
-      })}
-      {boards.map((item: any) => {
         return (
           <Link key={item.id} to={`/board/${item.id}`}>
             <Board id={item.id} title={item.title} custom={item.custom} />

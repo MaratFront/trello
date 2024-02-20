@@ -4,6 +4,8 @@ import useInput from "./components/CustomHooks/useInput";
 import api from "../../api/request";
 import { Link, useParams } from "react-router-dom";
 import CreaeteBoard from "./CreateBoard";
+import BoardTitle from "./BoardTitle/BoardTitle";
+import BoardBackground from "./BoardBackground/BoardBackground";
 import List from "./components/List/List";
 const Board = () => {
   const [color, setColor] = useState("#ffffff");
@@ -16,14 +18,8 @@ const Board = () => {
   const apiUrl = process.env.REACT_APP_API_URL;
   const OneBoardCreated = (newBoard: any) => setBoards(newBoard);
   const id = useParams();
-  function handleEnter(event: React.KeyboardEvent<HTMLInputElement>) {
-    if (event.key === "Enter") {
-      if (inputRef.current) {
-        inputRef.current.blur();
-      }
-    }
-  }
-  async function putResponse() {
+  const resultId = parseInt(id.board_id);
+  async function putRequest() {
     await api.put(`${apiUrl}/board/${parseInt(id.board_id)}`, {
       title: inputValue,
       custom: {
@@ -35,9 +31,7 @@ const Board = () => {
   React.useEffect(() => {
     async function getResponse() {
       try {
-        const response: any = await api.get(
-          `${apiUrl}/board/${parseInt(id.board_id)}`
-        );
+        const response: any = await api.get(`${apiUrl}/board/${resultId}`);
         setBoards(response.lists);
         setInputValue(response.title);
         setColor(response.custom.color);
@@ -51,31 +45,12 @@ const Board = () => {
     <div className="Board" style={{ backgroundColor: color }}>
       <div className="container">
         <header className="Board__header">
-          <Link to="/">
-            <button className="Board__header-btn btn" type="submit">
-              &#8592; домой
-            </button>
-          </Link>
-          <input
-            ref={inputRef}
-            className="Board__header-title"
-            type="text"
-            {...bind}
-            onKeyDown={(event) => handleEnter(event)}
-            onBlur={putResponse}
+          <BoardTitle inputRef={inputRef} bind={bind} putRequest={putRequest} />
+          <BoardBackground
+            putRequest={putRequest}
+            color={color}
+            changeBackground={changeBackground}
           />
-          <div className="Board__color-items">
-            <button className="Board__background-btn btn" onClick={putResponse}>
-              Змiнити колiр фону
-            </button>
-            <input
-              type="color"
-              className="Board__header-background"
-              value={color}
-              onChange={changeBackground}
-              onKeyDown={(event) => handleEnter(event)}
-            />
-          </div>
         </header>
         <section className="Board__section" style={{ overflowX: "auto" }}>
           {boards
