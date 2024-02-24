@@ -5,12 +5,8 @@ import { useParams } from "react-router-dom";
 import useInput from "../CustomHooks/useInput";
 import "./List.css";
 import Card from "../Card/Card";
-interface IProps {
-  id: number;
-  title: string;
-  cards: { id: number; title: string }[];
-}
-function List({ id, title, cards }: IProps) {
+import IList from "src/common/interfaces/IList";
+function List({ id, title, cards }: IList) {
   const [position, setPosition] = useState(0);
   const [showInput, setShowInput] = useState(false);
   const { bind, inputValue, setInputValue } = useInput("");
