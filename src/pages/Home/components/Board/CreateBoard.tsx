@@ -1,28 +1,25 @@
 import React from "react";
+// import api from "@api/request";
+// import useInput from "@customHooks/useInput";
 import api from "../../../../api/request";
-import { Link } from "react-router-dom";
-import Board from "./Board";
 import useInput from "../../../Board/components/CustomHooks/useInput";
-import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import Modal from "../../../Modal/Modal";
+import { useState } from "react";
+// import Modal from "@modal/Modal";
 interface IProps {
   OneCardCreated: (newBoard: object) => void;
 }
 export default function CreateBoard({ OneCardCreated }: IProps) {
-  const [homeItems, setHomeItems] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { inputValue, bind, setInputValue } = useInput("");
   const openModal = () => setIsModalOpen(true);
+
   const closeModalOk = () => {
     setIsModalOpen(false);
     setInputValue("");
   };
   const apiUrl = process.env.REACT_APP_API_URL;
-  interface Ilist {
-    id: number;
-    result: string;
-  }
-  const createBoard = (boardId: any) => {
+  const createBoard = (boardId: number) => {
     const boards = [
       {
         id: boardId,
@@ -32,12 +29,11 @@ export default function CreateBoard({ OneCardCreated }: IProps) {
         },
       },
     ];
-    setHomeItems((prevBoards) => [...prevBoards, ...boards]);
-    return OneCardCreated(homeItems);
+    OneCardCreated(boards);
   };
   const handleAddBoard = async () => {
     if (inputValue.trim() !== "") {
-      const request: Ilist = await api.post(`${apiUrl}/board`, {
+      const request: any = await api.post(`${apiUrl}/board`, {
         title: inputValue,
         custom: {
           description: "desc",
@@ -52,50 +48,34 @@ export default function CreateBoard({ OneCardCreated }: IProps) {
       }
     }
   };
-  useEffect(() => {
-    OneCardCreated(getResponse);
-    async function getResponse() {
-      const response: any = await api.get(`${apiUrl}/board`);
-      setHomeItems(response.boards);
-    }
-  }, []);
   return (
     <>
       {isModalOpen && (
-        <div className="Home__modal-overlay">
-          <div className="Home__modal-window">
-            <div className="Home__modal-header">
-              <input
-                className="Home__modal-item Home__modal-input"
-                placeholder="Введiть назву дошки"
-                type="text"
-                {...bind}
-                autoFocus
-              />
-              <button
-                className="Home__modal-item Home__modal-button"
-                onClick={handleAddBoard}
-              >
-                Додати дошку
-              </button>
-              <input
-                className="Home__modal-close"
-                type="button"
-                value="Вийти"
-                onClick={closeModalOk}
-              />
-            </div>
-          </div>
-        </div>
+        <Modal>
+          <Modal.Main>
+            <input
+              className="modal__item modal__input"
+              placeholder="Введiть назву дошки"
+              type="text"
+              {...bind}
+              autoFocus
+            />
+            <button
+              className="modal__item modal__button"
+              onClick={handleAddBoard}
+            >
+              Додати дошку
+            </button>
+            <input
+              className="modal__close"
+              type="button"
+              value="Вийти"
+              onClick={closeModalOk}
+            />
+          </Modal.Main>
+        </Modal>
       )}
-      {homeItems.map((item: any) => {
-        return (
-          <Link key={item.id} to={`/board/${item.id}`}>
-            <Board id={item.id} title={item.title} custom={item.custom} />
-          </Link>
-        );
-      })}
-      <button className="Home__button Home__item" onClick={openModal}>
+      <button className="modal__button home__item" onClick={openModal}>
         + Створити дошку
       </button>
     </>

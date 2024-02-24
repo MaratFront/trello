@@ -1,12 +1,12 @@
 import React, { ChangeEvent, useEffect, useState } from "react";
 import api from "../../../../api/request";
 import ICard from "../../../../common/interfaces/ICard";
-import { dragOnDrop } from "../dragOnDrop/dragOnDrop";
 import { useParams } from "react-router-dom";
 import useInput from "../CustomHooks/useInput";
+import "./List.css";
 import Card from "../Card/Card";
 interface IProps {
-  id: number | string;
+  id: number;
   title: string;
   cards: { id: number; title: string }[];
 }
@@ -74,12 +74,9 @@ function List({ id, title, cards }: IProps) {
     setShowInput(false);
     setShowButton(true);
   }
-  useEffect(() => {
-    dragOnDrop();
-  }, []);
   return (
-    <div className="Board__list">
-      <p className="Board__list-title">{title}</p>
+    <div className="list">
+      <p className="list__title">{title}</p>
       {card.map((card: any) => (
         <Card key={card.id} id={card.id} title={card.title} />
       ))}
@@ -89,7 +86,7 @@ function List({ id, title, cards }: IProps) {
       {showInput && (
         <>
           <input
-            className="Board__list-input"
+            className="list__input"
             onKeyDown={(event) => {
               handleEnter(event, postRequestCard);
             }}
@@ -97,11 +94,11 @@ function List({ id, title, cards }: IProps) {
             {...bind}
             autoFocus
           />
-          <div className="Board__add">
-            <button className="Board__add-card" onClick={postRequestCard}>
+          <div className="list__add">
+            <button className="list__add-card" onClick={postRequestCard}>
               Додати картку
             </button>
-            <button className="Board__none-card" onClick={handelCancel}>
+            <button className="list__none-card" onClick={handelCancel}>
               <img src={closeButton} alt="" width="35px" />
             </button>
           </div>
@@ -109,7 +106,7 @@ function List({ id, title, cards }: IProps) {
       )}
       {showButton && (
         <button
-          className="Board__list-button"
+          className="list__button"
           type="submit"
           onClick={showInputChange}
         >

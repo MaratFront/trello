@@ -1,5 +1,5 @@
 interface IBoard {
-  id: string | undefined;
+  id: number;
   title: string;
   cards: [];
 }

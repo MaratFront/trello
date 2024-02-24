@@ -19,7 +19,7 @@ export default function ListItems({
         style={{
           border: listInputColorBorder ? "2px solid red" : "1px solid #ccc",
         }}
-        className="List__input"
+        className="list__input"
         type="text"
         placeholder="Введiть назву дошки"
         onChange={handleInputChange}
@@ -28,15 +28,14 @@ export default function ListItems({
         }}
         autoFocus
       />
-      <div className="List__items">
-        <button className="List__items-btn" onClick={createBoard}>
+      <div className="list__add">
+        <button className="list__add-card" onClick={createBoard}>
           Додати список
         </button>
-        <button className="List__items-close" onClick={handleCloseButton}>
+        <button className="list__none-card" onClick={handleCloseButton}>
           <img
             src={process.env.PUBLIC_URL + "/close.png"}
             alt=""
-            className="List__item-close"
             width="35px"
           />
         </button>

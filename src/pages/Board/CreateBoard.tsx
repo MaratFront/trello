@@ -8,7 +8,6 @@ interface ICard {
   OneBoardCreated?: (newBoard: IBoard[]) => void;
 }
 export default function CreateBoard({ OneBoardCreated }: ICard) {
-  const [boards, setBoards] = useState([]);
   //состояние которое отвечает за показ элементов которые пояляются при нажатии на кнопку "додати список"
   const [showBoardItems, setShowBoardItems] = useState(false);
   // состояние отвечающее за создание списка которое используется в кастомном хуке CustomHooks/useAxios.ts
@@ -59,39 +58,27 @@ export default function CreateBoard({ OneBoardCreated }: ICard) {
     } catch (error) {
       console.log(error);
     }
-    OneBoardCreated(boards);
   }
   function createBoard() {
     const newBoard: IBoard[] = [
       {
-        id: id.board_id,
+        id: parseInt(id.board_id),
         title: inputValue,
         cards: [],
       },
     ];
     setBoardPosition(boardPosition + 1);
-    setBoards((board) => [...board, ...newBoard]);
+
+    OneBoardCreated(newBoard);
     postRequestBoard();
   }
 
   return (
     <>
-      {boards
-        .sort((a: number, b: number) => a - b)
-        .map((item: IBoard) => {
-          return (
-            <List
-              key={item.id}
-              id={item.id}
-              title={item.title}
-              cards={item.cards}
-            />
-          );
-        })}
-      <div className="List" draggable="true">
+      <div className="list" draggable="true" style={{ border: "none" }}>
         {showButtonWhichCreateBoardItems && (
           <input
-            className="List__btn"
+            className="list__btn"
             type="submit"
             value="+ Додати список"
             onClick={handleCreateButton}

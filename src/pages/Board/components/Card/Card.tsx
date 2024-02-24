@@ -7,8 +7,8 @@ interface CardProps {
 
 function Card({ title }: CardProps) {
   return (
-    <div className="Board__card" draggable="true">
-      <p className="Board__card-title">{title}</p>
+    <div className="card" draggable="true">
+      <p className="card__title">{title}</p>
     </div>
   );
 }

@@ -16,7 +16,8 @@ const Board = () => {
   const changeBackground = (event: React.ChangeEvent<HTMLInputElement>) =>
     setColor(event.target.value);
   const apiUrl = process.env.REACT_APP_API_URL;
-  const OneBoardCreated = (newBoard: any) => setBoards(newBoard);
+  const OneBoardCreated = (newBoard: any) =>
+    setBoards((prevBoard) => [...prevBoard, ...newBoard]);
   const id = useParams();
   const resultId = parseInt(id.board_id);
   async function putRequest() {
