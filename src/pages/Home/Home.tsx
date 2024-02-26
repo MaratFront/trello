@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import CreateBoard from "./components/Board/CreateBoard";
 import Board from "../Home/components/Board/Board";
-// import api from "@api/request";
+//import api from "@api/request";
 import api from "../../api/request";
 function Home() {
   const [homeItems, setHomeItems] = useState([]);

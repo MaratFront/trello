@@ -21,7 +21,7 @@ export default function ListItems({
         }}
         className="list__input"
         type="text"
-        placeholder="Введiть назву дошки"
+        placeholder="Введiть назву списку"
         onChange={handleInputChange}
         onKeyDown={(event) => {
           handleEnter(event, createBoard);
