@@ -1,6 +1,24 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
 # dependencies
+/.idea
+# Игнорировать временные файлы, созданные VSCode
+.vscode/*
+
+# Игнорировать файлы настроек пользователя VSCode
+.vscode/settings.json
+
+# Игнорировать файлы состояния рабочей области VSCode
+.vscode/*.workspace
+
+# Игнорировать файлы истории изменений VSCode
+.vscode/*.history
+
+# Игнорировать кэш и временные файлы
+.vscode/.cache/
+.vscode/.vscode-test/
+.vscode/.vscode-server/
+
 /node_modules
 /.pnp
 .pnp.js
