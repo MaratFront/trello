@@ -20,11 +20,11 @@ button,
 input {
   cursor: pointer;
   border: 1px solid black;
-  height: 40px;
-  width: 200px;
   display: flex;
   flex-direction: row;
+  width: 200px;
   flex-wrap: nowrap;
+  height: 38px;
   text-align: center;
   align-items: center;
   font-size: 17px;
@@ -32,66 +32,58 @@ input {
   border-radius: 3px;
 }
 
-.Board {
+.board {
   height: 100svh;
   overflow-x: auto;
   width: 100%;
 }
-.Board__header {
+.board__header {
   display: flex;
   justify-content: space-between;
   position: fixed;
   width: calc(100% - 240px);
 }
-.Board__header-title {
-  text-align: center;
-  justify-content: center;
+.board__header--background {
+  width: 45px;
+  height: 45px;
+  border: none;
+  background: none;
+}
+.board__header--title {
   background: none;
   border: none;
 }
-.Board__header-btn {
+.board__header--btn {
   width: 95px;
   height: 35px;
 }
-.Board__section {
-  display: flex;
-  flex-direction: row;
-  margin-top: 60px;
-  height: 450px;
+.board__header--home {
+  width: 100px;
 }
-.Board .progress-bar {
-  margin: auto;
-  display: flex;
-  margin-top: calc(25% - 16px);
-  justify-content: center;
-}
-.Board .Board__color-items {
-  display: flex;
-  flex-direction: row;
-}
-.Board .Board__header-background {
+.board__header__background--btn {
   border: none;
   background: none;
   height: 45px;
   width: 45px;
 }
-.Board .placeholder {
+.board__section {
+  display: flex;
+  flex-direction: row;
+  margin-top: 60px;
+  height: 450px;
+}
+.board .progress--bar {
+  margin: auto;
+  display: flex;
+  margin-top: calc(25% - 16px);
+  justify-content: center;
+}
+.board .board__color--items {
+  display: flex;
+  flex-direction: row;
+}
+.board .placeholder {
   width: 200px;
   background: black;
   border: 1px solid gray;
-}
-.Board .Error {
-  text-align: center;
-  height: 100svh;
-  display: flex;
-  background: "#f8d7da";
-  justify-content: center;
-  flex-direction: column;
-  align-items: center;
-  border-radius: 5px;
-}
-.Board .Error__button {
-  margin: 0;
-  text-align: center;
-  padding-left: 80px;
 }/*# sourceMappingURL=board.css.map */

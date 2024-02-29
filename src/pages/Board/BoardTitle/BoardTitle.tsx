@@ -1,4 +1,5 @@
 import React from "react";
+import Button from "src/pages/UI/Button";
 import { Link } from "react-router-dom";
 export default function BoardTitle({ inputRef, bind, putRequest }) {
   function handleEnter(event: React.KeyboardEvent<HTMLInputElement>) {
@@ -11,13 +12,11 @@ export default function BoardTitle({ inputRef, bind, putRequest }) {
   return (
     <>
       <Link to="/">
-        <button className="Board__header-btn btn" type="submit">
-          &#8592; домой
-        </button>
+        <Button text="&#8592; домой" className="board__header--home" />
       </Link>
       <input
         ref={inputRef}
-        className="Board__header-title"
+        className="board__header--title"
         type="text"
         {...bind}
         onKeyDown={(event) => handleEnter(event)}

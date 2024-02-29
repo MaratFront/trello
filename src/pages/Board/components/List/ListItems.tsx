@@ -29,10 +29,10 @@ export default function ListItems({
         autoFocus
       />
       <div className="list__add">
-        <button className="list__add-card" onClick={createBoard}>
+        <button className="list__add--card" onClick={createBoard}>
           Додати список
         </button>
-        <button className="list__none-card" onClick={handleCloseButton}>
+        <button className="list__none--card" onClick={handleCloseButton}>
           <img
             src={process.env.PUBLIC_URL + "/close.png"}
             alt=""

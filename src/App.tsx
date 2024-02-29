@@ -47,17 +47,19 @@ function App() {
           </Routes>
         </BrowserRouter>
       ) : (
-        <div className="Error">
-          <p>{error}</p>
-          <button className="Error__button" onClick={reloadWindow}>
-            Reset
-          </button>
+        <div className="error">
+          <div className="error__message">
+            <p className="error__title">{error}</p>
+            <button className="error__button" onClick={reloadWindow}>
+              Reset
+            </button>
+          </div>
         </div>
       )}
       {progress && (
-        <div className="progress-container">
+        <div className="progress--container">
           <progress
-            className="progress-bar"
+            className="progress--bar"
             value={null as unknown as string}
           />
         </div>

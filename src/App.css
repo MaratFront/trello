@@ -36,29 +36,33 @@
     transform: rotate(360deg);
   }
 }
-.Error {
+.error {
+  display: flex; /* Устанавливаем flex-контейнер */
+  justify-content: center; /* Выравниваем содержимое по горизонтали по центру */
+  align-items: center; /* Выравниваем содержимое по вертикали по центру */
   background-color: #f8d7da;
-  border: 1px solid #f7b1b8;
   color: #721c24;
-  padding: 10px;
   border-radius: 5px;
-  margin-bottom: 15px;
   font-size: 30px;
+  height: 100vh;
 }
-.Error-message {
-  color: #721c24;
-  padding: 10px;
-  border-radius: 5px;
-  margin-bottom: 15px;
-  font-size: 30px;
+
+.error__message {
+  text-align: center; /* Выравниваем текст по центру */
 }
-.progress-container {
+
+.progress--container {
   display: flex;
   align-items: center;
   justify-content: center;
   height: 100vh;
 }
-.progress-bar {
+.progress--bar {
   margin: auto;
   width: 120px; /* Ширина прогресс-бара */
+}
+.error__title {
+  margin: 0;
+  text-align: center;
+  margin: auto;
 }

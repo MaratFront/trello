@@ -11,13 +11,13 @@ export default function BoardBackground({
     }
   }
   return (
-    <div className="Board__color-items">
-      <button className="Board__background-btn btn" onClick={putRequest}>
+    <div className="board__color--items">
+      <button className="board__background--btn btn" onClick={putRequest}>
         Змiнити колiр фону
       </button>
       <input
         type="color"
-        className="Board__header-background"
+        className="board__header--background"
         value={color}
         onChange={changeBackground}
         onKeyDown={(event) => handleEnter(event)}

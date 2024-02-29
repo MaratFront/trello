@@ -4,6 +4,7 @@ import ICard from "../../../../common/interfaces/ICard";
 import { useParams } from "react-router-dom";
 import useInput from "../CustomHooks/useInput";
 import "./List.css";
+import Button from "src/pages/UI/Button";
 import Card from "../Card/Card";
 import IList from "src/common/interfaces/IList";
 function List({ id, title, cards }: IList) {
@@ -24,6 +25,11 @@ function List({ id, title, cards }: IList) {
     callback: () => void
   ) => event.key === "Enter" && callback();
   const apiUrl = process.env.REACT_APP_API_URL;
+  function handelCancel() {
+    setInputValue("");
+    setShowInput(false);
+    setShowButton(true);
+  }
   function createCard() {
     const createCard: ICard[] = [
       {
@@ -38,7 +44,12 @@ function List({ id, title, cards }: IList) {
         created_at: 1662016083025,
       },
     ];
-    setCard((prevCard: any) => [...prevCard, ...createCard]);
+    setCard((prevCard: any) => {
+      if (inputValue.trim() !== "") {
+        return [...prevCard, ...createCard];
+      }
+      return;
+    });
   }
   async function postRequestCard() {
     setPosition(position + 1);
@@ -54,61 +65,54 @@ function List({ id, title, cards }: IList) {
           },
         });
         createCard();
-        setShowButton(true);
-        setInputValue("");
-        setShowInput(false);
+        handelCancel();
+      } else {
+        handelCancel();
       }
     } catch (error) {
       console.error("Error post request");
-      setInputValue("");
-      setShowInput(false);
-      setShowButton(true);
+      handelCancel();
     }
-  }
-  function handelCancel() {
-    setInputValue("");
-    setShowInput(false);
-    setShowButton(true);
   }
   return (
     <div className="list">
-      <p className="list__title">{title}</p>
-      {card.map((card: any) => (
-        <Card key={card.id} id={card.id} title={card.title} />
-      ))}
-      {cards.map((card) => (
-        <Card key={card.id} id={card.id} title={card.title} />
-      ))}
-      {showInput && (
-        <>
-          <input
-            className="list__input"
-            onKeyDown={(event) => {
-              handleEnter(event, postRequestCard);
-            }}
-            placeholder="Введiть назву картки"
-            {...bind}
-            autoFocus
+      <div className="list__body">
+        <p className="list__title">{title}</p>
+        {card.map((card: any) => (
+          <Card key={card.id} id={card.id} title={card.title} />
+        ))}
+        {cards.map((card) => (
+          <Card key={card.id} id={card.id} title={card.title} />
+        ))}
+        {showInput && (
+          <>
+            <input
+              className="list__input"
+              onKeyDown={(event) => {
+                handleEnter(event, postRequestCard);
+              }}
+              placeholder="Введiть назву картки"
+              {...bind}
+              autoFocus
+            />
+            <div className="list__add">
+              <button className="list__add--card" onClick={postRequestCard}>
+                Додати картку
+              </button>
+              <button className="list__none--card" onClick={handelCancel}>
+                <img src={closeButton} alt="" width="35px" />
+              </button>
+            </div>
+          </>
+        )}
+        {showButton && (
+          <Button
+            eventFunction={showInputChange}
+            text={"+ Додати картку"}
+            className="card__button"
           />
-          <div className="list__add">
-            <button className="list__add-card" onClick={postRequestCard}>
-              Додати картку
-            </button>
-            <button className="list__none-card" onClick={handelCancel}>
-              <img src={closeButton} alt="" width="35px" />
-            </button>
-          </div>
-        </>
-      )}
-      {showButton && (
-        <button
-          className="list__button"
-          type="submit"
-          onClick={showInputChange}
-        >
-          + Додати картку
-        </button>
-      )}
+        )}
+      </div>
     </div>
   );
 }

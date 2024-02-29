@@ -46,6 +46,8 @@ export default function CreateBoard({ OneCardCreated }: IProps) {
       } catch (error) {
         console.error("Произошла ошибка при выполнении POST-запроса:", error);
       }
+    } else {
+      closeModalOk();
     }
   };
   return (

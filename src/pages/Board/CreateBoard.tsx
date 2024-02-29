@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useParams } from "react-router-dom";
 import api from "../../api/request";
 import ListItems from "./components/List/ListItems";
-import List from "./components/List/List";
+import Button from "../UI/Button";
 import IBoard from "../../common/interfaces/IBoard";
 interface ICard {
   OneBoardCreated?: (newBoard: IBoard[]) => void;
@@ -25,6 +25,7 @@ export default function CreateBoard({ OneBoardCreated }: ICard) {
     setInputValue(event.target.value);
     setListInputColorBorder(false);
   };
+
   function handleCreateButton() {
     setShowBoardItems(true);
     setShowButtonWhichCreateBoardItems(false);
@@ -68,20 +69,23 @@ export default function CreateBoard({ OneBoardCreated }: ICard) {
       },
     ];
     setBoardPosition(boardPosition + 1);
-
-    OneBoardCreated(newBoard);
-    postRequestBoard();
+    if (inputValue.trim() !== "") {
+      OneBoardCreated(newBoard);
+      postRequestBoard();
+    } else {
+      setShowBoardItems(false);
+      setShowButtonWhichCreateBoardItems(true);
+    }
   }
 
   return (
     <>
       <div className="list" draggable="true" style={{ border: "none" }}>
         {showButtonWhichCreateBoardItems && (
-          <input
-            className="list__btn"
-            type="submit"
-            value="+ Додати список"
-            onClick={handleCreateButton}
+          <Button
+            eventFunction={handleCreateButton}
+            text={"+ Додати список"}
+            className="list__button"
           />
         )}
         {showBoardItems && (

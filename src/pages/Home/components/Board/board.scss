@@ -18,18 +18,18 @@ button,
 input {
   cursor: pointer;
   border: 1px solid black;
-  height: 40px;
-  width: 200px;
   display: flex;
   flex-direction: row;
+  width: 200px;
   flex-wrap: nowrap;
+  height: 38px;
   text-align: center;
   align-items: center;
   font-size: 17px;
   margin: auto;
   border-radius: 3px;
 }
-.Board {
+.board {
   height: 100svh;
   overflow-x: auto;
   width: 100%;
@@ -38,16 +38,28 @@ input {
     justify-content: space-between;
     position: fixed;
     width: calc(100% - 240px);
-    &-title {
-      text-align: center;
-      justify-content: center;
+    &--background {
+      width: 45px;
+      height: 45px;
+      border: none;
+      background: none;
+    }
+    &--title {
       background: none;
       border: none;
     }
-
-    &-btn {
+    &--btn {
       width: 95px;
       height: 35px;
+    }
+    &--home {
+      width: 100px;
+    }
+    &__background--btn {
+      border: none;
+      background: none;
+      height: 45px;
+      width: 45px;
     }
   }
 
@@ -57,40 +69,19 @@ input {
     margin-top: 60px;
     height: 450px;
   }
-  .progress-bar {
+  .progress--bar {
     margin: auto;
     display: flex;
     margin-top: calc(25% - 16px);
     justify-content: center;
   }
-  .Board__color-items {
+  .board__color--items {
     display: flex;
     flex-direction: row;
-  }
-  .Board__header-background {
-    border: none;
-    background: none;
-    height: 45px;
-    width: 45px;
   }
   .placeholder {
     width: 200px;
     background: black;
     border: 1px solid gray;
-  }
-  .Error {
-    text-align: center;
-    height: 100svh;
-    display: flex;
-    background: "#f8d7da";
-    justify-content: center;
-    flex-direction: column;
-    align-items: center;
-    border-radius: 5px;
-    &__button {
-      margin: 0;
-      text-align: center;
-      padding-left: 80px;
-    }
   }
 }

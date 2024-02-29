@@ -43,9 +43,9 @@ const Board = () => {
     getResponse();
   }, []);
   return (
-    <div className="Board" style={{ backgroundColor: color }}>
+    <div className="board" style={{ backgroundColor: color }}>
       <div className="container">
-        <header className="Board__header">
+        <header className="board__header">
           <BoardTitle inputRef={inputRef} bind={bind} putRequest={putRequest} />
           <BoardBackground
             putRequest={putRequest}
@@ -53,7 +53,7 @@ const Board = () => {
             changeBackground={changeBackground}
           />
         </header>
-        <section className="Board__section" style={{ overflowX: "auto" }}>
+        <section className="board__section" style={{ overflowX: "auto" }}>
           {boards
             .sort((a: number, b: number) => a - b)
             .map((item: any) => {
