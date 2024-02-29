@@ -5,6 +5,7 @@
 ## Installation:
 
 1.Clone repositoriy: `git clone https://github.com/MaratFront/trello.git`
+
 2.install dependencies: `npm i`
 3.start project:`npm start`
 
