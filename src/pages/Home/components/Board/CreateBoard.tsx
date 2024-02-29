@@ -1,11 +1,9 @@
-import React from "react";
 // import api from "@api/request";
 // import useInput from "@customHooks/useInput";
 import api from "../../../../api/request";
 import useInput from "../../../Board/components/CustomHooks/useInput";
 import Modal from "../../../Modal/Modal";
 import { useState } from "react";
-//import Modal from "@modal/Modal";
 interface IProps {
   OneCardCreated: (newBoard: object) => void;
 }
