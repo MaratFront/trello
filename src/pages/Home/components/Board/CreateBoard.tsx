@@ -13,7 +13,6 @@ export default function CreateBoard({ OneCardCreated }: IProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { inputValue, bind, setInputValue } = useInput("");
   const openModal = () => setIsModalOpen(true);
-
   const closeModalOk = () => {
     setIsModalOpen(false);
     setInputValue("");
