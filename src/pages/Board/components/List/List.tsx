@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useEffect, useState } from "react";
+import React, { useState } from "react";
 import api from "../../../../api/request";
 import ICard from "../../../../common/interfaces/ICard";
 import { useParams } from "react-router-dom";

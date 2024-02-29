@@ -3,11 +3,8 @@ import { Link } from "react-router-dom";
 interface IHome {
   id: number;
   title: string;
-  custom: {
-    background: string;
-  };
 }
-function Board({ id, title, custom }: IHome) {
+function Board({ id, title }: IHome) {
   return (
     <Link key={id} to={`/board/${id}`}>
       <div className="home__item">

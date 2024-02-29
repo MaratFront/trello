@@ -2,7 +2,7 @@ import React, { useState, useRef } from "react";
 import "../Home/components/Board/board.css";
 import useInput from "./components/CustomHooks/useInput";
 import api from "../../api/request";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import CreaeteBoard from "./CreateBoard";
 import BoardTitle from "./BoardTitle/BoardTitle";
 import BoardBackground from "./BoardBackground/BoardBackground";

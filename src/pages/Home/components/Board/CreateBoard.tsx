@@ -42,7 +42,6 @@ export default function CreateBoard({ OneCardCreated }: IProps) {
       try {
         closeModalOk();
         createBoard(request.id);
-        console.log(request);
       } catch (error) {
         console.error("Произошла ошибка при выполнении POST-запроса:", error);
       }

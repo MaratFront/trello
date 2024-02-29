@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 import CreateBoard from "./components/Board/CreateBoard";
 import Board from "../Home/components/Board/Board";
 //import api from "@api/request";
@@ -26,9 +25,7 @@ function Home() {
       <div className="home__container">
         <div className="home__items">
           {homeItems.map((item: any) => {
-            return (
-              <Board id={item.id} title={item.title} custom={item.custom} />
-            );
+            return <Board id={item.id} title={item.title} />;
           })}
           <CreateBoard OneCardCreated={OneCardCreated} />
         </div>
