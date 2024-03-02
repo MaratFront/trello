@@ -7,8 +7,9 @@ import "./List.css";
 import Button from "src/pages/UI/Button";
 import Card from "../Card/Card";
 import IList from "src/common/interfaces/IList";
-function List({ id, title, cards, OneCardCreated }: IList) {
+function List({ id, title }: IList) {
   const [position, setPosition] = useState(0);
+  const [cards, setCards] = useState<any>([]);
   const [showInput, setShowInput] = useState(false);
   const { bind, inputValue, setInputValue } = useInput("");
   const [showButton, setShowButton] = useState(true);
@@ -42,7 +43,7 @@ function List({ id, title, cards, OneCardCreated }: IList) {
         created_at: 1662016083025,
       },
     ];
-    OneCardCreated(createCard);
+    setCards((prevCard) => [...prevCard, ...createCard]);
   }
   async function postRequestCard() {
     setPosition(position + 1);
@@ -67,6 +68,19 @@ function List({ id, title, cards, OneCardCreated }: IList) {
       handelCancel();
     }
   }
+  React.useEffect(() => {
+    async function getResponse() {
+      try {
+        const response: any = await api.get(
+          `${apiUrl}/board/${boardId.board_id}/`
+        );
+        setCards(response.lists);
+      } catch (error: any) {
+        throw new Error(error);
+      }
+    }
+    getResponse();
+  }, []);
   return (
     <div className="list">
       <div className="list__body">

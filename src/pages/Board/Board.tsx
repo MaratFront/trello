@@ -10,7 +10,6 @@ import List from "./components/List/List";
 const Board = () => {
   const [color, setColor] = useState("#ffffff");
   const [boards, setBoards] = useState<any>([]);
-
   const { bind, inputValue, setInputValue } = useInput("");
   const inputRef = useRef<HTMLInputElement | null>(null);
   const changeBackground = (event: React.ChangeEvent<HTMLInputElement>) =>
@@ -18,8 +17,6 @@ const Board = () => {
   const apiUrl = process.env.REACT_APP_API_URL;
   const OneBoardCreated = (newBoard: any) =>
     setBoards((prevBoard) => [...prevBoard, ...newBoard]);
-  const OneCardCreated = (newCard: any) =>
-    setBoards((prevCard) => [...prevCard.cards, ...newCard]);
 
   const id = useParams();
   async function putRequest() {
@@ -66,7 +63,6 @@ const Board = () => {
                     id={item.id}
                     title={item.title}
                     cards={item.cards}
-                    OneCardCreated={OneCardCreated}
                   />
                 </>
               );
