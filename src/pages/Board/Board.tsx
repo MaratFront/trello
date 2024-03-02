@@ -18,14 +18,8 @@ const Board = () => {
   const apiUrl = process.env.REACT_APP_API_URL;
   const OneBoardCreated = (newBoard: any) =>
     setBoards((prevBoard) => [...prevBoard, ...newBoard]);
-  const OneCardCreated = (newCard: any) => {
-    setBoards((prevCard) => {
-      return {
-        prevCard,
-        cards: [prevCard.cards, newCard],
-      };
-    });
-  };
+  const OneCardCreated = (newCard: any) =>
+    setBoards((prevCard) => [...prevCard.cards, ...newCard]);
 
   const id = useParams();
   async function putRequest() {
