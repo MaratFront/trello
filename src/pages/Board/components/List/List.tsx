@@ -7,11 +7,10 @@ import "./List.css";
 import Button from "src/pages/UI/Button";
 import Card from "../Card/Card";
 import IList from "src/common/interfaces/IList";
-function List({ id, title, cards }: IList) {
+function List({ id, title, cards, OneCardCreated }: IList) {
   const [position, setPosition] = useState(0);
   const [showInput, setShowInput] = useState(false);
   const { bind, inputValue, setInputValue } = useInput("");
-  const [card, setCard] = useState<any>([]);
   const [showButton, setShowButton] = useState(true);
   const closeButton = "/close.png";
   const showInputChange = () => {
@@ -19,7 +18,6 @@ function List({ id, title, cards }: IList) {
     setShowInput(true);
   };
   const boardId = useParams();
-  const resultId = parseInt(boardId.board_id);
   const handleEnter = (
     event: React.KeyboardEvent<HTMLElement>,
     callback: () => void
@@ -44,18 +42,13 @@ function List({ id, title, cards }: IList) {
         created_at: 1662016083025,
       },
     ];
-    setCard((prevCard: any) => {
-      if (inputValue.trim() !== "") {
-        return [...prevCard, ...createCard];
-      }
-      return;
-    });
+    OneCardCreated(createCard);
   }
   async function postRequestCard() {
     setPosition(position + 1);
     try {
       if (inputValue.trim() !== "") {
-        await api.post(`${apiUrl}/board/${resultId}/card`, {
+        await api.post(`${apiUrl}/board/${boardId.board_id}/card`, {
           title: inputValue,
           list_id: id,
           position: position,
@@ -78,9 +71,6 @@ function List({ id, title, cards }: IList) {
     <div className="list">
       <div className="list__body">
         <p className="list__title">{title}</p>
-        {card.map((card: any) => (
-          <Card key={card.id} id={card.id} title={card.title} />
-        ))}
         {cards.map((card) => (
           <Card key={card.id} id={card.id} title={card.title} />
         ))}

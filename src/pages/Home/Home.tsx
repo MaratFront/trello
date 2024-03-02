@@ -5,8 +5,8 @@ import Board from "../Home/components/Board/Board";
 import api from "../../api/request";
 function Home() {
   const [homeItems, setHomeItems] = useState([]);
-  const OneCardCreated = (newBoard: any) =>
-    setHomeItems((prevBoard) => [...prevBoard, ...newBoard]);
+  const OneCardCreated = (newCard: any) =>
+    setHomeItems((prevCard) => [...prevCard, ...newCard]);
   const apiUrl = process.env.REACT_APP_API_URL;
   useEffect(() => {
     async function getResponse() {
@@ -24,8 +24,8 @@ function Home() {
       <p className="home__header">Мої дошки</p>
       <div className="home__container">
         <div className="home__items">
-          {homeItems.map((item: any) => {
-            return <Board id={item.id} title={item.title} />;
+          {homeItems.map((item) => {
+            return <Board key={item.id} id={item.id} title={item.title} />;
           })}
           <CreateBoard OneCardCreated={OneCardCreated} />
         </div>

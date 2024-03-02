@@ -1,7 +1,7 @@
 import React from "react";
 import Button from "src/pages/UI/Button";
 import { Link } from "react-router-dom";
-export default function BoardTitle({ inputRef, bind, putRequest }) {
+export default function BoardTitle({ inputRef, bind, putRequest }: any) {
   function handleEnter(event: React.KeyboardEvent<HTMLInputElement>) {
     if (event.key === "Enter") {
       if (inputRef.current) {

@@ -9,7 +9,7 @@ import BoardBackground from "./BoardBackground/BoardBackground";
 import List from "./components/List/List";
 const Board = () => {
   const [color, setColor] = useState("#ffffff");
-  const [boards, setBoards] = useState([]);
+  const [boards, setBoards] = useState<any>([]);
 
   const { bind, inputValue, setInputValue } = useInput("");
   const inputRef = useRef<HTMLInputElement | null>(null);
@@ -18,10 +18,18 @@ const Board = () => {
   const apiUrl = process.env.REACT_APP_API_URL;
   const OneBoardCreated = (newBoard: any) =>
     setBoards((prevBoard) => [...prevBoard, ...newBoard]);
+  const OneCardCreated = (newCard: any) => {
+    setBoards((prevCard) => {
+      return {
+        prevCard,
+        cards: [prevCard.cards, newCard],
+      };
+    });
+  };
+
   const id = useParams();
-  const resultId = parseInt(id.board_id);
   async function putRequest() {
-    await api.put(`${apiUrl}/board/${parseInt(id.board_id)}`, {
+    await api.put(`${apiUrl}/board/${id.board_id}`, {
       title: inputValue,
       custom: {
         description: "desc",
@@ -32,7 +40,7 @@ const Board = () => {
   React.useEffect(() => {
     async function getResponse() {
       try {
-        const response: any = await api.get(`${apiUrl}/board/${resultId}`);
+        const response: any = await api.get(`${apiUrl}/board/${id.board_id}`);
         setBoards(response.lists);
         setInputValue(response.title);
         setColor(response.custom.color);
@@ -58,12 +66,15 @@ const Board = () => {
             .sort((a: number, b: number) => a - b)
             .map((item: any) => {
               return (
-                <List
-                  key={item.id}
-                  id={item.id}
-                  title={item.title}
-                  cards={item.cards}
-                />
+                <>
+                  <List
+                    key={item.id}
+                    id={item.id}
+                    title={item.title}
+                    cards={item.cards}
+                    OneCardCreated={OneCardCreated}
+                  />
+                </>
               );
             })}
           <CreaeteBoard OneBoardCreated={OneBoardCreated} />

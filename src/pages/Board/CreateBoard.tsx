@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useParams } from "react-router-dom";
 import api from "../../api/request";
+import React from "react";
 import ListItems from "./components/List/ListItems";
 import Button from "../UI/Button";
 import IBoard from "../../common/interfaces/IBoard";
@@ -49,7 +50,7 @@ export default function CreateBoard({ OneBoardCreated }: ICard) {
     setBoardPosition(boardPosition + 1);
     try {
       if (inputValue.trim() !== "") {
-        await api.post(`${apiUrl}/board/${parseInt(id.board_id)}/list`, {
+        await api.post(`${apiUrl}/board/${id.board_id}/list`, {
           title: inputValue,
           position: boardPosition,
         });
@@ -63,6 +64,7 @@ export default function CreateBoard({ OneBoardCreated }: ICard) {
   function createBoard() {
     const newBoard: IBoard[] = [
       {
+        key: parseInt(id.board_id),
         id: parseInt(id.board_id),
         title: inputValue,
         cards: [],

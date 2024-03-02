@@ -1,9 +1,10 @@
 import React from "react";
+import IBackground from "src/common/interfaces/IBackground";
 export default function BoardBackground({
   putRequest,
   color,
   changeBackground,
-}) {
+}: IBackground) {
   function handleEnter(event: React.KeyboardEvent<HTMLInputElement>) {
     if (event.key === "Enter") {
       putRequest();

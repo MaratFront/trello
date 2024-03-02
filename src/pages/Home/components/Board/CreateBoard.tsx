@@ -1,13 +1,14 @@
 // import api from "@api/request";
 // import useInput from "@customHooks/useInput";
+import React from "react";
 import api from "../../../../api/request";
 import useInput from "../../../Board/components/CustomHooks/useInput";
 import Modal from "../../../Modal/Modal";
 import { useState } from "react";
-interface IProps {
-  OneCardCreated: (newBoard: object) => void;
+interface ICards {
+  OneCardCreated: (newCard: object) => void;
 }
-export default function CreateBoard({ OneCardCreated }: IProps) {
+const CreateBoard: React.FC<ICards> = ({ OneCardCreated }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { inputValue, bind, setInputValue } = useInput("");
   const openModal = () => setIsModalOpen(true);
@@ -78,4 +79,5 @@ export default function CreateBoard({ OneCardCreated }: IProps) {
       </button>
     </>
   );
-}
+};
+export default CreateBoard;

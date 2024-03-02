@@ -1,7 +1,5 @@
 import React from "react";
 import { ReactNode } from "react";
-import { useState } from "react";
-import useInput from "../Board/components/CustomHooks/useInput";
 import "../Modal/modale.css";
 interface IModal {
   children: ReactNode;
