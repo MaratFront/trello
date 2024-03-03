@@ -7,13 +7,13 @@ import "./List.css";
 import Button from "src/pages/UI/Button";
 import Card from "../Card/Card";
 import IList from "src/common/interfaces/IList";
-function List({ id, title }: IList) {
+function List({ id, title, cards }: IList) {
   const [position, setPosition] = useState(0);
-  const [cards, setCards] = useState<any>([]);
   const [showInput, setShowInput] = useState(false);
   const { bind, inputValue, setInputValue } = useInput("");
   const [showButton, setShowButton] = useState(true);
   const closeButton = "/close.png";
+  const [card, setCard] = useState<any>(cards);
   const showInputChange = () => {
     setShowButton(false);
     setShowInput(true);
@@ -43,7 +43,7 @@ function List({ id, title }: IList) {
         created_at: 1662016083025,
       },
     ];
-    setCards((prevCard) => [...prevCard, ...createCard]);
+    setCard((prevCard) => [...prevCard, ...createCard]);
   }
   async function postRequestCard() {
     setPosition(position + 1);
@@ -68,24 +68,11 @@ function List({ id, title }: IList) {
       handelCancel();
     }
   }
-  React.useEffect(() => {
-    async function getResponse() {
-      try {
-        const response: any = await api.get(
-          `${apiUrl}/board/${boardId.board_id}/`
-        );
-        setCards(response.lists);
-      } catch (error: any) {
-        throw new Error(error);
-      }
-    }
-    getResponse();
-  }, []);
   return (
     <div className="list">
       <div className="list__body">
         <p className="list__title">{title}</p>
-        {cards.map((card) => (
+        {card.map((card) => (
           <Card key={card.id} id={card.id} title={card.title} />
         ))}
         {showInput && (

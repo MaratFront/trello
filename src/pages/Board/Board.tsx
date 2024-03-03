@@ -17,7 +17,6 @@ const Board = () => {
   const apiUrl = process.env.REACT_APP_API_URL;
   const OneBoardCreated = (newBoard: any) =>
     setBoards((prevBoard) => [...prevBoard, ...newBoard]);
-
   const id = useParams();
   async function putRequest() {
     await api.put(`${apiUrl}/board/${id.board_id}`, {
