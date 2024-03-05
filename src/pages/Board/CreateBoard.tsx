@@ -61,24 +61,24 @@ export default function CreateBoard({ OneBoardCreated }: ICard) {
       console.log(error);
     }
   }
-  // function createBoard() {
-  //   const newBoard: any = [
-  //     {
-  //       // key: parseInt(id.board_id),
-  //       // id: parseInt(id.board_id),
-  //       title: inputValue,
-  //       position:boardPosition
-  //     },
-  //   ];
-  //   setBoardPosition(boardPosition + 1);
-  //   if (inputValue.trim() !== "") {
-  //     OneBoardCreated(newBoard);
-  //     postRequestBoard();
-  //   } else {
-  //     setShowBoardItems(false);
-  //     setShowButtonWhichCreateBoardItems(true);
-  //   }
-  // }
+  function createBoard() {
+    const newBoard: IBoard[] = [
+      {
+        key: parseInt(id.board_id),
+        id: parseInt(id.board_id),
+        title: inputValue,
+        cards: [],
+      },
+    ];
+    setBoardPosition(boardPosition + 1);
+    if (inputValue.trim() !== "") {
+      OneBoardCreated(newBoard);
+      postRequestBoard();
+    } else {
+      setShowBoardItems(false);
+      setShowButtonWhichCreateBoardItems(true);
+    }
+  }
 
   return (
     <>
@@ -95,7 +95,7 @@ export default function CreateBoard({ OneBoardCreated }: ICard) {
             handleInputChange={handleInputChange}
             handleEnter={handleEnter}
             handleCloseButton={handleCloseButton}
-            createBoard={postRequestBoard}
+            createBoard={createBoard}
             listInputColorBorder={listInputColorBorder}
           />
         )}
