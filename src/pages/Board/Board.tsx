@@ -54,15 +54,10 @@ const Board = () => {
         <section className="board__section" style={{ overflowX: "auto" }}>
           {boards
             .sort((a: number, b: number) => a - b)
-            .map((item: any) => {
+            .map(({ id, title, cards }) => {
               return (
                 <>
-                  <List
-                    key={item.id}
-                    id={item.id}
-                    title={item.title}
-                    cards={item.cards}
-                  />
+                  <List key={id} id={id} title={title} cards={cards} />
                 </>
               );
             })}

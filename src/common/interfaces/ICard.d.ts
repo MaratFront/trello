@@ -1,12 +1,11 @@
 interface ICard {
-  id: number | string;
+  list_id: number;
+  position: number;
   title: string;
   color: string;
   description: string;
   custom: {
     deadline: string;
   };
-  users: number[];
-  created_at: number;
 }
 export default ICard;

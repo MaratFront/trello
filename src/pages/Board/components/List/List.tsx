@@ -29,43 +29,29 @@ function List({ id, title, cards }: IList) {
     setShowInput(false);
     setShowButton(true);
   }
-  function createCard() {
-    const createCard: ICard[] = [
-      {
-        id: id,
-        title: inputValue,
-        color: "green",
-        description: "dfdf",
-        custom: {
-          deadline: "2022-09-01",
-        },
-        users: [1],
-        created_at: 1662016083025,
-      },
-    ];
-    setCard((prevCard) => [...prevCard, ...createCard]);
-  }
+
+  const createCard: ICard = {
+    list_id: id,
+    position: position,
+    title: inputValue,
+    color: "green",
+    description: "dfdf",
+    custom: {
+      deadline: "2022-09-01",
+    },
+  };
+
   async function postRequestCard() {
     setPosition(position + 1);
     try {
       if (inputValue.trim() !== "") {
-        await api.post(`${apiUrl}/board/${boardId.board_id}/card`, {
-          title: inputValue,
-          list_id: id,
-          position: position,
-          description: "washing process",
-          custom: {
-            deadline: "2022-08-31 12:00",
-          },
-        });
-        createCard();
-        handelCancel();
-      } else {
+        await api.post(`${apiUrl}/board/${boardId.board_id}/card`, createCard);
+        setCard((prevCard) => [...prevCard, createCard]);
         handelCancel();
       }
+      handelCancel();
     } catch (error) {
       console.error("Error post request");
-      handelCancel();
     }
   }
   return (
