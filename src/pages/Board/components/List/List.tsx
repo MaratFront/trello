@@ -29,7 +29,6 @@ function List({ id, title, cards }: IList) {
     setShowInput(false);
     setShowButton(true);
   }
-
   const createCard: ICard = {
     list_id: id,
     position: position,
@@ -40,9 +39,9 @@ function List({ id, title, cards }: IList) {
       deadline: "2022-09-01",
     },
   };
-
   async function postRequestCard() {
     setPosition(position + 1);
+    console.log(id);
     try {
       if (inputValue.trim() !== "") {
         await api.post(`${apiUrl}/board/${boardId.board_id}/card`, createCard);

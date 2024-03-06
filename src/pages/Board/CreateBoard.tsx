@@ -45,38 +45,27 @@ export default function CreateBoard({ OneBoardCreated }: ICard) {
   }
   const apiUrl = process.env.REACT_APP_API_URL;
   const id = useParams();
+  const newBoard: any = {
+    id: Date.now(),
+    title: inputValue,
+    position: boardPosition,
+    cards: [],
+  };
   async function postRequestBoard() {
     setShowButtonWhichCreateBoardItems(true);
     setBoardPosition(boardPosition + 1);
+    console.log(newBoard);
     try {
       if (inputValue.trim() !== "") {
-        await api.post(`${apiUrl}/board/${id.board_id}/list`, {
-          title: inputValue,
-          position: boardPosition,
-        });
+        await api.post(`${apiUrl}/board/${id.board_id}/list`, newBoard);
         setShowBoardItems(false);
+        OneBoardCreated(newBoard);
+      } else {
+        handleCloseButton();
+        setListInputColorBorder(true);
       }
-      return setListInputColorBorder(true);
     } catch (error) {
       console.log(error);
-    }
-  }
-  function createBoard() {
-    const newBoard: IBoard[] = [
-      {
-        key: parseInt(id.board_id),
-        id: parseInt(id.board_id),
-        title: inputValue,
-        cards: [],
-      },
-    ];
-    setBoardPosition(boardPosition + 1);
-    if (inputValue.trim() !== "") {
-      OneBoardCreated(newBoard);
-      postRequestBoard();
-    } else {
-      setShowBoardItems(false);
-      setShowButtonWhichCreateBoardItems(true);
     }
   }
 
@@ -95,7 +84,7 @@ export default function CreateBoard({ OneBoardCreated }: ICard) {
             handleInputChange={handleInputChange}
             handleEnter={handleEnter}
             handleCloseButton={handleCloseButton}
-            createBoard={createBoard}
+            createBoard={postRequestBoard}
             listInputColorBorder={listInputColorBorder}
           />
         )}

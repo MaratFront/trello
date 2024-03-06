@@ -16,10 +16,10 @@ const Board = () => {
     setColor(event.target.value);
   const apiUrl = process.env.REACT_APP_API_URL;
   const OneBoardCreated = (newBoard: any) =>
-    setBoards((prevBoard) => [...prevBoard, ...newBoard]);
-  const id = useParams();
+    setBoards((prevBoard) => [...prevBoard, newBoard]);
+  const boardId = useParams();
   async function putRequest() {
-    await api.put(`${apiUrl}/board/${id.board_id}`, {
+    await api.put(`${apiUrl}/board/${boardId.board_id}`, {
       title: inputValue,
       custom: {
         description: "desc",
@@ -27,10 +27,13 @@ const Board = () => {
       },
     });
   }
+
   React.useEffect(() => {
     async function getResponse() {
       try {
-        const response: any = await api.get(`${apiUrl}/board/${id.board_id}`);
+        const response: any = await api.get(
+          `${apiUrl}/board/${boardId.board_id}`
+        );
         setBoards(response.lists);
         setInputValue(response.title);
         setColor(response.custom.color);
@@ -52,15 +55,13 @@ const Board = () => {
           />
         </header>
         <section className="board__section" style={{ overflowX: "auto" }}>
-          {boards
-            .sort((a: number, b: number) => a - b)
-            .map(({ id, title, cards }) => {
-              return (
-                <>
-                  <List key={id} id={id} title={title} cards={cards} />
-                </>
-              );
-            })}
+          {boards.map(({ id, title, cards }) => {
+            return (
+              <>
+                <List key={id} id={id} title={title} cards={cards} />
+              </>
+            );
+          })}
           <CreaeteBoard OneBoardCreated={OneBoardCreated} />
         </section>
       </div>
