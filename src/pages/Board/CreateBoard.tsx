@@ -46,6 +46,7 @@ export default function CreateBoard({ OneBoardCreated }: ICard) {
   const apiUrl = process.env.REACT_APP_API_URL;
   const id = useParams();
   const newBoard: any = {
+    id: parseInt(id.board_id),
     title: inputValue,
     position: boardPosition,
     cards: [],
