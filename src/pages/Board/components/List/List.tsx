@@ -44,7 +44,9 @@ function List({ id, title, cards }: IList) {
     try {
       if (inputValue.trim() !== "") {
         await api.post(`${apiUrl}/board/${boardId.board_id}/card`, createCard);
-        setCard((prevCard) => [...prevCard, createCard]);
+        setCard((prevCard) =>
+          [...prevCard, createCard].sort((a, b) => b.position - a.position)
+        );
         handelCancel();
       }
       handelCancel();
@@ -56,9 +58,11 @@ function List({ id, title, cards }: IList) {
     <div className="list">
       <div className="list__body">
         <p className="list__title">{title}</p>
-        {card.map((card) => (
-          <Card key={card.id} id={card.id} title={card.title} />
-        ))}
+        {card
+          .sort((a, b) => b.position - a.position)
+          .map((card) => (
+            <Card key={card.id} id={card.id} title={card.title} />
+          ))}
         {showInput && (
           <>
             <input

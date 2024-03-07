@@ -34,7 +34,7 @@ const Board = () => {
         const response: any = await api.get(
           `${apiUrl}/board/${boardId.board_id}`
         );
-        setBoards(response.lists);
+        setBoards(response.lists.sort((a, b) => b.position - a.position));
         setInputValue(response.title);
         setColor(response.custom.color);
       } catch (error: any) {
