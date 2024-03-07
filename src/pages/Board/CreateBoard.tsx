@@ -46,7 +46,6 @@ export default function CreateBoard({ OneBoardCreated }: ICard) {
   const apiUrl = process.env.REACT_APP_API_URL;
   const id = useParams();
   const newBoard: any = {
-    id: parseInt(id.board_id),
     title: inputValue,
     position: boardPosition,
     cards: [],
@@ -54,10 +53,13 @@ export default function CreateBoard({ OneBoardCreated }: ICard) {
   async function postRequestBoard() {
     setShowButtonWhichCreateBoardItems(true);
     setBoardPosition(boardPosition + 1);
-    console.log(newBoard);
     try {
       if (inputValue.trim() !== "") {
-        await api.post(`${apiUrl}/board/${id.board_id}/list`, newBoard);
+        const res: any = await api.post(
+          `${apiUrl}/board/${id.board_id}/list`,
+          newBoard
+        );
+        newBoard.id = res.id;
         setShowBoardItems(false);
         OneBoardCreated(newBoard);
       } else {

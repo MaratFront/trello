@@ -41,7 +41,6 @@ function List({ id, title, cards }: IList) {
   };
   async function postRequestCard() {
     setPosition(position + 1);
-    console.log(id);
     try {
       if (inputValue.trim() !== "") {
         await api.post(`${apiUrl}/board/${boardId.board_id}/card`, createCard);
