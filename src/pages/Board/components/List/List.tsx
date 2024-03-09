@@ -9,11 +9,12 @@ import Card from "../Card/Card";
 import IList from "src/common/interfaces/IList";
 function List({ id, title, cards }: IList) {
   const [position, setPosition] = useState(0);
+  const [slots, setSlots] = useState([]);
   const [showInput, setShowInput] = useState(false);
   const { bind, inputValue, setInputValue } = useInput("");
   const [showButton, setShowButton] = useState(true);
   const closeButton = "/close.png";
-  const [card, setCard] = useState<any>(cards);
+  const [newCard, setNewCard] = useState<any>(cards);
   const showInputChange = () => {
     setShowButton(false);
     setShowInput(true);
@@ -44,7 +45,7 @@ function List({ id, title, cards }: IList) {
     try {
       if (inputValue.trim() !== "") {
         await api.post(`${apiUrl}/board/${boardId.board_id}/card`, createCard);
-        setCard((prevCard) =>
+        setNewCard((prevCard) =>
           [...prevCard, createCard].sort((a, b) => b.position - a.position)
         );
         handelCancel();
@@ -54,11 +55,18 @@ function List({ id, title, cards }: IList) {
       console.error("Error post request");
     }
   }
+  function createCardSlots() {
+    return slots.map((slot, index) => {
+      <div key={index} className="card__slot"></div>;
+    });
+  }
+
   return (
     <div className="list">
       <div className="list__body">
         <p className="list__title">{title}</p>
-        {card
+        {createCardSlots()}
+        {newCard
           .sort((a, b) => b.position - a.position)
           .map((card) => (
             <Card key={card.id} id={card.id} title={card.title} />

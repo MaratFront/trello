@@ -32,6 +32,13 @@
   .card__button {
     width: 200px;
   }
+  .card__slot {
+    width: 200px;
+    height: 40px;
+    margin: 0 auto;
+    opacity: 45%;
+    background-color: gray;
+  }
   &__button {
     margin: 0 auto;
     left: 0;

@@ -73,7 +73,7 @@ export default function CreateBoard({ OneBoardCreated }: ICard) {
 
   return (
     <>
-      <div className="list" draggable="true" style={{ border: "none" }}>
+      <div className="list" style={{ border: "none" }}>
         {showButtonWhichCreateBoardItems && (
           <Button
             eventFunction={handleCreateButton}
