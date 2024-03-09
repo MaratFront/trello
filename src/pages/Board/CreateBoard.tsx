@@ -55,11 +55,11 @@ export default function CreateBoard({ OneBoardCreated }: ICard) {
     setBoardPosition(boardPosition + 1);
     try {
       if (inputValue.trim() !== "") {
-        const res: any = await api.post(
+        const response: any = await api.post(
           `${apiUrl}/board/${id.board_id}/list`,
           newBoard
         );
-        newBoard.id = res.id;
+        newBoard.id = response.id;
         setShowBoardItems(false);
         OneBoardCreated(newBoard);
       } else {

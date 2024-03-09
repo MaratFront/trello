@@ -9,7 +9,6 @@ import Card from "../Card/Card";
 import IList from "src/common/interfaces/IList";
 function List({ id, title, cards }: IList) {
   const [position, setPosition] = useState(0);
-  const [slots, setSlots] = useState([]);
   const [showInput, setShowInput] = useState(false);
   const { bind, inputValue, setInputValue } = useInput("");
   const [showButton, setShowButton] = useState(true);
@@ -55,21 +54,16 @@ function List({ id, title, cards }: IList) {
       console.error("Error post request");
     }
   }
-  function createCardSlots() {
-    return slots.map((slot, index) => {
-      <div key={index} className="card__slot"></div>;
-    });
-  }
-
+  
   return (
     <div className="list">
       <div className="list__body">
         <p className="list__title">{title}</p>
-        {createCardSlots()}
+
         {newCard
           .sort((a, b) => b.position - a.position)
           .map((card) => (
-            <Card key={card.id} id={card.id} title={card.title} />
+            <Card key={card.id} id={card.id} title={card.title}/>
           ))}
         {showInput && (
           <>

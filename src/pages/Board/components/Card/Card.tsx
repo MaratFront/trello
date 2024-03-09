@@ -13,11 +13,6 @@ function Card({ id, title }: CardProps) {
       setIsDragging(true);
     }, 50);
   }
-  function handelDragLeave() {
-    setTimeout(() => {
-      setIsDragging(false);
-    }, 50);
-  }
   function handelDragEnd() {
     setTimeout(() => {
       setIsDragging(false);
