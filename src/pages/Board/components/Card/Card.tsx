@@ -3,24 +3,26 @@ import React, { useRef, useState } from "react";
 interface CardProps {
   id: number;
   title: string;
+  slot: boolean;
 }
 
-function Card({ id, title }: CardProps) {
-  const [isDragging, setIsDragging] = useState(false);
+function Card({ id, title, slot }: CardProps) {
+  const [showSlot, setShowSlot] = useState(slot);
   const cardRef = useRef<HTMLDivElement>(null);
+  console.log(showSlot);
   function handelDragStart() {
     setTimeout(() => {
-      setIsDragging(true);
-    }, 50);
+      setShowSlot(true);
+    }, 0);
   }
   function handelDragEnd() {
     setTimeout(() => {
-      setIsDragging(false);
-    }, 50);
+      setShowSlot(false);
+    }, 0);
   }
   return (
     <>
-      {isDragging && <div className="card__slot" />}
+      {showSlot && <div className="card__slot" />}
       <div
         className="card"
         draggable={true}
@@ -28,8 +30,8 @@ function Card({ id, title }: CardProps) {
         onDragEnd={handelDragEnd}
         ref={cardRef}
         style={{
-          visibility: isDragging ? "hidden" : "visible",
-          height: isDragging && "0",
+          visibility: showSlot ? "hidden" : "visible",
+          height: showSlot && "0",
         }}
       >
         <p className="card__title">{title}</p>

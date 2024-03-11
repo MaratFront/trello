@@ -14,6 +14,7 @@ function List({ id, title, cards }: IList) {
   const [showButton, setShowButton] = useState(true);
   const closeButton = "/close.png";
   const [newCard, setNewCard] = useState<any>(cards);
+  const [showSlot, setShowSlot] = useState(false);
   const showInputChange = () => {
     setShowButton(false);
     setShowInput(true);
@@ -54,16 +55,24 @@ function List({ id, title, cards }: IList) {
       console.error("Error post request");
     }
   }
-  
+  function handleDragLeave() {
+    setShowSlot(false);
+    console.log("leave");
+  }
   return (
-    <div className="list">
+    <div className="list" onDragLeave={handleDragLeave}>
       <div className="list__body">
         <p className="list__title">{title}</p>
 
         {newCard
           .sort((a, b) => b.position - a.position)
           .map((card) => (
-            <Card key={card.id} id={card.id} title={card.title}/>
+            <Card
+              key={card.id}
+              id={card.id}
+              title={card.title}
+              slot={showSlot}
+            />
           ))}
         {showInput && (
           <>
