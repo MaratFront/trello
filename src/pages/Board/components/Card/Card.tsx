@@ -3,11 +3,11 @@ import React, { useRef, useState } from "react";
 interface CardProps {
   id: number;
   title: string;
-  slot: boolean;
+  handleDragLeave: any;
 }
 
-function Card({ id, title, slot }: CardProps) {
-  const [showSlot, setShowSlot] = useState(slot);
+function Card({ id, title, handleDragLeave }: CardProps) {
+  const [showSlot, setShowSlot] = useState(false);
   const cardRef = useRef<HTMLDivElement>(null);
   console.log(showSlot);
   function handelDragStart() {
@@ -15,6 +15,12 @@ function Card({ id, title, slot }: CardProps) {
       setShowSlot(true);
     }, 0);
   }
+
+  setTimeout(() => {
+    setShowSlot(false);
+    handleDragLeave(showSlot);
+  }, 0);
+
   function handelDragEnd() {
     setTimeout(() => {
       setShowSlot(false);

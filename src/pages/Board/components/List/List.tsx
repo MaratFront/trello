@@ -55,12 +55,12 @@ function List({ id, title, cards }: IList) {
       console.error("Error post request");
     }
   }
-  function handleDragLeave() {
-    setShowSlot(false);
+  function handleDragLeave(newSlot: boolean) {
+    setShowSlot(newSlot);
     console.log("leave");
   }
   return (
-    <div className="list" onDragLeave={handleDragLeave}>
+    <div className="list" onDragLeave={() => showSlot}>
       <div className="list__body">
         <p className="list__title">{title}</p>
 
@@ -71,7 +71,7 @@ function List({ id, title, cards }: IList) {
               key={card.id}
               id={card.id}
               title={card.title}
-              slot={showSlot}
+              handleDragLeave={handleDragLeave}
             />
           ))}
         {showInput && (
