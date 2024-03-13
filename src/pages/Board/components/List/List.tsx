@@ -60,8 +60,8 @@ function List({ id, title, cards }: IList) {
     console.log("leave");
   }
   return (
-    <div className="list" onDragLeave={() => showSlot}>
-      <div className="list__body">
+    <div className="list">
+      <div className="list__body" onDragLeave={() => showSlot}>
         <p className="list__title">{title}</p>
 
         {newCard

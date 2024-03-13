@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 
 interface CardProps {
   id: number;
@@ -15,11 +15,13 @@ function Card({ id, title, handleDragLeave }: CardProps) {
       setShowSlot(true);
     }, 0);
   }
-
-  setTimeout(() => {
-    setShowSlot(false);
-    handleDragLeave(showSlot);
-  }, 0);
+  function dragLeave() {
+    setTimeout(() => {
+      setShowSlot(false);
+      handleDragLeave(showSlot);
+    }, 0);
+  }
+  dragLeave();
 
   function handelDragEnd() {
     setTimeout(() => {
