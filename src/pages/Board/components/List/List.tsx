@@ -40,6 +40,10 @@ function List({ id, title, cards }: IList) {
       deadline: "2022-09-01",
     },
   };
+  function createDragCard(newDragCard: any) {
+    setNewCard((prevCard) => [...prevCard, newDragCard]);
+    console.log(newDragCard);
+  }
   async function postRequestCard() {
     setPosition(position + 1);
     try {
@@ -55,13 +59,9 @@ function List({ id, title, cards }: IList) {
       console.error("Error post request");
     }
   }
-  function handleDragLeave(newSlot: boolean) {
-    setShowSlot(newSlot);
-    console.log("leave");
-  }
   return (
     <div className="list">
-      <div className="list__body" onDragLeave={() => showSlot}>
+      <div className="list__body">
         <p className="list__title">{title}</p>
 
         {newCard
@@ -71,7 +71,7 @@ function List({ id, title, cards }: IList) {
               key={card.id}
               id={card.id}
               title={card.title}
-              handleDragLeave={handleDragLeave}
+              onePutCard={createDragCard}
             />
           ))}
         {showInput && (
