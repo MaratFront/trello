@@ -4,16 +4,33 @@ interface CardProps {
   id: number;
   title: string;
   onePutCard: (newCard: any) => void;
+  leaveCard: (newCard: any) => void;
 }
 
-function Card({ id, title, onePutCard }: CardProps) {
+function Card({ id, title, onePutCard, leaveCard }: CardProps) {
   const [showSlot, setShowSlot] = useState(false);
-  const [cardData, setCardData] = useState({ id: 0, title: "sdfsf" });
+  const [cardData, setCardData] = useState({});
   const cardRef = useRef<HTMLDivElement>(null);
   function handelDragStart(cardId, title) {
-    setCardData({ id: cardId, title: title });
+    setCardData({
+      id: cardId,
+      title: title,
+      color: "green",
+      description: "dfdf",
+      custom: {
+        deadline: "2022-09-01",
+      },
+    });
+
     setTimeout(() => {
       setShowSlot(true);
+    }, 0);
+    handelDragLeave;
+  }
+  function handelDragLeave(e) {
+    e.preventDefault();
+    setTimeout(() => {
+      leaveCard(false);
     }, 0);
   }
   function handleDrop(e) {

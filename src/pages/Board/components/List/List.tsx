@@ -44,6 +44,9 @@ function List({ id, title, cards }: IList) {
     setNewCard((prevCard) => [...prevCard, newDragCard]);
     console.log(newDragCard);
   }
+  function leaveCard(newLeaveCard: any) {
+    setShowSlot(newLeaveCard);
+  }
   async function postRequestCard() {
     setPosition(position + 1);
     try {
@@ -60,7 +63,7 @@ function List({ id, title, cards }: IList) {
     }
   }
   return (
-    <div className="list">
+    <div className="list" onDragLeave={leaveCard}>
       <div className="list__body">
         <p className="list__title">{title}</p>
 
@@ -72,6 +75,7 @@ function List({ id, title, cards }: IList) {
               id={card.id}
               title={card.title}
               onePutCard={createDragCard}
+              leaveCard={leaveCard}
             />
           ))}
         {showInput && (
