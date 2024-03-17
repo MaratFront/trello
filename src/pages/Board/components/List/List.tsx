@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import api from "../../../../api/request";
 import ICard from "../../../../common/interfaces/ICard";
 import { useParams } from "react-router-dom";
@@ -15,6 +15,7 @@ function List({ id, title, cards }: IList) {
   const closeButton = "/close.png";
   const [newCard, setNewCard] = useState<any>(cards);
   const [showSlot, setShowSlot] = useState(false);
+  const listRef = useRef(null);
   const showInputChange = () => {
     setShowButton(false);
     setShowInput(true);
@@ -44,9 +45,6 @@ function List({ id, title, cards }: IList) {
     setNewCard((prevCard) => [...prevCard, newDragCard]);
     console.log(newDragCard);
   }
-  function leaveCard(newLeaveCard: any) {
-    setShowSlot(newLeaveCard);
-  }
   async function postRequestCard() {
     setPosition(position + 1);
     try {
@@ -63,8 +61,8 @@ function List({ id, title, cards }: IList) {
     }
   }
   return (
-    <div className="list" onDragLeave={leaveCard}>
-      <div className="list__body">
+    <div className="list">
+      <div className="list__body" ref={listRef}>
         <p className="list__title">{title}</p>
 
         {newCard
@@ -75,7 +73,7 @@ function List({ id, title, cards }: IList) {
               id={card.id}
               title={card.title}
               onePutCard={createDragCard}
-              leaveCard={leaveCard}
+              listRef={listRef}
             />
           ))}
         {showInput && (

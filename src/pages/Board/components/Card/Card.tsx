@@ -4,10 +4,10 @@ interface CardProps {
   id: number;
   title: string;
   onePutCard: (newCard: any) => void;
-  leaveCard: (newCard: any) => void;
+  listRef: any;
 }
 
-function Card({ id, title, onePutCard, leaveCard }: CardProps) {
+function Card({ id, title, onePutCard, listRef }: CardProps) {
   const [showSlot, setShowSlot] = useState(false);
   const [cardData, setCardData] = useState({});
   const cardRef = useRef<HTMLDivElement>(null);
@@ -25,14 +25,33 @@ function Card({ id, title, onePutCard, leaveCard }: CardProps) {
     setTimeout(() => {
       setShowSlot(true);
     }, 0);
-    handelDragLeave;
   }
-  function handelDragLeave(e) {
-    e.preventDefault();
+  function handleDragLeave() {
     setTimeout(() => {
-      leaveCard(false);
-    }, 0);
+      setShowSlot(false);
+    }, 1000);
   }
+  function handleDragEnter(e) {
+    e.preventDefault();
+    setShowSlot(true);
+  }
+  useEffect(() => {
+    console.log(listRef);
+    listRef.current.addEventListener("dragleave", handleDragLeave, (e) =>
+      e.preventDefault()
+    );
+    listRef.current.addEventListener("dragenter", handleDragEnter, () => {
+      // cardRef.current.childNodes.forEach((item) => {
+      //   item.addEventListener("dragenter", handleDragEnter);
+      // });
+    });
+    // return () => {
+    //   listRef.current.removeEventListener("dragleave", handleDragLeave, (e) =>
+    //     e.preventDefault()
+    //   );
+    //   cardRef.current.removeEventListener("dragenter", handleDragEnter);
+    // };
+  }, []);
   function handleDrop(e) {
     e.preventDefault();
     onePutCard(cardData);
