@@ -14,7 +14,7 @@ function List({ boards, listId, title, cards }: IList) {
   const [showButton, setShowButton] = useState(true);
   const closeButton = "/close.png";
   const [newCard, setNewCard] = useState<any>(cards);
-  const [currentBoard, setCurrentBoard] = useState<IList>();
+  const [currentBoard, setCurrentBoard] = useState<any[]>(null);
   const [currentCard, setCurrentCard] = useState<any>();
   const listRef = useRef(null);
   const showInputChange = () => {
@@ -67,6 +67,7 @@ function List({ boards, listId, title, cards }: IList) {
   }
   function dropHandler(e) {
     e.preventDefault();
+    setNewCard(currentCard);
   }
   return (
     <div className="list">
@@ -74,7 +75,7 @@ function List({ boards, listId, title, cards }: IList) {
         className="list__body"
         ref={listRef}
         onDragOver={handleDragOver}
-        onDrop={() => dropHandler}
+        onDrop={dropHandler}
         style={{ position: "relative" }}
       >
         <p className="list__title">{title}</p>
