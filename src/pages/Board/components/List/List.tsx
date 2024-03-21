@@ -7,33 +7,15 @@ import "./List.css";
 import Button from "src/pages/UI/Button";
 import Card from "../Card/Card";
 import IList from "src/common/interfaces/IList";
-function List({ listId, title, cards }: IList) {
+function List({ boards, listId, title, cards }: IList) {
   const [position, setPosition] = useState(0);
   const [showInput, setShowInput] = useState(false);
   const { bind, inputValue, setInputValue } = useInput("");
   const [showButton, setShowButton] = useState(true);
   const closeButton = "/close.png";
-  const [draggedCardId, setDraggedCardId] = useState<number | null>(null);
-  const [draggedListId, setDraggedListId] = useState<number | null>(null);
-  const [dropCard, setDropCard] = useState(null);
   const [newCard, setNewCard] = useState<any>(cards);
-  const handleDragStart = (cardId: number, listId: number) => {
-    const draggedCard = cards.find((card) => card.id === cardId);
-    // Проверяем, есть ли данные о карточке
-    if (draggedCard) {
-      // Выводим данные о карточке в консоль
-      console.log("Данные о перетаскиваемой карточке:", draggedCard);
-    }
-    setDraggedCardId(cardId);
-    setDraggedListId(listId);
-    setDropCard(draggedCard);
-  };
-  function onDragOver(e) {
-    e.preventDefault();
-  }
-  function onDrop() {
-    setNewCard(dropCard);
-  }
+  const [currentBoard, setCurrentBoard] = useState<IList>();
+  const [currentCard, setCurrentCard] = useState<any>();
   const listRef = useRef(null);
   const showInputChange = () => {
     setShowButton(false);
@@ -74,14 +56,26 @@ function List({ listId, title, cards }: IList) {
       console.error("Error post request");
     }
   }
+  function handleDragStart(cardId, listId) {
+    setCurrentCard(cards.find((c) => c.id === cardId));
+    setCurrentBoard(boards.find((l) => l.id === listId));
+
+    console.log(currentCard, currentBoard);
+  }
+  function handleDragOver(e) {
+    e.preventDefault();
+  }
+  function dropHandler(e) {
+    e.preventDefault();
+  }
   return (
     <div className="list">
       <div
         className="list__body"
         ref={listRef}
+        onDragOver={handleDragOver}
+        onDrop={() => dropHandler}
         style={{ position: "relative" }}
-        onDragOver={onDragOver}
-        onDrop={onDrop}
       >
         <p className="list__title">{title}</p>
 
@@ -93,9 +87,9 @@ function List({ listId, title, cards }: IList) {
               id={card.id}
               title={card.title}
               //onePutCard={createDragCard}
+              handleDragDrop={dropHandler}
               handleDragStart={handleDragStart}
               listId={listId}
-              listRef={listRef}
             />
           ))}
         {showInput && (

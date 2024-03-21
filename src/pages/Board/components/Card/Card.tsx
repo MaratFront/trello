@@ -4,24 +4,34 @@ import IList from "src/common/interfaces/IList";
 interface CardProps {
   id: number;
   title: string;
-  handleDragStart: any;
   listId: number;
-  listRef: any;
+  handleDragStart: any;
+  //handleDragStart: any;
+  handleDragDrop: any;
 }
 
-function Card({ id, title, listRef, handleDragStart, listId }: CardProps) {
+function Card({
+  id,
+  title,
+  listId,
+  handleDragStart,
+  handleDragDrop,
+}: CardProps) {
   const [showSlot, setShowSlot] = useState(false);
-
-  const onDragStart = (event: React.DragEvent<HTMLDivElement>) => {
-    const cardId = id;
-    handleDragStart(cardId, listId);
-    setInterval(() => {
+  const onDragStart = () => {
+    setTimeout(() => {
       setShowSlot(true);
     }, 0);
+    handleDragStart(id, listId);
   };
   const onDragEnd = () => {
-    setShowSlot(false);
+    setTimeout(() => {
+      setShowSlot(false);
+    }, 0);
   };
+  function onDragOver(e) {
+    e.preventDefault();
+  }
   return (
     <>
       {showSlot && <div className="card__slot" />}
@@ -29,6 +39,8 @@ function Card({ id, title, listRef, handleDragStart, listId }: CardProps) {
         className="card"
         draggable={true}
         onDragStart={onDragStart}
+        onDragOver={onDragOver}
+        onDrop={handleDragDrop}
         onDragEnd={onDragEnd}
         //onDragLeave={handleDragLeave}
         style={{

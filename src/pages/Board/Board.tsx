@@ -59,7 +59,13 @@ const Board = () => {
           {boards.map(({ id, title, cards }) => {
             return (
               <>
-                <List key={id} listId={id} title={title} cards={cards} />
+                <List
+                  key={id}
+                  boards={boards}
+                  listId={id}
+                  title={title}
+                  cards={cards}
+                />
               </>
             );
           })}
