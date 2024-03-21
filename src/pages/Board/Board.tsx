@@ -43,6 +43,7 @@ const Board = () => {
     }
     getResponse();
   }, []);
+
   return (
     <div className="board" style={{ backgroundColor: color }}>
       <div className="container">
@@ -58,7 +59,7 @@ const Board = () => {
           {boards.map(({ id, title, cards }) => {
             return (
               <>
-                <List key={id} id={id} title={title} cards={cards} />
+                <List key={id} listId={id} title={title} cards={cards} />
               </>
             );
           })}

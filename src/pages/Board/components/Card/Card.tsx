@@ -1,80 +1,39 @@
-import React, { useRef, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
+import IList from "src/common/interfaces/IList";
 
 interface CardProps {
   id: number;
   title: string;
-  onePutCard: (newCard: any) => void;
+  handleDragStart: any;
+  listId: number;
   listRef: any;
 }
 
-function Card({ id, title, onePutCard, listRef }: CardProps) {
+function Card({ id, title, listRef, handleDragStart, listId }: CardProps) {
   const [showSlot, setShowSlot] = useState(false);
-  const [cardData, setCardData] = useState({});
-  const cardRef = useRef<HTMLDivElement>(null);
-  function handelDragStart(cardId, title) {
-    setCardData({
-      id: cardId,
-      title: title,
-      color: "green",
-      description: "dfdf",
-      custom: {
-        deadline: "2022-09-01",
-      },
-    });
 
-    setTimeout(() => {
+  const onDragStart = (event: React.DragEvent<HTMLDivElement>) => {
+    const cardId = id;
+    handleDragStart(cardId, listId);
+    setInterval(() => {
       setShowSlot(true);
     }, 0);
-  }
-  function handleDragLeave() {
-    setTimeout(() => {
-      setShowSlot(false);
-    }, 1000);
-  }
-  function handleDragEnter(e) {
-    e.preventDefault();
-    setShowSlot(true);
-  }
-  useEffect(() => {
-    console.log(listRef);
-    listRef.current.addEventListener("dragleave", handleDragLeave, (e) =>
-      e.preventDefault()
-    );
-    listRef.current.addEventListener("dragenter", handleDragEnter, () => {
-      // cardRef.current.childNodes.forEach((item) => {
-      //   item.addEventListener("dragenter", handleDragEnter);
-      // });
-    });
-    // return () => {
-    //   listRef.current.removeEventListener("dragleave", handleDragLeave, (e) =>
-    //     e.preventDefault()
-    //   );
-    //   cardRef.current.removeEventListener("dragenter", handleDragEnter);
-    // };
-  }, []);
-  function handleDrop(e) {
-    e.preventDefault();
-    onePutCard(cardData);
-    console.log(cardData);
-  }
-  function handelDragEnd() {
-    setTimeout(() => {
-      setShowSlot(false);
-    }, 0);
-  }
+  };
+  const onDragEnd = () => {
+    setShowSlot(false);
+  };
   return (
     <>
       {showSlot && <div className="card__slot" />}
       <div
         className="card"
         draggable={true}
-        onDragStart={() => handelDragStart(id, title)}
-        onDrop={handleDrop}
-        onDragEnd={handelDragEnd}
-        ref={cardRef}
+        onDragStart={onDragStart}
+        onDragEnd={onDragEnd}
+        //onDragLeave={handleDragLeave}
         style={{
           visibility: showSlot ? "hidden" : "visible",
-          height: showSlot && "0",
+          height: showSlot ? "0" : "auto",
         }}
       >
         <p className="card__title">{title}</p>

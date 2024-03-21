@@ -1,5 +1,5 @@
 interface IList {
-  id?: number;
+  listId?: number;
   title: string;
   cards: { id: number; title: string }[];
   OneCardCreated?: (newCard) => void;
