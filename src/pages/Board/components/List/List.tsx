@@ -64,10 +64,10 @@ function List({ boards, listId, title, cards }: IList) {
   }
   function handleDragOver(e) {
     e.preventDefault();
+    e.target.style.border = "1px solid black";
   }
   function dropHandler(e) {
     e.preventDefault();
-    setNewCard(currentCard);
   }
   return (
     <div className="list">
@@ -87,7 +87,9 @@ function List({ boards, listId, title, cards }: IList) {
               key={card.id}
               id={card.id}
               title={card.title}
+              listRef={listRef}
               //onePutCard={createDragCard}
+              handleDragOver={handleDragOver}
               handleDragDrop={dropHandler}
               handleDragStart={handleDragStart}
               listId={listId}

@@ -6,6 +6,8 @@ interface CardProps {
   title: string;
   listId: number;
   handleDragStart: any;
+  handleDragOver: any;
+  listRef: any;
   //handleDragStart: any;
   handleDragDrop: any;
 }
@@ -15,7 +17,9 @@ function Card({
   title,
   listId,
   handleDragStart,
+  listRef,
   handleDragDrop,
+  handleDragOver,
 }: CardProps) {
   const [showSlot, setShowSlot] = useState(false);
   const onDragStart = () => {
@@ -24,14 +28,32 @@ function Card({
     }, 0);
     handleDragStart(id, listId);
   };
+  const onDragLeave = () => {
+    setTimeout(() => {
+      setShowSlot(false);
+    }, 0);
+  };
   const onDragEnd = () => {
     setTimeout(() => {
       setShowSlot(false);
     }, 0);
   };
   function onDragOver(e) {
-    e.preventDefault();
+    handleDragOver(e);
+    e.target.style.border = "1px solid black";
   }
+  function onDragEnter() {
+    setTimeout(() => {
+      setShowSlot(false);
+    }, 0);
+  }
+  useEffect(() => {
+    listRef.current.addEventListener("dragleave", onDragLeave);
+    return () => {
+      listRef.current.removeEventListener("dragleave", onDragLeave);
+    };
+  }, []);
+
   return (
     <>
       {showSlot && <div className="card__slot" />}
@@ -39,10 +61,10 @@ function Card({
         className="card"
         draggable={true}
         onDragStart={onDragStart}
-        onDragOver={onDragOver}
+        onDragEnter={onDragEnter}
+        onDragOver={handleDragOver}
         onDrop={handleDragDrop}
         onDragEnd={onDragEnd}
-        //onDragLeave={handleDragLeave}
         style={{
           visibility: showSlot ? "hidden" : "visible",
           height: showSlot ? "0" : "auto",
