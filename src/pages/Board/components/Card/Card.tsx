@@ -44,15 +44,10 @@ function Card({
   const handleDrop = () => {
     onDrop(id, listId);
   };
-  // const onDrop = () => {
-  //   setTimeout(() => {
-  //     setShowSlot(false);
-  //   }, 0);
-
-  // };
 
   useEffect(() => {
     listRef.current.addEventListener("dragleave", onDragLeave);
+    //listRef.current.addEventListener("drop", handleDrop);
     return () => {
       listRef.current.removeEventListener("dragleave", onDragLeave);
     };
@@ -65,7 +60,7 @@ function Card({
         className="card"
         draggable={true}
         onDragStart={onDragStart}
-        onDragEnter={() => setShowSlot(false)}
+        onDragEnter={() => setShowSlot(true)}
         onDragOver={onDragOver}
         onDrop={handleDrop}
         style={{

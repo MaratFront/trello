@@ -71,8 +71,14 @@ function List({ boards, listId, title, cards }: IList) {
   function dropHandler(cardId, listId) {
     const card = cards.find((c) => c.id === cardId);
     const board = boards.find((l) => l.id === listId);
+    // if (card !== currentCard) {
+    //   let newCard = currentCard;
+    //   newCard = card;
+    //   card = currentCard;
+    // }
     setCardData((prevCard) => [...prevCard, currentCard]);
     //e.preventDefault();
+
     console.log(card, board);
   }
   return (
@@ -80,7 +86,7 @@ function List({ boards, listId, title, cards }: IList) {
       <div
         className="list__body"
         ref={listRef}
-        //onDragOver={handleDragOver}
+        onDragOver={handleDragOver}
         //onDrop={dropHandler}
         style={{ position: "relative" }}
       >
