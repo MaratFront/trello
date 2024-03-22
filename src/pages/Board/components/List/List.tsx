@@ -13,7 +13,7 @@ function List({ boards, listId, title, cards }: IList) {
   const { bind, inputValue, setInputValue } = useInput("");
   const [showButton, setShowButton] = useState(true);
   const closeButton = "/close.png";
-  const [newCard, setNewCard] = useState<any>(cards);
+  const [cardData, setCardData] = useState<any>(cards);
   const [currentBoard, setCurrentBoard] = useState<any[]>(null);
   const [currentCard, setCurrentCard] = useState<any>();
   const listRef = useRef(null);
@@ -43,12 +43,12 @@ function List({ boards, listId, title, cards }: IList) {
     },
   };
   async function postRequestCard() {
-    setPosition(newCard.length + 1);
+    setPosition(cardData.length + 1);
     console.log(position);
     try {
       if (inputValue.trim() !== "") {
         await api.post(`${apiUrl}/board/${boardId.board_id}/card`, createCard);
-        setNewCard((prevCard) => [...prevCard, createCard].reverse());
+        setCardData((prevCard) => [...prevCard, createCard].reverse());
         handelCancel();
       }
       handelCancel();
@@ -57,8 +57,10 @@ function List({ boards, listId, title, cards }: IList) {
     }
   }
   function handleDragStart(cardId, listId) {
-    setCurrentCard(cards.find((c) => c.id === cardId));
-    setCurrentBoard(boards.find((l) => l.id === listId));
+    const card = cards.find((c) => c.id === cardId);
+    const board = boards.find((l) => l.id === listId);
+    setCurrentCard(card);
+    setCurrentBoard(board);
 
     console.log(currentCard, currentBoard);
   }
@@ -66,21 +68,25 @@ function List({ boards, listId, title, cards }: IList) {
     e.preventDefault();
     e.target.style.border = "1px solid black";
   }
-  function dropHandler(e) {
-    e.preventDefault();
+  function dropHandler(cardId, listId) {
+    const card = cards.find((c) => c.id === cardId);
+    const board = boards.find((l) => l.id === listId);
+    setCardData((prevCard) => [...prevCard, currentCard]);
+    //e.preventDefault();
+    console.log(card, board);
   }
   return (
     <div className="list">
       <div
         className="list__body"
         ref={listRef}
-        onDragOver={handleDragOver}
-        onDrop={dropHandler}
+        //onDragOver={handleDragOver}
+        //onDrop={dropHandler}
         style={{ position: "relative" }}
       >
         <p className="list__title">{title}</p>
 
-        {newCard
+        {cardData
           .sort((a, b) => a.position - b.position)
           .map((card) => (
             <Card
@@ -88,9 +94,9 @@ function List({ boards, listId, title, cards }: IList) {
               id={card.id}
               title={card.title}
               listRef={listRef}
+              onDrop={dropHandler}
               //onePutCard={createDragCard}
               handleDragOver={handleDragOver}
-              handleDragDrop={dropHandler}
               handleDragStart={handleDragStart}
               listId={listId}
             />
