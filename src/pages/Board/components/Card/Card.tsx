@@ -4,11 +4,10 @@ interface CardProps {
   id: number;
   title: string;
   listId: number;
-  onDrop;
-  handleDragStart: any;
-  handleDragOver: any;
-  listRef: any;
-  //handleDragDrop: any;
+  onDrop: (id: number, listId: number) => void;
+  handleDragStart: (id: number, listId: number) => void;
+  handleDragOver: (e: React.DragEvent<HTMLDivElement>) => void;
+  listRef: React.RefObject<HTMLDivElement>;
 }
 
 function Card({
@@ -18,16 +17,15 @@ function Card({
   handleDragStart,
   listRef,
   onDrop,
-  //handleDragDrop,
   handleDragOver,
 }: CardProps) {
   const [showSlot, setShowSlot] = useState(false);
 
-  const onDragStart = () => {
+  const onDragStart = (e: React.DragEvent<HTMLDivElement>) => {
     setTimeout(() => {
       setShowSlot(true);
     }, 0);
-    handleDragStart(id, listId); // Передаем информацию о карточке и списке при начале перетаскивания
+    handleDragStart(id, listId);
   };
 
   const onDragLeave = () => {
@@ -36,18 +34,13 @@ function Card({
     }, 0);
   };
 
-  const onDragOver = (e: any) => {
-    handleDragOver(e);
-    e.preventDefault(); // Предотвращаем действие по умолчанию
-    e.target.style.border = "1px solid black";
-  };
   const handleDrop = () => {
     onDrop(id, listId);
   };
 
   useEffect(() => {
     listRef.current.addEventListener("dragleave", onDragLeave);
-    //listRef.current.addEventListener("drop", handleDrop);
+
     return () => {
       listRef.current.removeEventListener("dragleave", onDragLeave);
     };
@@ -60,8 +53,8 @@ function Card({
         className="card"
         draggable={true}
         onDragStart={onDragStart}
-        onDragEnter={() => setShowSlot(true)}
-        onDragOver={onDragOver}
+        //onDragEnter={() => setShowSlot(true)}
+        //onDragOver={onDragOver}
         onDrop={handleDrop}
         style={{
           visibility: showSlot ? "hidden" : "visible",

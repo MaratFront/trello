@@ -66,17 +66,11 @@ function List({ boards, listId, title, cards }: IList) {
   }
   function handleDragOver(e) {
     e.preventDefault();
-    e.target.style.border = "1px solid black";
   }
   function dropHandler(cardId, listId) {
     const card = cards.find((c) => c.id === cardId);
     const board = boards.find((l) => l.id === listId);
-    // if (card !== currentCard) {
-    //   let newCard = currentCard;
-    //   newCard = card;
-    //   card = currentCard;
-    // }
-    setCardData((prevCard) => [...prevCard, currentCard]);
+    setCardData((prevCard) => [currentCard, ...prevCard].reverse());
     //e.preventDefault();
 
     console.log(card, board);
